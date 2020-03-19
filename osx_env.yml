@@ -1,0 +1,17 @@
+name: practicum
+channels:
+- conda-forge
+- defaults
+dependencies:
+- jupyter
+- matplotlib
+- boto3
+- numpy
+- pandas
+- geopy
+- nb_conda
+- nb_conda_kernels
+- nb_anacondacloud
+- conda
+- jupyter_client
+- nbconvert
