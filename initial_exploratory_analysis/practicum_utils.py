@@ -26,3 +26,4 @@ def read_csv_every(filename, k):
      return pd.read_csv(filename, header=0, skiprows=lambda i: i % k != 0)
 
 
+# uuuu te rompi todo
