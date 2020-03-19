@@ -3,3 +3,4 @@ __pycache__/
 .ipynb_checkpoints
 *.zip
 .DS_Store
+.vscode/
