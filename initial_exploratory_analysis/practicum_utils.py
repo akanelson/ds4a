@@ -26,10 +26,3 @@ def read_csv_every(filename, k):
      return pd.read_csv(filename, header=0, skiprows=lambda i: i % k != 0)
 
 
-# Sequential Access
-#chunksize = 10 ** 5
-#for chunk in pd.read_csv(files[0], chunksize=chunksize):
-#    process(chunk)
-#    print(chunk.info())
-#    break
-#chunk.head()
