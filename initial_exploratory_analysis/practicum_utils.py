@@ -24,6 +24,3 @@ def read_csv_percent(filename, percent):
 def read_csv_every(filename, k):
     # keep the header and the lines at multiple of k locations
      return pd.read_csv(filename, header=0, skiprows=lambda i: i % k != 0)
-
-
-# uuuu te rompi todo

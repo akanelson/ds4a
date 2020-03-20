@@ -1,0 +1,73 @@
+We would like that the tool in which we will be working on could answer some questions:
+====================
+About drivers (many)
+====================
+- How many drivers work in the agency zone?
+  filter: drivers that were active last [n] days
+  filter: with more than [n] itinararies finished
+  . Historical
+  . Last month
+  . Last 30 days
+  . Last week
+  . Last 7 days
+  . Yesterday
+  . Today
+  . Range
+
+- Top drivers per number of itineraries
+- Top drivers per number of packages (finished)
+- Top drivers per accumulated distance
+- Top drivers per avg time
+- Top drivers per <create metric> i.e. packages [finished] per time
+- Top drivers per <create metric>
+- Top drivers per <create metric>
+
+- Show drivers locations timeline per datetime (yyyy-mm-dd HH)
+  . This is a map with a time slider and some filters to restrict de type of drivers
+
+[TODO: think more]
+
+================
+About driver (1)
+================
+- Metrics mentioned above (in about drivers)
+- Show driver historical locations timeline
+- Show driver historical all locations at the same time
+  . May be we could create some kind of region per driver that will help to create a cluster with other drivers
+  . May be we could use the historical driver location to predict future locations per driver
+
+[TODO: think more]
+
+========================
+About itineraries (many)
+========================
+- How many itineraries have [finished] in last [period]?
+- How many itineraries have [finished] per hour in last [day]?
+
+- Top itineraries per total time
+- Top itineraries per number of packages
+- Top intineraries per distance
+
+- [TODO: think more]
+
+===================
+About itinerary (1)
+===================
+- Show all info that we know about itinerary
+. All itinerari's location/s on a map, driver/s, status, all that we know, etc.
+
+- [TODO]
+
+=======================
+Predict Future Capacity 
+=======================
+How many packages per day we could send on next week?
+. Today is: [date]
+. Data known will be limited to 'Today' input and will predict number of packages per day next week from [today]
+
+How many packages per hour we could send on next 24 hours?
+. Today is: [datetime]
+. Data known will be limited to 'Today' input and will predict number of packages per hour
+
+
+
