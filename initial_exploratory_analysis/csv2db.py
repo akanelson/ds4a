@@ -48,11 +48,11 @@ if __name__ == "__main__":
         temp            TEXT,
         itinerary_id    VARCHAR(32) NOT NULL,
         driver_id       VARCHAR(32),
-        created         TEXT,
-        accepted        TEXT,
-        dropped         TEXT,
-        started         TEXT,
-        finished        TEXT,
+        created         VARCHAR(14),
+        accepted        VARCHAR(14),
+        dropped         VARCHAR(14),
+        started         VARCHAR(14),
+        finished        VARCHAR(14),
         status          VARCHAR(30),
         total_distance  FLOAT NOT NULL,
         transport_type  VARCHAR(20) NOT NULL,
@@ -61,14 +61,14 @@ if __name__ == "__main__":
         distribution_center1    INT NOT NULL,
         packages        FLOAT,
         delivered_packages      FLOAT,
-        checked_in_at       TEXT,
-        pickup_checkout_at  TEXT,
+        checked_in_at       VARCHAR(14),
+        pickup_checkout_at  VARCHAR(14),
         pickup_lat          FLOAT,
         pickup_lng          FLOAT,
         real_completion_time    FLOAT,
         pickup_distance     INT,
-        pickup_time         TEXT,
-        check_in_time       TEXT,
+        pickup_time         FLOAT,
+        check_in_time       FLOAT,
         waypoints           INT
     );
     COPY itineraries FROM '""" + os.path.abspath(files[2]) + """' WITH (format csv, header true, delimiter ',');
@@ -96,13 +96,13 @@ if __name__ == "__main__":
     create_table_from_csv = """
     CREATE TABLE availabilities
     (
-        temp            TEXT,
+        temp            INT,
         id              VARCHAR(32) NOT NULL,
         driver_id       VARCHAR(32),
         itinerary_id    VARCHAR(32),
         lat             FLOAT,
         lng             FLOAT,
-        sent            TEXT,
+        sent            VARCHAR(14),
         transport_type  INT
     );
     COPY availabilities FROM '{0}' WITH (format csv, header true, delimiter ',');
