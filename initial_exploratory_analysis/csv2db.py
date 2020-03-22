@@ -30,6 +30,10 @@ if __name__ == "__main__":
     for f in files:
     	assert(os.path.exists(f)==True)
 
+    # -----------
+    # ITINERARIES
+    # -----------
+
     # Check if table already exists
     df = run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'itineraries'""")
     if len(df) == 1:
@@ -89,6 +93,26 @@ if __name__ == "__main__":
         print('TABLE itineraries created and data was loaded!')
 
 
+    print('Counting rows in itineraries...')
+    df = run_query("""SELECT COUNT(1) FROM itineraries""")
+    print('Total rows found: {}'.format(df.iloc[0,0]))
+
+    print('Creating simple indexes for table itineraries...')
+
+    create_simple_index_tpl = 'CREATE INDEX {0}_iidx ON itineraries USING btree ({0});'
+
+    for idx in ['driver_id', 'created', 'accepted', 'dropped', 'started', 'finished',
+                'checked_in_at', 'pickup_checkout_at', 'check_in_time', 'pickup_time',
+                'pickup_distance', 'pickup_lat', 'pickup_lng', 'status', 'total_distance',
+                'transport_type', 'real_completion_time', 'distribution_center1']:
+
+        print('Creating index "{}_iidx"...'.format(idx))
+        r = run_query(create_simple_index_tpl.format(idx), df=False)
+
+    # --------------
+    # AVAILABILITIES
+    # --------------
+
     # Check if table already exists
     df = run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'availabilities'""")
     if len(df) == 1:
@@ -129,7 +153,6 @@ if __name__ == "__main__":
             SELECT * from availabilities limit 5;
         """
 
-
         df = run_query(create_table_from_csv.format(os.path.abspath(fn), _tpl.format(agency)), df=False)
 
         df = run_query("""select * from availabilities limit 5;""")
@@ -137,12 +160,20 @@ if __name__ == "__main__":
             print('File {} loaded!'.format(fn))
 
     print('Counting rows in availabilities...')
-    df = run_query("""SELECT COUNT(*) FROM availabilities""")
+    df = run_query("""SELECT COUNT(1) FROM availabilities""")
     print('Total rows found: {}'.format(df.iloc[0,0]))
+
     print('Creating simple indexes for table availabilities (slow process)...')
-    create_simple_index_tpl = 'CREATE INDEX {0} ON availabilities USING btree ({0});'
-    for idx in ['id', 'distribution_center', 'driver_id', 'itinerary_id']:
-        print('Creating index "{}"...'.format(idx))
+
+    create_simple_index_tpl = 'CREATE INDEX {0}_aidx ON availabilities USING btree ({0});'
+
+    for idx in ['id', 'distribution_center', 'driver_id', 'itinerary_id', 'sent']:
+        print('Creating index "{}_aidx"...'.format(idx))
         r = run_query(create_simple_index_tpl.format(idx), df=False)
-    print('TODO: we need to evaluate the creation of better indexes based in our requirements.')
+
+    print('[TODO]: we need to evaluate the creation of better indexes based in our requirements.')
+
+    df = run_query("""SELECT pg_size_pretty(pg_database_size(current_database())) as size""")
+    print('Current DB Size: {}'.format(df.iloc[0,0]))
+
     print('PROCESS FINISHED!')

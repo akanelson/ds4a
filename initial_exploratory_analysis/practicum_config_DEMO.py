@@ -4,6 +4,7 @@
 postgre_user = '[POSRGRES USER]'
 postgre_pass = '[PASSWORD]'
 postgre_host = 'localhost'
+postgre_db   = '[DB_NAME]'
 
 
-postgre_conn = 'postgresql://{}:{}@{}'.format(postgre_user, postgre_pass, postgre_host)
+postgre_conn = 'postgresql://{}:{}@{}/{}'.format(postgre_user, postgre_pass, postgre_host, postgre_db)
