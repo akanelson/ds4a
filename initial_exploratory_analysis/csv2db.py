@@ -75,11 +75,19 @@ if __name__ == "__main__":
     ALTER TABLE itineraries ADD PRIMARY KEY (itinerary_id);
     COPY itineraries FROM '""" + os.path.abspath(files[3]) + """' WITH (format csv, header true, delimiter ',');
     ALTER TABLE itineraries DROP COLUMN temp;
+    ALTER TABLE itineraries ALTER COLUMN created TYPE TIMESTAMP USING TO_TIMESTAMP(created, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN accepted TYPE TIMESTAMP USING TO_TIMESTAMP(accepted, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN dropped TYPE TIMESTAMP USING TO_TIMESTAMP(dropped, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN started TYPE TIMESTAMP USING TO_TIMESTAMP(started, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN finished TYPE TIMESTAMP USING TO_TIMESTAMP(finished, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN checked_in_at TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_at, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN pickup_checkout_at TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_at, 'YY-MM-DD H24:SS');
     SELECT * FROM itineraries LIMIT 5;
     """)
 
     if len(df) == 5:
         print('TABLE itineraries created and data was loaded!')
+
 
     # Check if table already exists
     df = run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'availabilities'""")
@@ -91,31 +99,50 @@ if __name__ == "__main__":
         else:
             exit()
 
-    print('Creating table availabilities and loading csv files. This will take some time...')
+    tpl = ['SELECT {} as distribution_center, * INTO availabilities FROM tmp_availabilities',
+           'INSERT INTO availabilities SELECT {} as distribution_center, * FROM tmp_availabilities']
 
-    create_table_from_csv = """
-    CREATE TABLE availabilities
-    (
-        temp            INT,
-        id              VARCHAR(32) NOT NULL,
-        driver_id       VARCHAR(32),
-        itinerary_id    VARCHAR(32),
-        lat             FLOAT,
-        lng             FLOAT,
-        sent            VARCHAR(14),
-        transport_type  INT
-    );
-    COPY availabilities FROM '{0}' WITH (format csv, header true, delimiter ',');
-    COPY availabilities FROM '{1}' WITH (format csv, header true, delimiter ',');
-    /* ALTER TABLE availabilities ADD PRIMARY KEY (id); */
-    ALTER TABLE availabilities DROP COLUMN temp;
-    SELECT * from availabilities limit 5;
-    """
+    for fn, agency, _tpl in [(files[0], 1, tpl[0]), (files[1], 2, tpl[1])]:
+        print('Creating temporal table for availabilies.\nLoading csv file {}.\nThis will take some time...'.format(fn))
 
-    df = run_query(create_table_from_csv.format(
-                        os.path.abspath(files[0]),
-                        os.path.abspath(files[1])), df=False)
+        create_table_from_csv = """
+            CREATE TEMPORARY TABLE tmp_availabilities
+            (
+                temp            INT,
+                id              VARCHAR(32) NOT NULL,
+                driver_id       VARCHAR(32),
+                itinerary_id    VARCHAR(32),
+                lat             FLOAT,
+                lng             FLOAT,
+                sent            VARCHAR(14),
+                transport_type  INT
+            );
+            COPY tmp_availabilities FROM '{0}' WITH (format csv, header true, delimiter ',');
+            ALTER TABLE tmp_availabilities DROP COLUMN temp;
+            ALTER TABLE tmp_availabilities ALTER COLUMN sent TYPE TIMESTAMP USING TO_TIMESTAMP(sent, 'YY-MM-DD H24:SS');    
 
-    df = run_query("""select * from availabilities limit 5;""")
-    if len(df) == 5:
-        print('TABLE availabilities created and data was loaded!')
+            /* first time select into availabilities, second time insert into availabilities*/
+            {1};
+
+            DROP TABLE tmp_availabilities;
+
+            SELECT * from availabilities limit 5;
+        """
+
+
+        df = run_query(create_table_from_csv.format(os.path.abspath(fn), _tpl.format(agency)), df=False)
+
+        df = run_query("""select * from availabilities limit 5;""")
+        if len(df) == 5:
+            print('File {} loaded!'.format(fn))
+
+    print('Counting rows in availabilities...')
+    df = run_query("""SELECT COUNT(*) FROM availabilities""")
+    print('Total rows found: {}'.format(df.iloc[0,0]))
+    print('Creating simple indexes for table availabilities (slow process)...')
+    create_simple_index_tpl = 'CREATE INDEX {0} ON availabilities USING btree ({0});'
+    for idx in ['id', 'distribution_center', 'driver_id', 'itinerary_id']:
+        print('Creating index "{}"...'.format(idx))
+        r = run_query(create_simple_index_tpl.format(idx), df=False)
+    print('TODO: we need to evaluate the creation of better indexes based in our requirements.')
+    print('PROCESS FINISHED!')
