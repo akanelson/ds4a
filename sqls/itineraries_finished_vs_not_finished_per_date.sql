@@ -13,4 +13,3 @@ from
 	) t
 /* where total = 0	 */
 order by created_date
-limit 10
