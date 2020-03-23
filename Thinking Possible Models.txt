@@ -1,0 +1,82 @@
+We could start building very simple model like this one:
+
+========================================================================
+Predict number of itineraries dropped per hour
+========================================================================
+Features (x):
+. number_of_drivers
+. number_of_itineraries
+
+Labels (y):
+. number_of_dropped
+
+========================================================================
+Predict number of itineraries dropped per day
+========================================================================
+Features (x):
+. number_of_drivers
+. number_of_itineraries
+
+Labels (y):
+. number_of_dropped
+
+------------------------------------------------------------------------
+If this works, we could work on a better model
+using more features like these for a given
+period:
+
+. number of good drivers
+. number of bad drivers
+. traffic_score
+. holiday_score
+
+But for now the simple will work.
+------------------------------------------------------------------------
+
+With the simple model: knowing the number of available drivers we could
+test different number of itineraries and see where the number of dropped
+itineraries starts to increase, predicting different service quality
+trends. Then the real problem here is in predicting the number of
+drivers (or the number of good and bad drivers) to use the simple model.
+
+************************************************************************
+WHAT CAN WE DO TO PREDICT NUMBER OF DRIVERS?
+************************************************************************
+
+We should start by looking for correlation of the features mentioned
+below in comparison with the number of drivers and then build possible
+simple models until arrive to something like this examples:
+
+========================================================================
+Predict Number of Drivers for Next Hour
+========================================================================
+Features (x):
+. day_of_the_week
+. current_hour_of_the_day
+. is_weekend
+. is_holiday
+. number_of_drivers_last_hour
+. current_weather_score_at_agency_location
+. current_traffic_score_at_agency_location
+
+Label (y):
+. number_of_drivers
+
+========================================================================
+Predict Number of Drivers for Next Day
+========================================================================
+Features (x):
+. month
+. day_of_the_week
+. day_of_the_month
+. is_weekend
+. is_holiday
+. number_of_drivers_last_day
+. number_of_drivers_last_week
+. weather_score_at_agency_location_last_day
+. traffic_score_at_agency_location_last_day
+. weather_score_at_agency_location_predicted
+. traffic_score_at_agency_location_predicted
+
+Label (y):
+. number_of_drivers
