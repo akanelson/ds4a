@@ -53,11 +53,12 @@ def explained_time(sql):
 
 # This procedure use EXPLAIN to check if the sql query can be resolved in less than max_seconds time
 # and then return run_query(sql) if this is True or return None if max_seconds is reached
-def careful_query(sql, max_seconds=5):
-    estimated = explained_time(sql) / 1000000
-    if estimated < max_seconds:
+# TODO: make it work with seconds if possible
+def careful_query(sql, max_cost=100000):
+    estimated = explained_time(sql)
+    if estimated < max_cost:
         return run_query(sql)
-    print('This query will take to much time: {} seconds'.format(estimated))
-    if estimated/max_seconds < 5:
-        print('You could try increasing max_seconds for careful_query')
+    print('This query will cost too much: {} cost units'.format(estimated))
+    if estimated/max_cost < 5:
+        print('You could try increasing max_cost for careful_query')
     return None

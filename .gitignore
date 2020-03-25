@@ -5,3 +5,4 @@ __pycache__/
 .DS_Store
 .vscode/
 */practicum_config.py
+*/_NOT_*.py
