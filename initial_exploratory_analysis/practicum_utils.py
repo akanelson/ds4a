@@ -40,12 +40,6 @@ def run_query(sql, df=True):
         return pd.DataFrame(result.fetchall(), columns=result.keys())
     return result
 
-def run_query(sql, df=True):
-    result = db.connect().execution_options(isolation_level="AUTOCOMMIT").execute((text(sql)))
-    if df:
-        return pd.DataFrame(result.fetchall(), columns=result.keys())
-    return result
-
 def explained_time(sql):
     r = db.connect().execution_options(isolation_level="AUTOCOMMIT").execute((text('EXPLAIN ' + sql)))
     row = r.fetchone()[0]
