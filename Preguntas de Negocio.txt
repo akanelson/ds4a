@@ -1,0 +1,23 @@
+Que paso la semana del 11/11/2019? 
+Que paso la semana del 10/02/2020?
+
+Que paso el 17/02/2020, Muchos itinerarios entregados con muy pocos drivers disponibles ?
+
+Como es la relacion de itinerarios/drivers y los KPI de calidad?
+A partir de que relacion itinerarios/drives empieza a sufrir la calidad?
+
+A partir de que cantidad de paquetes empieza a sufrir la calidad? 
+cuanta calidad estoy dispuesto a ceder a cambio de aumentar cantidad de itinerarios?
+
+
+
+
+Nuevas variables de entrada en precicciones para el Dashboard:
+1. Fecha
+2. Tasa maxima de dropeos / cancelaciones
+3. Tasa maxima de tiempos de espera
+4. Tasa de tipos de vehiculos
+5. 
+
+Alerta de catastrofes en tiempo real:
+1. dropeos van a a caer al X % en los proximos mins
