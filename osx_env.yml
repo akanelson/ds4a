@@ -15,3 +15,6 @@ dependencies:
 - conda
 - jupyter_client
 - nbconvert
+- sqlalchemy
+- psycopg2
+
