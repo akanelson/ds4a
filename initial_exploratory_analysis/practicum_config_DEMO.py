@@ -8,3 +8,6 @@ postgre_db   = '[DB_NAME]'
 
 
 postgre_conn = 'postgresql://{}:{}@{}/{}'.format(postgre_user, postgre_pass, postgre_host, postgre_db)
+
+# Weather Dark Sky API
+dark_sky_api = '[your-api-key]'
