@@ -7,7 +7,7 @@ from practicum_config import dark_sky_api
 #
 # Get weather data from Dark Sky API Service https://darksky.net/dev
 #
-# Receives: API Key, latitude, longitude, stsart date, end date (not) 
+# Receives: API Key, latitude, longitude, stsart date, end date (end date not included) 
 # Returns: Dictionary with key: value where key is the date and value is the API response for that day
 #
 # Sample call:
@@ -40,8 +40,8 @@ def dark_sky_get(key, lat, lon, start_date, end_date):
 latitude = -23.5475006
 longitude = -46.6361084
 # From date to date range
-from_date = '2020-01-01 00:00:00'
-to_date = '2020-01-05 12:00:00'
+from_date = '2019-10-01 00:00:00'
+to_date = '2020-03-13 00:00:00'
 # Get data
 data = dark_sky_get(dark_sky_api, latitude, longitude, from_date, to_date)
 print('Writing file ...')
