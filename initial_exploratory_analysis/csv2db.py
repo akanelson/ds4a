@@ -79,13 +79,13 @@ if __name__ == "__main__":
     ALTER TABLE itineraries ADD PRIMARY KEY (itinerary_id);
     COPY itineraries FROM '""" + os.path.abspath(files[3]) + """' WITH (format csv, header true, delimiter ',');
     ALTER TABLE itineraries DROP COLUMN temp;
-    ALTER TABLE itineraries ALTER COLUMN created TYPE TIMESTAMP USING TO_TIMESTAMP(created, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN accepted TYPE TIMESTAMP USING TO_TIMESTAMP(accepted, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN dropped TYPE TIMESTAMP USING TO_TIMESTAMP(dropped, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN started TYPE TIMESTAMP USING TO_TIMESTAMP(started, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN finished TYPE TIMESTAMP USING TO_TIMESTAMP(finished, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN checked_in_at TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_at, 'YY-MM-DD H24:SS');
-    ALTER TABLE itineraries ALTER COLUMN pickup_checkout_at TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_at, 'YY-MM-DD H24:SS');
+    ALTER TABLE itineraries ALTER COLUMN created TYPE TIMESTAMP USING TO_TIMESTAMP(created, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN accepted TYPE TIMESTAMP USING TO_TIMESTAMP(accepted, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN dropped TYPE TIMESTAMP USING TO_TIMESTAMP(dropped, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN started TYPE TIMESTAMP USING TO_TIMESTAMP(started, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN finished TYPE TIMESTAMP USING TO_TIMESTAMP(finished, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN checked_in_at TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_at, 'YY-MM-DD HH24:MI');
+    ALTER TABLE itineraries ALTER COLUMN pickup_checkout_at TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_at, 'YY-MM-DD HH24:MI');
     SELECT * FROM itineraries LIMIT 5;
     """)
 
@@ -143,7 +143,7 @@ if __name__ == "__main__":
             );
             COPY tmp_availabilities FROM '{0}' WITH (format csv, header true, delimiter ',');
             ALTER TABLE tmp_availabilities DROP COLUMN temp;
-            ALTER TABLE tmp_availabilities ALTER COLUMN sent TYPE TIMESTAMP USING TO_TIMESTAMP(sent, 'YY-MM-DD H24:SS');    
+            ALTER TABLE tmp_availabilities ALTER COLUMN sent TYPE TIMESTAMP USING TO_TIMESTAMP(sent, 'YY-MM-DD HH24:MI');    
 
             /* first time select into availabilities, second time insert into availabilities*/
             {1};
