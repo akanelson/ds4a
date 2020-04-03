@@ -3,6 +3,9 @@ channels:
 - conda-forge
 - defaults
 dependencies:
+- traittypes
+- ipywidgets
+- traitlets
 - jupyter
 - matplotlib
 - boto3
@@ -17,4 +20,12 @@ dependencies:
 - nbconvert
 - sqlalchemy
 - psycopg2
-
+- scipy
+- seaborn
+- plotly
+- statsmodels
+- bqplot
+- ipython
+- ipywidgets
+- chart-studio
+- scikit-learn
