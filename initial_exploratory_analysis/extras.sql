@@ -1,12 +1,63 @@
-/* Build a table with the whole available drivers find in table availables */
+/* Build a table with the whole available drivers found in table availables */
+/* Creation time required in notebook was approx 165 seconds */
 CREATE TABLE driver AS
 	SELECT driver_id,
-	    distribution_center,
 		MIN(sent) AS min_sent,
 		MAX(sent) AS max_sent,
-		COUNT(1) AS pushes
+		AVG(EXTRACT(HOUR FROM sent)) AS avg_hour,
+		STDDEV(EXTRACT(HOUR FROM sent)) AS std_hour,
+		COUNT(1) AS pushes,
+		COUNT(DISTINCT(itinerary_id)) as itineraries,
+		AVG(lat) as avg_lat,
+		AVG(lng) as avg_lng,
+		STDDEV(lat) as std_lat,
+		STDDEV(lng) as std_lng
+	FROM availabilities
+	GROUP BY driver_id;
+
+
+/* Create drivers table for Day Of the Week analysis */
+/* Sunday is 0 */
+CREATE TABLE driver_dow AS
+	SELECT  driver_id,
+			EXTRACT(DOW FROM sent) as dow,
+			COUNT(1) AS pushes,
+			COUNT(DISTINCT(itinerary_id)) as itineraries,
+			AVG(lat) as avg_lat,
+			AVG(lng) as avg_lng,
+			STDDEV(lat) as std_lat,
+			STDDEV(lng) as std_lng,
+			MIN(EXTRACT(HOUR FROM sent)) AS min_hour,
+			MAX(EXTRACT(HOUR FROM sent)) AS max_hour,
+			AVG(EXTRACT(HOUR FROM sent)) AS avg_hour,
+			STDDEV(EXTRACT(HOUR FROM sent)) AS std_hour
+	FROM availabilities
+	GROUP BY driver_id, EXTRACT(DOW FROM sent)
+
+
+/* Build a table with the whole available drivers find in table availables */
+CREATE TABLE driver_ag AS
+	SELECT driver_id,
+		MIN(sent) AS min_sent,
+		MAX(sent) AS max_sent,
+		AVG(EXTRACT(HOUR FROM sent)) AS avg_hour,
+		STDDEV(EXTRACT(HOUR FROM sent)) AS std_hour,
+		COUNT(1) AS pushes,
+		COUNT(DISTINCT(itinerary_id)) as itineraries,
+		AVG(lat) as avg_lat,
+		AVG(lng) as avg_lng,
+		STDDEV(lat) as std_lat,
+		STDDEV(lng) as std_lng
 	FROM availabilities
 	GROUP BY driver_id, distribution_center;
+
+
+/* Pushes per hour of the day */
+SELECT EXTRACT(HOUR FROM sent) as hour,
+	COUNT(1) as pushes,
+	100*CAST(COUNT(1) AS FLOAT)/21525187 as percent
+FROM availabilities
+GROUP BY EXTRACT(HOUR FROM sent);
 
 
 /* Create table to analyze WTF is happening with our datesets */
