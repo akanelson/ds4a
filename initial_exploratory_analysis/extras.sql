@@ -52,6 +52,13 @@ CREATE TABLE driver_ag AS
 	GROUP BY driver_id, distribution_center;
 
 
+/* Select first and last driver login */
+select firstlogin.driver_id, firstlogin.firstlogin, lastlogin.lastlogin, (TO_TIMESTAMP(lastlogin.lastlogin, 'HH24:MI:SS')::TIME) - (TO_TIMESTAMP(firstlogin.firstlogin, 'HH24:MI:SS')::TIME) as workinghours
+from firstlogin
+inner join lastlogin on  firstlogin.driver_id = lastlogin.driver_id
+order by workinghours
+
+
 /* Pushes per hour of the day */
 SELECT EXTRACT(HOUR FROM sent) as hour,
 	COUNT(1) as pushes,
