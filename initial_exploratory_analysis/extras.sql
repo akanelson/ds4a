@@ -1,3 +1,36 @@
+/* Create a table with driver's agency weights based on
+   the number of itineraries done by the driver */
+CREATE TABLE driver_weights AS
+	SELECT d.*,
+		CAST(n1 AS FLOAT)/(n1+n2) AS w1,
+		CAST(n2 AS FLOAT)/(n1+n2) AS w2
+	FROM
+		(SELECT DISTINCT(driver_id),
+			   COUNT(1) AS n_itineraries,
+			   SUM(CASE WHEN distribution_center1 = 1 THEN 1 ELSE 0 END) AS n1,
+			   SUM(CASE WHEN distribution_center1 = 2 THEN 1 ELSE 0 END) AS n2
+		FROM itineraries
+		WHERE driver_id IS NOT NULL
+		GROUP BY driver_id) d
+
+
+/* Calculate driver's agency weights based on the number of itineraries
+   done by the driver */
+SELECT d.*,
+	ROUND(CAST(CAST(n1 AS FLOAT)/(n1+n2) AS NUMERIC), 2) AS w1,
+	ROUND(CAST(CAST(n2 AS FLOAT)/(n1+n2) AS NUMERIC), 2) AS w2,
+	n1*n2 AS n1xn2
+FROM
+	(SELECT DISTINCT(driver_id),
+		   COUNT(1) AS n_itineraries,
+		   SUM(CASE WHEN distribution_center1 = 1 THEN 1 ELSE 0 END) AS n1,
+		   SUM(CASE WHEN distribution_center1 = 2 THEN 1 ELSE 0 END) AS n2
+	FROM itineraries
+	WHERE driver_id IS NOT NULL
+	GROUP BY driver_id) d
+ORDER BY n1*n2 DESC, n_itineraries DESC
+
+
 /* Build a table with the whole available drivers found in table availables */
 /* Creation time required in notebook was approx 165 seconds */
 CREATE TABLE driver AS

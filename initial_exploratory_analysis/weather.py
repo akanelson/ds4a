@@ -42,7 +42,7 @@ def dark_sky_get(key, lat, lon, start_date, end_date):
 latitude = -23.5475006
 longitude = -46.6361084
 # From date to date range
-from_date = '2019-10-01'
+from_date = '2018-12-31'
 to_date = '2020-03-12'
 #print(from_date[:10])
 # Get data
