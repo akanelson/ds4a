@@ -36,6 +36,7 @@ dependencies:
 - scipy
 - seaborn
 - sympy
+- tensorflow
 - traitlets
 - traittypes
 - xlrd
