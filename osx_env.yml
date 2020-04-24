@@ -18,6 +18,7 @@ dependencies:
 - ipywidgets
 - jupyter
 - jupyter_client
+- keras
 - matplotlib
 - nb_conda
 - nb_conda_kernels
@@ -26,8 +27,10 @@ dependencies:
 - numpy
 - nbconvert
 - sqlalchemy
+- opencv
 - psycopg2
 - pandas
+- pillow
 - plotly
 - pydotplus
 - python-graphviz
