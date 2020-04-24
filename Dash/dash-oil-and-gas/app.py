@@ -39,7 +39,7 @@ well_type_options = [
 
 
 # Load data
-df = pd.read_csv(DATA_PATH.joinpath("wellspublic.csv"), low_memory=False)
+df = pd.read_csv(DATA_PATH.joinpath("wellspublic.csv2"), low_memory=False)
 df["Date_Well_Completed"] = pd.to_datetime(df["Date_Well_Completed"])
 df = df[df["Date_Well_Completed"] > dt.datetime(1960, 1, 1)]
 
