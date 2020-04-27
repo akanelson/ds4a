@@ -18,7 +18,6 @@ FROM ITINERARIES
 GROUP BY DATE(created)
 ORDER BY DATE(created)
 """)
-#fig = px.histogram(df.s_finished)
 
 
 
@@ -44,26 +43,10 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ),    
 
     dcc.Graph(
-        id='loggi'
+        id='loggi',
+        animate=True,
+        animation_options={'transition': {'duration': 500}}
     ),
-
-    dcc.Graph(
-        id='itineraries',
-        figure={
-            'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
-            ],
-            'layout': {
-                'plot_bgcolor': colors['background'],
-                'paper_bgcolor': colors['background'],
-                'font': {
-                    'color': colors['text']
-                }
-            }
-        }
-    ),
-
 
     html.Div([
         html.Label('Dropdown'),
@@ -124,8 +107,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     Output('loggi', 'figure'),
     [Input(component_id='type', component_property='value')]
 )
-def cualquier_cosa_que_este_debajo(input_value):    
-    return px.scatter(df, x="s_finished", y=input_value)
+def cualquier_cosa_que_este_debajo(input_value):
+    return px.scatter(df,
+        x="s_finished",
+        y=input_value,
+        labels={'x':'Finished', 'y':input_value}
+        )
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8080)
