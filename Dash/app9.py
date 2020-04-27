@@ -3,6 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+import time
 
 def create_div_carta(arr, label='', fmt='{:.2f}', classname='three columns'):
     """Create a carta component (DIV) using the last value of the array"""
@@ -31,12 +32,17 @@ def create_div_carta(arr, label='', fmt='{:.2f}', classname='three columns'):
         paper_bgcolor="#ffffff",
     )
 
+    if fmt == 'time':
+        unit = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
+    else:
+        unit = fmt.format(arr[-1])
+
     # return CARTA DIV component
     return html.Div(
         className = 'wx_carta ',
         children =[
             html.Span(label),
-    		html.H3(fmt.format(arr[-1])),
+    		html.H3(unit),
     		dcc.Graph(figure=fig, config={'displayModeBar': False})
     	],
 	)
@@ -78,12 +84,12 @@ app.layout = html.Div(
                     children = [
                         html.Div(
         	    	       children=[
-                                create_div_carta(arr = np.random.randn(14)+2, label='elapsed time', fmt='{:.2f} m'),
-                                create_div_carta(arr = np.random.randn(14)+2, label='total time', fmt='{:.2f} seconds'),
-                                create_div_carta(arr = np.random.randn(14)+2, label='total distance', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(30)+2, label='time', fmt='{:.2f} hours'),
-                                create_div_carta(arr = np.random.randn(30)+2, label='avg time',fmt='{:.2f} seconds'),
-                                create_div_carta(arr = np.random.randn(30)+2, label='avg work', fmt='{:.2f} avg.')
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time'),
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time'),
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km'),
+                                create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds'),
+                                create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg time',fmt='{:.2f} seconds'),
+                                create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.')
                             ]
                         )
                     ],
@@ -98,12 +104,12 @@ app.layout = html.Div(
                     children = [
                         html.Div(
                            children=[
-                                create_div_carta(arr = np.random.randn(7)+2, label='this is it', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(7)+2, label='this is at', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(7)+2, label='this is et', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(14)+2, label='elapsed time', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(14)+2, label='total time', fmt='{:.2f} km'),
-                                create_div_carta(arr = np.random.randn(14)+2, label='total distance', fmt='{:.2f} km'),
+                                create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is it', fmt='{:.2f} %'),
+                                create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is at', fmt='$ {:.2f}'),
+                                create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is et', fmt='{:.2f} mm'),
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='elapsed time', fmt='{:.2f} km'),
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='total time', fmt='{:.2f} km'),
+                                create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='total distance', fmt='{:.2f} km'),
                             ]
                         )
                     ],
