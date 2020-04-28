@@ -1,8 +1,7 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');*/
-
 
 .wx_carta {
-    min-width: 180px;
+    font-family: 'Open Sans';
+    width: 100%;
     margin: 10px;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -10,19 +9,40 @@
     background-color: white;
     border: 1px solid #c4c4c4;
     border-radius: 5px;
-    box-shadow: 1px 1px #c4c4c4;
+    box-shadow: 3px 3px 6px #c4c4c4;
+    /*box-shadow: 0 1.14286rem 2.57143rem 0 rgba(216,221,235,.3);*/
+
 }
 
-.wx_carta h3 {
+.wx_carta .value {
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
     font-size: 24px;
 }
 
-.wx_carta span {
+.wx_carta .label {
     display: block;
+    font-size: 12px;
     margin-top: 0;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.wx_carta .tooltip-wrapper {
+    float: right;
+    margin-right: 5px;
+    color: #00baff;
+    font-size: 12px;
+}
+
+.help {
+    font-family: 'Open Sans';
+    border: 0px solid #00baff;
+    box-shadow: 3px 3px 6px #c4c4c4;
+    /*box-shadow: 0 1.14286rem 2.57143rem 0 rgba(216,221,235,.3);*/
+    background-color: #00baff;
+    color: white;
+    font-size: 12px;
+    opacity: 1;
 }

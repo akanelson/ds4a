@@ -12,6 +12,7 @@ dependencies:
 - dash-renderer
 - dash-html-components
 - dash-core-components
+- dash-bootstrap-components
 - geopy
 - graphviz
 - ipython
@@ -19,6 +20,7 @@ dependencies:
 - jupyter
 - jupyter_client
 - keras
+- lorem
 - matplotlib
 - nb_conda
 - nb_conda_kernels
