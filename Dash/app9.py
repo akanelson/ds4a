@@ -6,6 +6,7 @@ import dash_html_components as html
 import plotly.graph_objs as go
 import time
 import uuid 
+from dash.dependencies import Input, Output
 
 def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
     """Create a carta component (DIV) using the last value of the array"""
@@ -98,6 +99,79 @@ header = html.Div(
     className='header'
 )
 
+tab_predictions =  html.Div(
+    className='row',
+    children = [
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+        ),
+    ]
+)
+
+tab_historical = html.Div(
+    className='row',
+    children=[
+        html.Div(
+            create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is it', fmt='{:.2f} %'),
+            className='col-sm-4'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is at', fmt='$ {:.2f}'),
+            className='col-sm-4'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is et', fmt='{:.2f} mm'),
+            className='col-sm-4'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='elapsed time', fmt='{:.2f} km'),
+            className='col-sm-4'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='total distance', fmt='{:.2f} km'),
+            className='col-sm-4'
+        ),
+    ],
+)
+
+
+tabs = html.Div(
+    [
+        dcc.Tabs(id='tabs', value='predictions', children=[
+            dcc.Tab(label='Predictions', value='predictions'),
+            dcc.Tab(label='Historical', value='historical'),
+        ]),
+    ],
+    className='tabs-selector'
+)
+@app.callback(Output('tabs-content', 'children'),
+              [Input('tabs', 'value')])
+def render_content(tab):
+    if tab == 'predictions':
+        return tab_predictions
+    elif tab == 'historical':
+        return tab_historical
 
 app.layout = html.Div(
     className='container-fluid',
@@ -105,60 +179,10 @@ app.layout = html.Div(
         html.Div('', className='header-top'),
         header,
         html.Div('', className='header-bottom'),
-        html.Div(
-        	className='row',
-            children = [
-                html.Div(
-                    create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-                    className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
-                ),
-            ]
-        ),
-        html.Div(
-            className='row',
-            children=[
-                html.Div(
-                    create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is it', fmt='{:.2f} %'),
-                    className='col-sm-4'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is at', fmt='$ {:.2f}'),
-                    className='col-sm-4'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(7)*(np.random.randn(1)*5)+12, label='this is et', fmt='{:.2f} mm'),
-                    className='col-sm-4'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='elapsed time', fmt='{:.2f} km'),
-                    className='col-sm-4'
-                ),
-                html.Div(
-                    create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='total distance', fmt='{:.2f} km'),
-                    className='col-sm-4'
-                ),
-            ],
-        )
+        tabs,
+        html.Div(id='tabs-content', className='tabs-content'),
+
+
     ]
 )
 app.run_server(debug=True, use_reloader=True)  # Turn off reloader if inside Jupyte
