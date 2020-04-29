@@ -151,14 +151,14 @@ if len(df) > 0:
 
 print('Altering TABLE datetime columns...')
 df = utils.run_query("""
-ALTER TABLE itineraries ALTER COLUMN created_time TYPE TIMESTAMP USING TO_TIMESTAMP(created_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN accepted_time TYPE TIMESTAMP USING TO_TIMESTAMP(accepted_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN cancellation_time TYPE TIMESTAMP USING TO_TIMESTAMP(cancellation_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN dropped_time TYPE TIMESTAMP USING TO_TIMESTAMP(dropped_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN started_time TYPE TIMESTAMP USING TO_TIMESTAMP(started_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN finished_time TYPE TIMESTAMP USING TO_TIMESTAMP(finished_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN checked_in_time TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_time, 'YY-MM-DD HH24:MI');
-ALTER TABLE itineraries ALTER COLUMN pickup_checkout_time TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_time, 'YY-MM-DD HH24:MI');
+ALTER TABLE itineraries ALTER COLUMN created_time TYPE TIMESTAMP USING TO_TIMESTAMP(created_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN accepted_time TYPE TIMESTAMP USING TO_TIMESTAMP(accepted_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN cancellation_time TYPE TIMESTAMP USING TO_TIMESTAMP(cancellation_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN dropped_time TYPE TIMESTAMP USING TO_TIMESTAMP(dropped_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN started_time TYPE TIMESTAMP USING TO_TIMESTAMP(started_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN finished_time TYPE TIMESTAMP USING TO_TIMESTAMP(finished_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN checked_in_time TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itineraries ALTER COLUMN pickup_checkout_time TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_time, 'YY-MM-DD HH24:MI:SS');
 """, df=False)
 
 print('Counting rows in itineraries...')
