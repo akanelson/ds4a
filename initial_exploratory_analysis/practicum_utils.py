@@ -8,13 +8,20 @@ from sqlalchemy import create_engine, text
 dir_data = '../data/supply/'
 
 def get_loggi_files():
-	files = [
-	    'availability_dist1_ano.csv',
-	    'availability_dist2_ano.csv',
-	    'itinerary_dist1_ano.csv',
-	    'itinerary_dist2_ano.csv'
-	]
-	return [dir_data + f for f in files]
+    files = [
+        'availability_dist1_ano.csv',
+        'availability_dist2_ano.csv',
+        'itinerary_dist1_ano.csv',
+        'itinerary_dist2_ano.csv',
+        'availability_itinerary_dist1_ano.csv',
+        'availability_itinerary_dist2_ano.csv',
+        'rejected_dist1_ano.csv',
+        'rejected_dist2_ano.csv',
+        'unmatched_dist1_ano.csv',
+        'unmatched_dist2_ano.csv',
+        'driver_ano.csv'
+    ]
+    return [dir_data + f for f in files]
 
 def read_csv_percent(filename, percent):
     # keep the header and the 'percent' of lines
