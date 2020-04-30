@@ -61,24 +61,24 @@ print('OK!')
 print('Connecting to DB...')
 db = utils.global_connect()
 
-# -----------------
-# TABLE ITINERARIES
-# -----------------
+# ---------------
+# TABLE ITINERARY
+# ---------------
 
 # Check if table already exists
-df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'itineraries'""")
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'itinerary'""")
 if len(df) == 1:
-    print('Table itineraries already exists')
+    print('Table itinerary already exists')
     if len(sys.argv) > 1 and sys.argv[1] == 'drop':
         print('Forced drop...')
-        utils.run_query("""DROP TABLE itineraries""", df=False)
+        utils.run_query("""DROP TABLE itinerary""", df=False)
     else:
         exit()
 
-print('Creating table itineraries and loading csv files...')
+print('Creating table itinerary and loading csv files...')
 
 df = utils.run_query("""
-CREATE TABLE itineraries
+CREATE TABLE itinerary
 (
     temp                        TEXT,
     itinerary_id                VARCHAR(32) NOT NULL,
@@ -105,26 +105,26 @@ CREATE TABLE itineraries
     created_time_datetime       VARCHAR(20),
     finished_time_datetime      VARCHAR(20)
 );
-COPY itineraries FROM '""" + files['itinerary_dist1_ano.csv'] + """' WITH (format csv, header true, delimiter ',');
-COPY itineraries FROM '""" + files['itinerary_dist2_ano.csv'] + """' WITH (format csv, header true, delimiter ',');
+COPY itinerary FROM '""" + files['itinerary_dist1_ano.csv'] + """' WITH (format csv, header true, delimiter ',');
+COPY itinerary FROM '""" + files['itinerary_dist2_ano.csv'] + """' WITH (format csv, header true, delimiter ',');
 
-ALTER TABLE itineraries DROP COLUMN temp;
+ALTER TABLE itinerary DROP COLUMN temp;
 
-SELECT * FROM itineraries LIMIT 5;
+SELECT * FROM itinerary LIMIT 5;
 """)
 
 if len(df) == 5:
-    print('TABLE itineraries created and data was loaded!')
+    print('TABLE itinerary created and data was loaded!')
 
 # Looking for duplicates itinerary ids
 df = utils.careful_query("""
 SELECT itinerary_id, count(1) as dup
-FROM itineraries
+FROM itinerary
 GROUP BY itinerary_id
 HAVING count(1) > 1
 """)
 
-# In previous analysis we have found that itineraries presents some duplicated rows
+# In previous analysis we have found that itinerary presents some duplicated rows
 # So we will drop the duplicated ones...
 # But if Loggi resend the data again, we should check it again
 print('Duplicated Rows: {}'.format(df['dup'].sum() - df.shape[0]))
@@ -133,17 +133,17 @@ if len(df) > 0:
     print('Removing duplicates by itinerary_id...')
     df = utils.run_query("""
     -- Remove duplicates
-    DELETE FROM itineraries t1
-    USING itineraries t2
+    DELETE FROM itinerary t1
+    USING itinerary t2
     WHERE  t1.ctid < t2.ctid                  -- delete the "older" ones
       AND  t1.itinerary_id = t2.itinerary_id; -- list columns that define duplicates
 
     -- set primary key (only possible with no duplicates)
-    ALTER TABLE itineraries ADD PRIMARY KEY (itinerary_id);
+    ALTER TABLE itinerary ADD PRIMARY KEY (itinerary_id);
 
     -- Return duplicates (should be 0)
     SELECT itinerary_id, count(1) as dup
-    FROM itineraries
+    FROM itinerary
     GROUP BY itinerary_id
     HAVING count(1) > 1
     """)
@@ -152,23 +152,23 @@ if len(df) > 0:
 
 print('Altering TABLE datetime columns...')
 df = utils.run_query("""
-ALTER TABLE itineraries ALTER COLUMN created_time TYPE TIMESTAMP USING TO_TIMESTAMP(created_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN accepted_time TYPE TIMESTAMP USING TO_TIMESTAMP(accepted_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN cancellation_time TYPE TIMESTAMP USING TO_TIMESTAMP(cancellation_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN dropped_time TYPE TIMESTAMP USING TO_TIMESTAMP(dropped_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN started_time TYPE TIMESTAMP USING TO_TIMESTAMP(started_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN finished_time TYPE TIMESTAMP USING TO_TIMESTAMP(finished_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN checked_in_time TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_time, 'YY-MM-DD HH24:MI:SS');
-ALTER TABLE itineraries ALTER COLUMN pickup_checkout_time TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN created_time TYPE TIMESTAMP USING TO_TIMESTAMP(created_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN accepted_time TYPE TIMESTAMP USING TO_TIMESTAMP(accepted_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN cancellation_time TYPE TIMESTAMP USING TO_TIMESTAMP(cancellation_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN dropped_time TYPE TIMESTAMP USING TO_TIMESTAMP(dropped_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN started_time TYPE TIMESTAMP USING TO_TIMESTAMP(started_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN finished_time TYPE TIMESTAMP USING TO_TIMESTAMP(finished_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN checked_in_time TYPE TIMESTAMP USING TO_TIMESTAMP(checked_in_time, 'YY-MM-DD HH24:MI:SS');
+ALTER TABLE itinerary ALTER COLUMN pickup_checkout_time TYPE TIMESTAMP USING TO_TIMESTAMP(pickup_checkout_time, 'YY-MM-DD HH24:MI:SS');
 """, df=False)
 
-print('Counting rows in itineraries...')
-df = utils.run_query("""SELECT COUNT(1) FROM itineraries""")
+print('Counting rows in itinerary...')
+df = utils.run_query("""SELECT COUNT(1) FROM itinerary""")
 print('Total rows found: {}'.format(df.iloc[0,0]))
 
-print('Creating simple indexes for table itineraries...')
+print('Creating simple indexes for table itinerary...')
 
-create_simple_index_tpl = 'CREATE INDEX {0}_iidx ON itineraries USING btree ({0});'
+create_simple_index_tpl = 'CREATE INDEX {0}_iidx ON itinerary USING btree ({0});'
 
 for idx in ['driver_id', 'created_time', 'accepted_time', 'cancellation_time', 'dropped_time',
             'started_time', 'finished_time', 'checked_in_time', 'pickup_checkout_time',
@@ -182,22 +182,22 @@ for idx in ['driver_id', 'created_time', 'accepted_time', 'cancellation_time', '
 # Agency 2: 58cfe3b975dd7cbd1ac84d555640bfd9
 
 # --------------
-# AVAILABILITIES
+# availability
 # --------------
 
 # Check if table already exists
-df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'availabilities'""")
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'availability'""")
 if len(df) == 1:
-    print('Table availabilities already exists')
+    print('Table availability already exists')
     if len(sys.argv) > 1 and sys.argv[1] == 'drop':
         print('Forced drop...')
-        utils.run_query("""DROP TABLE availabilities""", df=False)
+        utils.run_query("""DROP TABLE availability""", df=False)
     else:
         exit()
 
 
-tpl = ["SELECT '{}' as distribution_center, * INTO availabilities FROM tmp_availabilities",
-       "INSERT INTO availabilities SELECT '{}' as distribution_center, * FROM tmp_availabilities"]
+tpl = ["SELECT '{}' as distribution_center, * INTO availability FROM tmp_availability",
+       "INSERT INTO availability SELECT '{}' as distribution_center, * FROM tmp_availability"]
 
 for fn, agency, _tpl in [
     ('availability_dist1_ano.csv', '6e7dacf2149d053183fe901e3cfd8b82', tpl[0]),
@@ -206,7 +206,7 @@ for fn, agency, _tpl in [
     print('Creating temporal table for availabilies.\nLoading csv file {}.\nThis will take some time...'.format(fn))
 
     create_table_from_csv = """
-        CREATE TEMPORARY TABLE tmp_availabilities
+        CREATE TEMPORARY TABLE tmp_availability
         (
             temp            INT,
             id              VARCHAR(32) NOT NULL,
@@ -219,18 +219,18 @@ for fn, agency, _tpl in [
         /* Copy command */
         {0};
 
-        ALTER TABLE tmp_availabilities DROP COLUMN temp;
-        ALTER TABLE tmp_availabilities ALTER COLUMN sent_f TYPE TIMESTAMP USING TO_TIMESTAMP(sent_f, 'YY-MM-DD HH24:MI:SS');
+        ALTER TABLE tmp_availability DROP COLUMN temp;
+        ALTER TABLE tmp_availability ALTER COLUMN sent_f TYPE TIMESTAMP USING TO_TIMESTAMP(sent_f, 'YY-MM-DD HH24:MI:SS');
 
-        /* first time select into availabilities, second time insert into availabilities*/
+        /* first time select into availability, second time insert into availability*/
         {1};
 
-        DROP TABLE tmp_availabilities;
+        DROP TABLE tmp_availability;
 
-        SELECT * from availabilities limit 5;
+        SELECT * from availability limit 5;
     """
 
-    copy_cmd = """COPY tmp_availabilities FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
+    copy_cmd = """COPY tmp_availability FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
     # if exists compressed version of file    
     if sys.platform == 'win32' and os.path.exists(files[fn] + '.gz'):
         # path to 7zip
@@ -240,24 +240,351 @@ for fn, agency, _tpl in [
             print('- In Windows, Postgre can not handle big plain CSV files!')
             print('- It is probabily that this uploading ends in an exception.')
         else:
-            copy_cmd = """COPY tmp_availabilities FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
+            copy_cmd = """COPY tmp_availability FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
 
     df = utils.run_query(create_table_from_csv.format(copy_cmd, _tpl.format(agency)), df=False)
 
-    df = utils.run_query("""select * from availabilities limit 5;""")
+    df = utils.run_query("""select * from availability limit 5;""")
     if len(df) == 5:
         print('File {} loaded!'.format(fn))
 
-print('Counting rows in availabilities...')
-df = utils.run_query("""SELECT COUNT(1) FROM availabilities""")
+print('Counting rows in availability...')
+df = utils.run_query("""SELECT COUNT(1) FROM availability""")
 print('Total rows found: {}'.format(df.iloc[0,0]))
 
-print('Creating simple indexes for table availabilities (slow process)...')
+print('Creating simple indexes for table availability (slow process)...')
 
-create_simple_index_tpl = 'CREATE INDEX {0}_aidx ON availabilities USING btree ({0});'
+create_simple_index_tpl = 'CREATE INDEX {0}_aidx ON availability USING btree ({0});'
 
 for idx in ['id', 'distribution_center', 'driver_id', 'sent_f']:
     print('Creating index "{}_aidx"...'.format(idx))
+    r = utils.run_query(create_simple_index_tpl.format(idx), df=False)
+
+
+# ---------
+# UNMATCHED
+# ---------
+
+# Check if table already exists
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'unmatched'""")
+if len(df) == 1:
+    print('Table unmatched already exists')
+    if len(sys.argv) > 1 and sys.argv[1] == 'drop':
+        print('Forced drop...')
+        utils.run_query("""DROP TABLE unmatched""", df=False)
+    else:
+        exit()
+
+
+tpl = ["SELECT '{}' as distribution_center, * INTO unmatched FROM tmp_unmatched",
+       "INSERT INTO unmatched SELECT '{}' as distribution_center, * FROM tmp_unmatched"]
+
+for fn, agency, _tpl in [
+    ('unmatched_dist1_ano.csv', '6e7dacf2149d053183fe901e3cfd8b82', tpl[0]),
+    ('unmatched_dist2_ano.csv', '58cfe3b975dd7cbd1ac84d555640bfd9', tpl[1])]:
+
+    print('Creating temporal table for unmatched.\nLoading csv file {}.\nThis will take some time...'.format(fn))
+
+    create_table_from_csv = """
+        CREATE TEMPORARY TABLE tmp_unmatched (
+            temp            INT,
+            itinerary_id    VARCHAR(32) NOT NULL,
+            driver_id       VARCHAR(32) NOT NULL,
+            sent            VARCHAR(26)
+        );
+
+        /* Copy command */
+        {0};
+
+        ALTER TABLE tmp_unmatched DROP COLUMN temp;
+        ALTER TABLE tmp_unmatched ALTER COLUMN sent TYPE TIMESTAMP USING TO_TIMESTAMP(sent, 'YY-MM-DD HH24:MI:SS');
+
+        /* first time select into unmatched, second time insert into unmatched */
+        {1};
+
+        DROP TABLE tmp_unmatched;
+
+        SELECT * from unmatched limit 5;
+    """
+
+    copy_cmd = """COPY tmp_unmatched FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
+    # if exists compressed version of file    
+    if sys.platform == 'win32' and os.path.exists(files[fn] + '.gz'):
+        # path to 7zip
+        seven_zip = which('7z')
+        if seven_zip == None:
+            print('WARNING: can not locate program 7z to copy compressed file into DB')
+            print('- In Windows, Postgre can not handle big plain CSV files!')
+            print('- It is probabily that this uploading ends in an exception.')
+        else:
+            copy_cmd = """COPY tmp_unmatched FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
+
+    df = utils.run_query(create_table_from_csv.format(copy_cmd, _tpl.format(agency)), df=False)
+
+    df = utils.run_query("""select * from unmatched limit 5;""")
+    if len(df) == 5:
+        print('File {} loaded!'.format(fn))
+
+print('Counting rows in unmatched...')
+df = utils.run_query("""SELECT COUNT(1) FROM unmatched""")
+print('Total rows found: {}'.format(df.iloc[0,0]))
+
+print('Creating simple indexes for table unmatched (slow process)...')
+
+create_simple_index_tpl = 'CREATE INDEX {0}_aidx2 ON unmatched USING btree ({0});'
+
+for idx in ['itinerary_id', 'driver_id', 'sent']:
+    print('Creating index "{}_aidx2"...'.format(idx))
+    r = utils.run_query(create_simple_index_tpl.format(idx), df=False)
+
+
+# --------
+# REJECTED
+# --------
+
+# Check if table already exists
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'rejected'""")
+if len(df) == 1:
+    print('Table rejected already exists')
+    if len(sys.argv) > 1 and sys.argv[1] == 'drop':
+        print('Forced drop...')
+        utils.run_query("""DROP TABLE rejected""", df=False)
+    else:
+        exit()
+
+
+tpl = ["SELECT '{}' as distribution_center, * INTO rejected FROM tmp_rejected",
+       "INSERT INTO rejected SELECT '{}' as distribution_center, * FROM tmp_rejected"]
+
+for fn, agency, _tpl in [
+    ('rejected_dist1_ano.csv', '6e7dacf2149d053183fe901e3cfd8b82', tpl[0]),
+    ('rejected_dist2_ano.csv', '58cfe3b975dd7cbd1ac84d555640bfd9', tpl[1])]:
+
+    print('Creating temporal table for rejected.\nLoading csv file {}.\nThis will take some time...'.format(fn))
+
+    create_table_from_csv = """
+        CREATE TEMPORARY TABLE tmp_rejected (
+            temp            INT,
+            itinerary_id    VARCHAR(32) NOT NULL,
+            driver_id       VARCHAR(32) NOT NULL,
+            sent            VARCHAR(26)
+        );
+
+        /* Copy command */
+        {0};
+
+        ALTER TABLE tmp_rejected DROP COLUMN temp;
+        ALTER TABLE tmp_rejected ALTER COLUMN sent TYPE TIMESTAMP USING TO_TIMESTAMP(sent, 'YY-MM-DD HH24:MI:SS');
+
+        /* first time select into rejected, second time insert into rejected */
+        {1};
+
+        DROP TABLE tmp_rejected;
+
+        SELECT * from rejected limit 5;
+    """
+
+    copy_cmd = """COPY tmp_rejected FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
+    # if exists compressed version of file    
+    if sys.platform == 'win32' and os.path.exists(files[fn] + '.gz'):
+        # path to 7zip
+        seven_zip = which('7z')
+        if seven_zip == None:
+            print('WARNING: can not locate program 7z to copy compressed file into DB')
+            print('- In Windows, Postgre can not handle big plain CSV files!')
+            print('- It is probabily that this uploading ends in an exception.')
+        else:
+            copy_cmd = """COPY tmp_rejected FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
+
+    df = utils.run_query(create_table_from_csv.format(copy_cmd, _tpl.format(agency)), df=False)
+
+    df = utils.run_query("""select * from rejected limit 5;""")
+    if len(df) == 5:
+        print('File {} loaded!'.format(fn))
+
+print('Counting rows in rejected...')
+df = utils.run_query("""SELECT COUNT(1) FROM rejected""")
+print('Total rows found: {}'.format(df.iloc[0,0]))
+
+print('Creating simple indexes for table rejected (slow process)...')
+
+create_simple_index_tpl = 'CREATE INDEX {0}_aidx3 ON rejected USING btree ({0});'
+
+for idx in ['itinerary_id', 'driver_id', 'sent']:
+    print('Creating index "{}_aidx3"...'.format(idx))
+    r = utils.run_query(create_simple_index_tpl.format(idx), df=False)
+
+
+# ----------------------------
+# Availabilities 2 Itineraries
+# ----------------------------
+
+# Check if table already exists
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'av2it'""")
+if len(df) == 1:
+    print('Table av2it already exists')
+    if len(sys.argv) > 1 and sys.argv[1] == 'drop':
+        print('Forced drop...')
+        utils.run_query("""DROP TABLE av2it""", df=False)
+    else:
+        exit()
+
+
+tpl = ["SELECT '{}' as distribution_center, * INTO av2it FROM tmp_av2it",
+       "INSERT INTO av2it SELECT '{}' as distribution_center, * FROM tmp_av2it"]
+
+for fn, agency, _tpl in [
+    ('availability_itinerary_dist1_ano.csv', '6e7dacf2149d053183fe901e3cfd8b82', tpl[0]),
+    ('availability_itinerary_dist2_ano.csv', '58cfe3b975dd7cbd1ac84d555640bfd9', tpl[1])]:
+
+    print('Creating temporal table for av2it.\nLoading csv file {}.\nThis will take some time...'.format(fn))
+
+    create_table_from_csv = """
+        CREATE TEMPORARY TABLE tmp_av2it (
+            temp            INT,
+            availability_id VARCHAR(32) NOT NULL,
+            itinerary_id    VARCHAR(32) NOT NULL
+        );
+
+        /* Copy command */
+        {0};
+
+        ALTER TABLE tmp_av2it DROP COLUMN temp;
+
+        /* first time select into av2it, second time insert into av2it */
+        {1};
+
+        DROP TABLE tmp_av2it;
+
+        SELECT * from av2it limit 5;
+    """
+
+    copy_cmd = """COPY tmp_av2it FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
+    # if exists compressed version of file    
+    if sys.platform == 'win32' and os.path.exists(files[fn] + '.gz'):
+        # path to 7zip
+        seven_zip = which('7z')
+        if seven_zip == None:
+            print('WARNING: can not locate program 7z to copy compressed file into DB')
+            print('- In Windows, Postgre can not handle big plain CSV files!')
+            print('- It is probabily that this uploading ends in an exception.')
+        else:
+            copy_cmd = """COPY tmp_av2it FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
+
+    df = utils.run_query(create_table_from_csv.format(copy_cmd, _tpl.format(agency)), df=False)
+
+    df = utils.run_query("""select * from av2it limit 5;""")
+    if len(df) == 5:
+        print('File {} loaded!'.format(fn))
+
+print('Counting rows in av2it...')
+df = utils.run_query("""SELECT COUNT(1) FROM av2it""")
+print('Total rows found: {}'.format(df.iloc[0,0]))
+
+print('Creating simple indexes for table av2it (slow process)...')
+
+create_simple_index_tpl = 'CREATE INDEX {0}_aidx4 ON av2it USING btree ({0});'
+
+for idx in ['itinerary_id', 'availability_id']:
+    print('Creating index "{}_aidx4"...'.format(idx))
+    r = utils.run_query(create_simple_index_tpl.format(idx), df=False)
+
+# ------
+# DRIVER
+# ------
+
+# Check if table already exists
+df = utils.run_query("""select t.table_name FROM information_schema.tables as t WHERE t.table_name = 'driver'""")
+if len(df) == 1:
+    print('Table driver already exists')
+    if len(sys.argv) > 1 and sys.argv[1] == 'drop':
+        print('Forced drop...')
+        utils.run_query("""DROP TABLE driver""", df=False)
+    else:
+        exit()
+
+
+for fn in ['driver_ano.csv']:
+
+    print('Creating temporal table for drivers.\nLoading csv file {}.\nThis will take some time...'.format(fn))
+
+    create_table_from_csv = """
+        CREATE TEMPORARY TABLE tmp_driver (
+            temp                        INT,
+            driver_id                   VARCHAR(32) NOT NULL,
+            created                     VARCHAR(26),
+            onboard_date                VARCHAR(26),
+            activation_date             VARCHAR(26),
+            marital_status              VARCHAR(10),
+            is_trunk_rented             VARCHAR(1),
+            is_thermal_bag_rented       VARCHAR(10),
+            has_thermal_bag             VARCHAR(1),
+            has_loggi_trunk             VARCHAR(3),
+            gender                      VARCHAR(10),
+            transport_type              VARCHAR(10),
+            city                        VARCHAR(20),
+            operational_status          VARCHAR(20),
+            trunk_capacity              FLOAT,
+            rescinded_date              VARCHAR(26),
+            email_is_verified           VARCHAR(1),
+            age                         FLOAT,
+            vehicle_license_plate_type  VARCHAR(10),
+            cnh_status                  VARCHAR(20),
+            vehicle_status              VARCHAR(20),
+            has_all_documents_valid     VARCHAR(1),
+            first_itinerary_id          VARCHAR(32),
+            first_itinerary_created     VARCHAR(26),
+            attend_corp                 VARCHAR(1),
+            attend_presto               VARCHAR(1),
+            attend_pro                  VARCHAR(1)
+        );
+
+        /* Copy command */
+        {0};
+
+        ALTER TABLE tmp_driver DROP COLUMN temp;
+        ALTER TABLE tmp_driver ALTER COLUMN created TYPE TIMESTAMP USING TO_TIMESTAMP(created, 'YY-MM-DD HH24:MI:SS');
+        ALTER TABLE tmp_driver ALTER COLUMN onboard_date TYPE TIMESTAMP USING TO_TIMESTAMP(onboard_date, 'YY-MM-DD HH24:MI:SS');
+        ALTER TABLE tmp_driver ALTER COLUMN activation_date TYPE TIMESTAMP USING TO_TIMESTAMP(activation_date, 'YY-MM-DD HH24:MI:SS');
+        ALTER TABLE tmp_driver ALTER COLUMN rescinded_date TYPE TIMESTAMP USING TO_TIMESTAMP(rescinded_date, 'YY-MM-DD HH24:MI:SS');
+        ALTER TABLE tmp_driver ALTER COLUMN first_itinerary_created TYPE TIMESTAMP USING TO_TIMESTAMP(first_itinerary_created, 'YY-MM-DD HH24:MI:SS');
+
+        /* first time select into driver */
+        SELECT * INTO driver FROM tmp_driver;
+
+        DROP TABLE tmp_driver;
+
+        SELECT * from driver limit 5;
+    """
+
+    copy_cmd = """COPY tmp_driver FROM '{0}' WITH (format csv, header true, delimiter ',');""".format(files[fn])
+    # if exists compressed version of file    
+    if sys.platform == 'win32' and os.path.exists(files[fn] + '.gz'):
+        # path to 7zip
+        seven_zip = which('7z')
+        if seven_zip == None:
+            print('WARNING: can not locate program 7z to copy compressed file into DB')
+            print('- In Windows, Postgre can not handle big plain CSV files!')
+            print('- It is probabily that this uploading ends in an exception.')
+        else:
+            copy_cmd = """COPY tmp_driver FROM PROGRAM '"{0}" e -so "{1}"' DELIMITER ',' CSV HEADER;""".format(seven_zip, files[fn] + '.gz')
+
+    df = utils.run_query(create_table_from_csv.format(copy_cmd), df=False)
+
+    df = utils.run_query("""select * from driver limit 5;""")
+    if len(df) == 5:
+        print('File {} loaded!'.format(fn))
+
+print('Counting rows in driver...')
+df = utils.run_query("""SELECT COUNT(1) FROM driver""")
+print('Total rows found: {}'.format(df.iloc[0,0]))
+
+print('Creating simple indexes for table driver (slow process)...')
+
+create_simple_index_tpl = 'CREATE INDEX {0}_aidx5 ON driver USING btree ({0});'
+
+for idx in ['first_itinerary_id', 'driver_id']:
+    print('Creating index "{}_aidx2"...'.format(idx))
     r = utils.run_query(create_simple_index_tpl.format(idx), df=False)
 
 print('[TODO]: we need to evaluate the creation of better indexes based in our requirements.')
