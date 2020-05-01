@@ -4,65 +4,8 @@ import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 import plotly.graph_objs as go
-import time
-import uuid 
 from dash.dependencies import Input, Output
-
-def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
-    """Create a carta component (DIV) using the last value of the array"""
-    """(arr[-1]) and creating a line with the array values at arr"""
-
-    USE_MARKERS = False
-
-    n = len(arr)
-
-    # Create figure line
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=np.linspace(0, 1, n), y=arr,
-        mode='lines+markers' if USE_MARKERS else 'lines',
-        line=dict(color='#00baff', width=2),
-        fill='tozeroy',
-        hoverinfo='none',
-        ))
-    # Define layout where line is shown
-    fig.update_layout(
-        autosize=True,
-        height=30,
-        yaxis=dict(ticktext=[], tickvals=[]),
-        xaxis=dict(ticktext=[], tickvals=[]),
-        margin=dict(l=5, r=5, b=5, t=5),
-        plot_bgcolor='#ffffff',
-        paper_bgcolor="#ffffff",
-    )
-
-    # Build value and apply format
-    if fmt == 'time':
-        value = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
-    else:
-        value = fmt.format(arr[-1])
-
-    # Generate dinamic component ID
-    component_id = 'target-'+str(uuid.uuid1())
-
-    # return CARTA DIV component
-    return html.Div(
-        className = 'wx_carta ',
-        children =[
-            html.Div(
-                [
-                    html.I(className="fas fa-question-circle fa-lg", id=component_id),
-                    dbc.Tooltip(help, target=component_id, placement='left', innerClassName='help', arrowClassName='help-arrow'),
-                ],
-                className='tooltip-wrapper'
-            ),
-            html.Span(label, className='label'),
-    		html.H3(value, className='value'),
-    		dcc.Graph(figure=fig, config={'displayModeBar': False}, className='sparkline')
-    	],
-	)
-
-
-
+from carta import create_div_carta
 
 # DASH does not come with a stylesheet by default. This looks to me the more commonly used.
 # external CSS stylesheets
@@ -86,17 +29,23 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
 
-LOGO_LOGGI = "/assets/loggi-logo.png"
-LOGO_DS4A = "/assets/ds4a-logo.png"
-
+LOGO_LOGGI = "/assets/images/loggi-logo.png"
+LOGO_CO = "/assets/images/co-logo.png"
+MINI_LOGGI = "/assets/images/loggi-mini.png"
+MINI_CO = "/assets/images/co-mini.png"
 
 header = html.Div(
     [
-        html.Div(html.A(html.Img(src=LOGO_DS4A, height="50px"), href="/",), className='ds4a-logo col-lg-4 col-sm-12'),
-        html.Div(html.A(html.Img(src=LOGO_LOGGI, height="50px"), href="/",), className='loggi-logo col-lg-4 col-sm-12'),
-        html.Div('Last Mile Dashboard', className='dashboard-title col-lg-4 col-sm-12'),
+        html.Div(html.A(html.Img(src=LOGO_LOGGI), href="/",), className='loggi-logo col-lg-4'),
+        html.Div(html.A(html.Img(src=MINI_LOGGI), href="/",), className='loggi-mini col-2'),
+
+        html.Div('Last Mile Dashboard', className='dashboard-title col-lg-4 col-sm-8 col-8'),
+
+        html.Div(html.A(html.Img(src=LOGO_CO), href="/",), className='co-logo col-lg-4'),
+        html.Div(html.A(html.Img(src=MINI_CO), href="/",), className='co-mini col-2'),
+
     ],
-    className='header'
+    className='header row'
 )
 
 tab_predictions =  html.Div(
@@ -104,27 +53,27 @@ tab_predictions =  html.Div(
     children = [
         html.Div(
             create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
         html.Div(
             create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
         html.Div(
             create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
         html.Div(
             create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
         html.Div(
             create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
         html.Div(
             create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='avg work', fmt='{:.2f} avg.', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-2 col-md-4 col-sm-6 col-xs-12'
+            className='col-lg-2 col-md-4 col-sm-6 col-12'
         ),
     ]
 )
@@ -185,4 +134,4 @@ app.layout = html.Div(
 
     ]
 )
-app.run_server(debug=True, use_reloader=True)  # Turn off reloader if inside Jupyte
+app.run_server(debug=True, use_reloader=True, host='0.0.0.0')  # Turn off reloader if inside Jupyte
