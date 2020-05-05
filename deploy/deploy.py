@@ -3,7 +3,7 @@ import git
 
 app = Flask(__name__)
 
-@app.route('/deploy', methods=['POST'])
+@app.route('/webhooks', methods=['POST'])
 def webhook():
     if request.method == 'POST':
         repo = git.Repo('/var/www/practicum/')
