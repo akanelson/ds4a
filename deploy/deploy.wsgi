@@ -1,14 +1,4 @@
-from flask import Flask, request
-import git
+#!/bin/bash
 
-app = Flask(__name__)
-
-@app.route('/webhooks', methods=['POST'])
-def webhook():
-    if request.method == 'POST':
-        repo = git.Repo('/var/www/practicum/')
-        origin = repo.remotes.origin
-        origin.pull()
-        return 'Update successfully', 200
-    else:
-        return 'Wrong event type', 400
+cd /var/www/practicum && sudo git pull
+#cd /var/www/practicum && sudo git fetch --all && git checkout --force "origin/master"
