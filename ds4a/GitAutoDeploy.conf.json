@@ -1,0 +1,9 @@
+{
+	"port": 8050, 
+	"repositories": 
+	[{
+		"url": "https://github.com/akanelson/ds4a-practicum", 
+		"path": "/var/www/practicum",
+		"deploy": "echo deploying"
+	}]
+}
