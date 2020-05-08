@@ -211,8 +211,8 @@ for fn, agency, _tpl in [
             temp            INT,
             id              VARCHAR(32) NOT NULL,
             driver_id       VARCHAR(32) NOT NULL,
-            lat             FLOAT,
             lng             FLOAT,
+            lat             FLOAT,
             sent_f          VARCHAR(20)
         );
 
