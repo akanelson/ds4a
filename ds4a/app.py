@@ -11,9 +11,9 @@ app.layout = main_layout
 # Include callbacks (Needs to be assigned after setting layout up)
 from ds4a.callbacks.main import *
 
+# Inititalize server variable due to it is needed for Flask to run in Apache
+server = app
+
 # Initializing app
 if __name__ == '__main__':
-    #app.config.suppress_callback_exceptions = True
-    #app.server.config.suppress_callback_exceptions = True
-    #app.config['suppress_callback_exceptions'] = True
-    app.run_server(debug=True, host='0.0.0.0', port='8080')
+    app.run_server(debug=True, host='0.0.0.0', port='8050')
