@@ -26,6 +26,7 @@ dependencies:
 - nb_conda_kernels
 - nb_anacondacloud
 - nbconvert
+- nltk
 - numpy
 - nbconvert
 - sqlalchemy
