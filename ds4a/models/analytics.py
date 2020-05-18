@@ -3,8 +3,14 @@ from datetime import datetime
 from datetime import timedelta
 import plotly.graph_objects as go
 
+# Now we can import our modulue
+import practicum_utils as utils
+
+
 
 def user_model(date_range, current_date_time):
+    df = utils.careful_query('select count(1) from itinerary')
+    print(df)
     return analytics_visualization_model_xxx(date_range, current_date_time)
 
 def sessions_model(date_range, current_date_time):

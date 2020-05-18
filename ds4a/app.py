@@ -1,6 +1,16 @@
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Add directory where we have our configuration
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__ + '\\..')) + '\\initial_exploratory_analysis\\')
+# Now we can import our modulue
+import practicum_utils as utils
+
+# db connect
+db = utils.global_connect()
+
 
 from ds4a.server import app
 from ds4a.layouts.main import main_layout
