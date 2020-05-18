@@ -41,7 +41,7 @@ def analytics_button(metric, cols, button_id, instance_id):
 def analytics_visualization(metric, visual_id, instance_id):
     
     figure_model = getattr(ds4a.models.analytics, metric['figure_model'])
-    fig = figure_model(7, '2019-11-12 15:00:00')
+    fig, value = figure_model(7, '2019-11-12 15:00:00')
 
     return  html.Div(
                 [
