@@ -1,9 +1,32 @@
 import random
+from datetime import datetime
+from datetime import timedelta
 
-def analytics_visualization_model(date_range):
+def user_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def sessions_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def bounce_rate_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def session_duration_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def user2_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def sessions2_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def bounce_rate2_model(date_range, current_date_time):
+    return analytics_visualization_model_xxx(date_range, current_date_time)
+
+def analytics_visualization_model_xxx(date_range, current_date_time):
     x1 = []
     y1 = []
-    for i in range(1,int(date_range)):
+    for i in range(0,int(date_range)):
         x1.append(i)
         y1.append(random.randint(0, 100))
     
@@ -21,7 +44,7 @@ def analytics_visualization_model(date_range):
 
     x2 = []
     y2 = []
-    for i in range(1,int(date_range)):
+    for i in range(0,int(date_range)):
         x2.append(i)
         y2.append(random.randint(0, 100))
     
@@ -39,19 +62,23 @@ def analytics_visualization_model(date_range):
 
     data = [trace1, trace2]
 
+
+    dt_to = datetime.strptime(current_date_time, '%Y-%m-%d %H:%M:%S')
+    dt_from = dt_to - timedelta(days=date_range)
+
+
     layout = {
-        'title': 'Line Dash',
-        'xaxis': {
-            'autorange': True
-        },
-        'yaxis': {
-            'autorange': True
-        },
+        'title': f'From {dt_from} to {dt_to}',
+        #'xaxis': {
+        #    'autorange': True
+        #},
+        #'yaxis': {
+        #    'autorange': True
+        #},
         'legend': {
             'y': 0.5,
-            'traceorder': 'reversed',
             'font': {
-            'size': 16
+            'size': 14
             }
         }
     }

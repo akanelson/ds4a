@@ -3,8 +3,7 @@ import string
 from math import floor
 from ds4a.server import app
 from dash.dependencies import Input, Output, State, MATCH, ALL    
-from ds4a.models.analytics import analytics_visualization_model
-
+import ds4a.models.analytics
     
 def analytics_button_callback(instance_id, total_metrics):
     @app.callback(
@@ -50,19 +49,18 @@ def analytics_range_selector_callback(instance_id):
         ],
         [Input({'type': f'range-selector-{instance_id}', 'index': ALL}, 'value')],
         [
-            State({'type': f'dynamic-visualization-{instance_id}', 'index': ALL}, 'id'),
+            State({'type': f'dynamic-visualization-{instance_id}', 'index': ALL}, 'data-model'),
             State('input-current-date', 'date'),
             State('input-current-hour', 'value'),
         ]
     )
-    def update(date_range, range_selectors, current_date, current_hour):
-        print('current date ' + current_date)
-        print('current hour ' + current_hour)
-        print('\n---')
+    def update(date_range, figure_models, current_date, current_hour):
+        current_date_time = current_date.split(' ')[0] + ' ' + current_hour
         range_selected = dash.callback_context.triggered[0]['value']
         if range_selected is None:
             range_selected = 7
         result = []
-        for range_selector in range_selectors:
-            result.append(analytics_visualization_model(int(range_selected)+1))
+        for figure_model in figure_models:
+            figure_model = getattr(ds4a.models.analytics, figure_model)
+            result.append(figure_model(int(range_selected)+1, current_date_time))
         return [result]

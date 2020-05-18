@@ -15,9 +15,9 @@ metrics = [
 ]
 
 metrics2 = [
-    {'label': 'Users2', 'value': '454', 'tendency_arrow': 'down', 'tendency_value': '6.6%', 'tendency_color': 'red', 'selected': 'true'},
-    {'label': 'Sessions2', 'value': '873', 'tendency_arrow': 'down', 'tendency_value': '61.9%', 'tendency_color': 'red', 'selected': 'false'},
-    {'label': 'Bounce Rate2', 'value': '42.61%', 'tendency_arrow': 'down', 'tendency_value': '9.3%', 'tendency_color': 'green', 'selected': 'false'},
+    {'label': 'Users2', 'value': '454', 'tendency_arrow': 'down', 'tendency_value': '6.6%', 'tendency_color': 'red', 'selected': 'true', 'figure_model': 'user2_model'},
+    {'label': 'Sessions2', 'value': '873', 'tendency_arrow': 'down', 'tendency_value': '61.9%', 'tendency_color': 'red', 'selected': 'false', 'figure_model': 'sessions2_model'},
+    {'label': 'Bounce Rate2', 'value': '42.61%', 'tendency_arrow': 'down', 'tendency_value': '9.3%', 'tendency_color': 'green', 'selected': 'false', 'figure_model': 'bounce_rate2_model'},
 ]
 
 main_layout = html.Div(
@@ -39,7 +39,7 @@ main_layout = html.Div(
                 html.Div(
                     [
                         html.Div([analitycs(metrics)],className=""),
-                        #html.Div([analitycs(metrics2)],className=""),
+                        html.Div([analitycs(metrics2)],className=""),
                     ],
                     className="col-lg-9 col-12" 
                 ),

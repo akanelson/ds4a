@@ -1,11 +1,10 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from ds4a.callbacks.analytics import *
-from ds4a.models.analytics import analytics_visualization_model
 from math import floor
 import random
 import string
-#from pprint import pprint
+import ds4a.models.analytics
 
 
 def randomString(stringLength=8):
@@ -41,7 +40,8 @@ def analytics_button(metric, cols, button_id, instance_id):
 
 def analytics_visualization(metric, visual_id, instance_id):
     
-    fig = analytics_visualization_model(7)
+    figure_model = getattr(ds4a.models.analytics, metric['figure_model'])
+    fig = figure_model(7, '2019-11-12 15:00:00')
 
     return  html.Div(
                 [
@@ -50,7 +50,8 @@ def analytics_visualization(metric, visual_id, instance_id):
                 ],
                 style={'display': 'none'},
                 className="analytics-visualization-wrapper col",
-                id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}'}
+                id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}'},
+                **{'data-model': metric['figure_model']}
     )
 
 def analytics_range_selector(instance_id):
