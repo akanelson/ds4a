@@ -1,0 +1,82 @@
+.analytics-wrapper {
+    margin-bottom: 25px;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 4px #c4c4c4;
+}
+
+.analytics-button-wrapper {
+    background-color: white;
+}
+
+.analytics-button-wrapper:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.analytics-button-wrapper.col {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.analytics-button-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.analytics-metric-button {
+}
+
+.analytics-metric-label {
+    font-size: 14px;
+}
+
+.analytics-metric-value {
+    font-size: 26px;
+}
+
+.analytics-metric-tendency {
+    font-size: 12px;
+    padding: 0 10px 0 10px;
+}
+
+.analytics-metric-tendency-color-red {
+    color: red;
+}
+
+.analytics-metric-tendency-color-green {
+    color: green;
+}
+
+.analytics-icon {
+    padding-right: 3px;
+}
+
+.analytics-button-selected-true {
+    color: black;
+    font-weight: 500;
+    border-top: 3px solid #00baff;
+}
+
+.analytics-button-selected-false {
+    color: grey;
+    font-weight: 300;
+}
+
+.analytics-visualization-wrapper {
+    background-color: white;
+}
+
+.analytics-visualization-wrapper .svg-container {
+    height: 400px !important;
+}
+
+.analytics-range-selector-row {
+    background-color: white; 
+    padding: 10px 0 10px 0;
+    border-top: 1px solid #c4c4c4;
+}
+
+.analytics-range-selector-wrapper {
+    width: 150px;
+}
+

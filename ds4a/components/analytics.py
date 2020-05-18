@@ -1,0 +1,95 @@
+import dash_html_components as html
+import dash_core_components as dcc
+from ds4a.callbacks.analytics import *
+from ds4a.models.analytics import analytics_visualization_model
+from math import floor
+import random
+import string
+#from pprint import pprint
+
+
+def randomString(stringLength=8):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
+
+def analytics_button(metric, cols, button_id, instance_id):
+    cols_desktop = floor(12/cols)
+    cols_mobile = floor(12/(cols/2))
+    return  html.Div(
+        html.Div(
+            html.Div(
+                [
+                    html.Div(metric['label'], className="analytics-metric-label"),
+                    html.Div(metric['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}'}),
+                    html.Div(
+                        [
+                            html.I('', className=f"analytics-icon fas fa-long-arrow-alt-{metric['tendency_arrow']}", id={'index': f'{button_id}', 'type': f'dynamic-button--tendency-arrow-{instance_id}'}),
+                            html.Span(metric['tendency_value'], id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-value-{instance_id}'})
+                        ],
+                        className=f"analytics-metric-tendency analytics-metric-tendency-color-{metric['tendency_color']}",
+                        id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-color-{instance_id}'}
+                    ),
+                ],
+                className="analytics-metric-button"
+            ),
+            className="analytics-button-container"
+        ),
+        className=f"analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-xs-{cols_mobile} analytics-button-selected-{metric['selected']}",
+        id={'index': f'{button_id}', 'type': f'dynamic-button-{instance_id}'}
+        
+    )
+
+def analytics_visualization(metric, visual_id, instance_id):
+    
+    fig = analytics_visualization_model(7)
+
+    return  html.Div(
+                [
+                    f"Hola {metric['label']}",
+                    dcc.Graph(id={'index': f'{visual_id}', 'type': f'graph-{instance_id}'}, figure=fig) 
+                ],
+                style={'display': 'none'},
+                className="analytics-visualization-wrapper col",
+                id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}'}
+    )
+
+def analytics_range_selector(instance_id):
+    output = dcc.Dropdown(
+        id={'index': '', 'type': f'range-selector-{instance_id}'},
+        options = [
+            {'label': 'Yesterday', 'value': '1'},
+            {'label': 'Last Week', 'value': '7'},
+            {'label': 'Last 2 Weeks', 'value': '14'},
+            {'label': 'Last Month', 'value': '30'},
+        ],
+        value = '7',
+        clearable=False,
+        className="analytics-range-selector-wrapper col",
+
+    )
+    return output
+
+def analitycs(metrics):
+    instance_id = randomString(2)
+
+    buttons = html.Div([], className="row analytics-button-row")
+    visualizations = html.Div([], className="row analytics-visualization-row")
+    range_selector = html.Div(analytics_range_selector(instance_id), className="row analytics-range-selector-row")
+
+    for metric in metrics:
+        local_id = randomString(3)
+        buttons.children.append(analytics_button(metric, len(metrics), local_id, instance_id))
+        visualizations.children.append(analytics_visualization(metric, local_id, instance_id))
+    
+    analytics_button_callback(instance_id, len(metrics))
+    analytics_range_selector_callback(instance_id)
+
+    markup =    html.Div(
+                    [
+                        buttons,
+                        visualizations,
+                        range_selector,
+                    ],
+                    className="analytics-wrapper"
+                )
+    return markup

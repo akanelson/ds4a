@@ -5,6 +5,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from ds4a.server import app
 from ds4a.layouts.main import main_layout
 
+# Suppres callback expceptions
+app.config['suppress_callback_exceptions']=True
+
 # Include layout
 app.layout = main_layout
 

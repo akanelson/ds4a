@@ -7,3 +7,7 @@
 .controls .title {
     text-align: center;
 }
+
+.input-current-hour {
+    width: 100px;
+}
