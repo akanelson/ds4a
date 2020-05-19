@@ -1,8 +1,6 @@
 import random
 from datetime import datetime
 from datetime import timedelta
-import plotly.graph_objects as go
-
 
 def user_model(date_range, current_date_time):
     return analytics_visualization_model_xxx(date_range, current_date_time)
@@ -93,7 +91,19 @@ def analytics_visualization_model_xxx(date_range, current_date_time):
     }
 
     figure = {'data': data, 'layout': layout}
-    value =  random.randint(0, 100)
+    
+    value = random.randint(0, 100)
+    
+    if random.randint(0, 1) == 0:
+        tendency_arrow = 'up'
+    else:
+        tendency_arrow = 'down'
 
-    return figure, value
-    #return fig_model2
+    if random.randint(0, 1) == 0:
+        tendency_color = 'red'
+    else:
+        tendency_color = 'green'
+
+    tendency_value = str(round(random.random()*100, 2))+'%'
+
+    return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

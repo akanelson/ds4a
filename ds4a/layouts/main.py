@@ -8,16 +8,16 @@ from ds4a.layouts.inputs import layout_inputs
 
 
 metrics = [
-    {'label': 'Users', 'value': '454', 'tendency_arrow': 'down', 'tendency_value': '6.6%', 'tendency_color': 'red', 'selected': 'true', 'figure_model': 'user_model'},
-    {'label': 'Sessions', 'value': '873', 'tendency_arrow': 'down', 'tendency_value': '61.9%', 'tendency_color': 'red', 'selected': 'false', 'figure_model': 'sessions_model'},
-    {'label': 'Bounce Rate', 'value': '42.61%', 'tendency_arrow': 'down', 'tendency_value': '9.3%', 'tendency_color': 'green', 'selected': 'false', 'figure_model': 'bounce_rate_model'},
-    {'label': 'Session Duration', 'value': '3m 37s', 'tendency_arrow': 'down', 'tendency_value': '2.6%', 'tendency_color': 'red', 'selected': 'false', 'figure_model': 'session_duration_model'},
+    {'label': 'Users', 'selected': 'true', 'model': 'user_model'},
+    {'label': 'Sessions', 'selected': 'false', 'model': 'sessions_model'},
+    {'label': 'Bounce Rate', 'selected': 'false', 'model': 'bounce_rate_model'},
+    {'label': 'Session Duration', 'selected': 'false', 'model': 'session_duration_model'},
 ]
 
 metrics2 = [
-    {'label': 'Users2', 'value': '454', 'tendency_arrow': 'down', 'tendency_value': '6.6%', 'tendency_color': 'red', 'selected': 'true', 'figure_model': 'user2_model'},
-    {'label': 'Sessions2', 'value': '873', 'tendency_arrow': 'down', 'tendency_value': '61.9%', 'tendency_color': 'red', 'selected': 'false', 'figure_model': 'sessions2_model'},
-    {'label': 'Bounce Rate2', 'value': '42.61%', 'tendency_arrow': 'down', 'tendency_value': '9.3%', 'tendency_color': 'green', 'selected': 'false', 'figure_model': 'bounce_rate2_model'},
+    {'label': 'Users2', 'selected': 'true', 'model': 'user2_model'},
+    {'label': 'Sessions2', 'selected': 'false', 'model': 'sessions2_model'},
+    {'label': 'Bounce Rate2', 'selected': 'false', 'model': 'bounce_rate2_model'},
 ]
 
 main_layout = html.Div(

@@ -48,7 +48,11 @@ def analytics_range_selector_callback(instance_id):
     @app.callback(
         [
             Output({'type': f'graph-{instance_id}', 'index': ALL}, 'figure'),
-            Output({'type': f'dynamic-button-value-{instance_id}', 'index': ALL}, 'children')
+            Output({'type': f'dynamic-button-value-{instance_id}', 'index': ALL}, 'children'),
+            Output({'type': f'dynamic-button-tendency-arrow-{instance_id}', 'index': ALL}, 'className'),
+            Output({'type': f'dynamic-button-tendency-value-{instance_id}', 'index': ALL}, 'children'),
+            Output({'type': f'dynamic-button-tendency-color-{instance_id}', 'index': ALL}, 'className')
+
         ],
         [Input({'type': f'range-selector-{instance_id}', 'index': ALL}, 'value')],
         [
@@ -57,17 +61,23 @@ def analytics_range_selector_callback(instance_id):
             State('input-current-hour', 'value')
         ]
     )
-    def update(date_range, figure_models, current_date, current_hour):
+    def update(date_range, models, current_date, current_hour):
         current_date_time = current_date.split(' ')[0] + ' ' + current_hour
         range_selected = dash.callback_context.triggered[0]['value']
         if range_selected is None:
             range_selected = 7
         graphs = []
         values = []
-        for figure_model in figure_models:
-            model = getattr(ds4a.models.analytics, figure_model)
-            figure, value = model(int(range_selected), current_date_time)            
-            graphs.append(figure)
-            values.append(value)
-
-        return [graphs, values]
+        tendency_arrows = []
+        tendency_values = []
+        tendency_colors = []
+        for model in models:
+            function_model = getattr(ds4a.models.analytics, model)
+            this_model = function_model(int(range_selected), current_date_time)
+            graphs.append(this_model['figure'])
+            values.append(this_model['value'])
+            tendency_arrows.append("analytics-icon fas fa-long-arrow-alt-"+this_model['tendency_arrow'])
+            tendency_values.append(this_model['tendency_value'])
+            tendency_colors.append("analytics-metric-tendency analytics-metric-tendency-color-"+this_model['tendency_color'])
+        
+        return [graphs, values, tendency_arrows, tendency_values, tendency_colors]

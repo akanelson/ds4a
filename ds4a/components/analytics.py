@@ -11,7 +11,7 @@ def randomString(stringLength=8):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
 
-def analytics_button(metric, cols, button_id, instance_id):
+def analytics_button(model, metric, cols, button_id, instance_id):
     cols_desktop = floor(12/cols)
     cols_mobile = floor(12/(cols/2))
     return  html.Div(
@@ -19,13 +19,13 @@ def analytics_button(metric, cols, button_id, instance_id):
             html.Div(
                 [
                     html.Div(metric['label'], className="analytics-metric-label"),
-                    html.Div(metric['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}'}),
+                    html.Div(model['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}'}),
                     html.Div(
                         [
-                            html.I('', className=f"analytics-icon fas fa-long-arrow-alt-{metric['tendency_arrow']}", id={'index': f'{button_id}', 'type': f'dynamic-button--tendency-arrow-{instance_id}'}),
-                            html.Span(metric['tendency_value'], id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-value-{instance_id}'})
+                            html.I(' ', className=f"analytics-icon fas fa-long-arrow-alt-{model['tendency_arrow']}", id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-arrow-{instance_id}'}),
+                            html.Span(model['tendency_value'], id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-value-{instance_id}'})
                         ],
-                        className=f"analytics-metric-tendency analytics-metric-tendency-color-{metric['tendency_color']}",
+                        className=f"analytics-metric-tendency analytics-metric-tendency-color-{model['tendency_color']}",
                         id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-color-{instance_id}'}
                     ),
                 ],
@@ -38,20 +38,16 @@ def analytics_button(metric, cols, button_id, instance_id):
         
     )
 
-def analytics_visualization(metric, visual_id, instance_id):
-    
-    figure_model = getattr(ds4a.models.analytics, metric['figure_model'])
-    fig, value = figure_model(7, '2019-11-12 15:00:00')
+def analytics_visualization(model, metric, visual_id, instance_id):
 
     return  html.Div(
                 [
-                    f"Hola {metric['label']}",
-                    dcc.Graph(id={'index': f'{visual_id}', 'type': f'graph-{instance_id}'}, figure=fig) 
+                    dcc.Graph(id={'index': f'{visual_id}', 'type': f'graph-{instance_id}'}, figure=model['figure']) 
                 ],
                 style={'display': 'none'},
                 className="analytics-visualization-wrapper col",
                 id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}'},
-                **{'data-model': metric['figure_model']}
+                **{'data-model': metric['model']}
     )
 
 def analytics_range_selector(instance_id):
@@ -78,9 +74,14 @@ def analitycs(metrics):
     range_selector = html.Div(analytics_range_selector(instance_id), className="row analytics-range-selector-row")
 
     for metric in metrics:
+        # First time initialization call
+        function_model = getattr(ds4a.models.analytics, metric['model'])
+        this_model = function_model(7, '2019-11-12')
+        
         local_id = randomString(3)
-        buttons.children.append(analytics_button(metric, len(metrics), local_id, instance_id))
-        visualizations.children.append(analytics_visualization(metric, local_id, instance_id))
+        
+        buttons.children.append(analytics_button(this_model, metric, len(metrics), local_id, instance_id))
+        visualizations.children.append(analytics_visualization(this_model, metric, local_id, instance_id))
     
     analytics_button_callback(instance_id, len(metrics))
     analytics_range_selector_callback(instance_id)
