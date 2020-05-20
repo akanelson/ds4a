@@ -34,8 +34,8 @@ metrics4 = [
 ]
 
 metrics5 = [
-    {'label': 'A1 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a1_alo'},
-    {'label': 'A2 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a2_alo'},    
+    {'label': 'A1 hourly Drivers ALO Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a1_alo'},
+    {'label': 'A2 hourly Drivers ALO Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a2_alo'},    
 ]
 
 
