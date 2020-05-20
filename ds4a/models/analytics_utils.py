@@ -28,6 +28,30 @@ holidays = [
 ]
 
 
+# ------------------------------------------------------------------------------
+# [APP]: Useful to obtain the itineraries situation hour by hour for a given day
+# ------------------------------------------------------------------------------
+def get_hourly_day_itineraries(agency_id, today_time):
+    
+    today = today_time[:10]
+    #today_date = datetime.strptime(today, '%Y-%m-%d')    
+    #tomorrow_date = today_date + timedelta(days=1) 
+    #tomorrow = str(tomorrow_date)[:10]
+    
+    df = careful_query("""
+        select * from pending_oozma
+        where date_time >= '{1}'
+          and date_time <  '{2}'
+          and distribution_center = '{0}'
+        --group by distribution_center, date_time
+        order by date_time asc
+        """.format(agency_id, today, today_time))
+    
+
+    df.set_index('date_time', drop=True, inplace=True)
+    
+    return df
+
 # -------------------------------------------------------------------
 # [APP]: Useful to obtain history of unique number of drivers per day
 # -------------------------------------------------------------------
@@ -47,6 +71,9 @@ def get_daily_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
     
     return df
 
+# --------------------------------------------------------------------
+# [APP]: Useful to obtain history of unique number of drivers per hour
+# --------------------------------------------------------------------
 def get_hourly_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
     
     df = careful_query("""
