@@ -16,8 +16,8 @@ metrics = [
 ]
 
 metrics2 = [
-    {'label': 'Users2', 'selected': 'true', 'model': 'user2_model'},
-    {'label': 'Sessions2', 'selected': 'false', 'model': 'sessions2_model'},
+    {'label': 'Agency 1 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a1'},
+    {'label': 'Agency 2 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a2'},
     {'label': 'Bounce Rate2', 'selected': 'false', 'model': 'bounce_rate2_model'},
 ]
 

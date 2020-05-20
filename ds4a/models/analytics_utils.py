@@ -28,6 +28,27 @@ holidays = [
 ]
 
 
+# -----------------------------------------------------------------------
+# [APP]: Useful to obtain history of unique number of itineraries per day
+# -----------------------------------------------------------------------
+def get_daily_itineraries(agency_id, from_='2019-10-01', to_='2020-03-31'):
+    
+    df = careful_query("""
+        select date(created_time) as date, count(distinct(itinerary_id)) as itineraries
+        from itinerary
+        where created_time >= '{1}'
+          and created_time < '{2}'
+          and distribution_center = '{0}'
+        group by date(created_time)
+        order by date asc 
+        """.format(agency_id, from_, to_))
+    
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    
+    return df
+
+
 # ------------------------------------------------------------------------------
 # [APP]: Useful to obtain the itineraries situation hour by hour for a given day
 # ------------------------------------------------------------------------------
