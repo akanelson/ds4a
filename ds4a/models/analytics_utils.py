@@ -47,6 +47,22 @@ def get_daily_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
     
     return df
 
+def get_hourly_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
+    
+    df = careful_query("""
+        select *
+        from unique_drivers_hourly_oozma
+        where date >= '{1}'
+          and date < '{2}'
+          and distribution_center = '{0}'
+        order by date asc 
+        """.format(agency_id, from_, to_))
+    
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    
+    return df    
+
 # ---------------------------
 # PREDICTION UTILS PROCEDURES
 # ---------------------------
@@ -85,6 +101,44 @@ def prepare_daily_drivers_for_predictions(df, column = 'drivers'):
     
     return df
 
+# prepare data for models
+def prepare_hourly_drivers_for_predictions(df, today_time, column = 'drivers'):
+
+    # precalculate number of column drivers in previous hour
+    df['prev_hour'] = df[column]
+    df.reset_index(inplace=True)
+    
+    if len(today_time) == 10:
+        today_time += ' 00'
+
+    for i in range(1, len(df)):
+        df.loc[i, 'prev_hour'] = df.loc[i-1, column]
+
+    df.set_index('date', inplace=True)
+    
+    # calculate average number of drivers for ra given hour for a given day of the week
+    # TODO: we could use just the last four weeks as a maximum
+    avg_per_dow_and_hour = []
+    for i in range(7):
+        condition = (df.index.dayofweek == i)
+        if len(today_time) > 0:
+            condition = condition & (df.index < today_time[:13])
+        
+        if len(df[condition]) == 0:
+            raise 'There is not enough data to build the hourly prediction model'
+        avg_per_dow_and_hour.append(
+            df[condition].groupby(df[condition].index.hour)[column].mean().reset_index(drop=True)
+        )
+    #print(avg_per_dow_and_hour)
+    
+    df['historical_avg'] = 0
+    for day in range(7):
+        for hour in range(24):
+            df.loc[(df.index.dayofweek == day)
+                & (df.index.hour == hour), 'historical_avg'] = avg_per_dow_and_hour[day][hour]
+    
+    return df
+
 # build and train a model
 def get_daily_drivers_model(agency_id, today, column='drivers'):
 
@@ -111,6 +165,40 @@ def get_daily_drivers_model(agency_id, today, column='drivers'):
     
     formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_day', 'np.sqrt(prev_day)')
+    print(formula)
+    model = smf.ols(formula = formula, data = train).fit()
+    #print(model.summary())    
+
+    return model, train, test, dates_train, dates_test
+
+# build and train the model
+def get_hourly_drivers_model(agency_id, today_time, column='drivers'):
+
+    predictables = ['drivers', 'drivers_alo', 'drivers_alo_10_days']
+    if column not in predictables:
+        raise "ERROR"
+        
+    # read all
+    # TODO: this is not necessary
+    df = get_hourly_drivers(agency_id)
+    
+    for col in predictables:
+        if col != column:
+            del df[col]
+    
+    # prepare
+    df = prepare_hourly_drivers_for_predictions(df, today_time, column)
+    
+    train = df[df.index < pd.to_datetime(today_time)]
+    test = df[df.index >= pd.to_datetime(today_time)]
+    
+    dates = df.index.tolist()
+    dates_train = df[df.index < pd.to_datetime(today_time)].index.tolist()
+    dates_test = df[df.index >= pd.to_datetime(today_time)].index.tolist()
+    
+    formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
+    formula = formula.replace('prev_hour', 'np.sqrt(prev_hour)')
+    formula = formula.replace('historical_avg', 'np.sqrt(historical_avg)')
     print(formula)
     model = smf.ols(formula = formula, data = train).fit()
     #print(model.summary())    
@@ -146,4 +234,35 @@ def predict_daily_unique_drivers(agency_id, today, column='drivers', days=7):
     test['prediction'] = np.round(pd.DataFrame({column: t[column].values}, index=dates_test)[column])
     
     return test[[column, 'prediction']]
+
+
+# ----------------------------------------------------------------
+# [APP]: Usable to predict number of hourly unique drivers per day
+# ----------------------------------------------------------------
+def predict_hourly_unique_drivers(agency_id, today_time, column='drivers', hours=48):
+    model, train, test, dates_train, dates_test = get_hourly_drivers_model(agency_id, today_time , column)
+    
+    test = test.head(hours)
+    dates_test = dates_test[:hours]
+    
+
+    t = test.copy()
+    del t['distribution_center']
+    t = t.reset_index()
+    t[column] = 0
+    t['prev_hour'] = 0
+    t.loc[t.index[0], 'prev_hour'] = train[train.index == train.index[-1]][column].item()
+    
+    for i in range(len(t)):
+        #print(i, np.square(model.predict(t.iloc[i]).item()))
+        print('.', end='')
+        p = np.square(model.predict(t.loc[t.index == t.index[i], :])).item()
+        t.loc[t.index == t.index[i], column] = p
+        if i < len(t)-1:
+            t.loc[t.index == t.index[i+1], 'prev_hour'] = p
+       
+    test['prediction'] = np.round(pd.DataFrame({column: t[column].values}, index=dates_test)[column])
+    
+    return test[[column, 'prediction']]
+
     
