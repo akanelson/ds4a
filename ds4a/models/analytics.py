@@ -218,6 +218,96 @@ def user_model(date_range, current_date_time):
     
     return analytics_visualization_model_xxx(date_range, current_date_time)
 
+def predict_hourly_drivers_model_a1(date_range, current_date_time):
+    return predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers')
+
+def predict_hourly_drivers_model_a2(date_range, current_date_time):
+    return predict_hourly_drivers_model(date_range, current_date_time, ag='2', column='drivers')    
+
+def predict_hourly_drivers_model_a1_alo(date_range, current_date_time):
+    return predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
+
+def predict_hourly_drivers_model_a2_alo(date_range, current_date_time):
+    return predict_hourly_drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
+
+def predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+
+    #column = 'drivers' # drivers_alo, drivers_alo_10_days
+    print(date_range, current_date_time)
+
+    df = au.predict_hourly_unique_drivers(au.agency[ag], current_date_time, column=column, hours=int(date_range))
+
+    value1 = df['prediction'].mean()
+    value2 = df[column].mean()
+
+    trace_test = {
+        'x': df.index,
+        'y': df[column].values,
+        'mode': 'lines',
+        'name': 'Test Data',
+        'line': {
+            'dash': 'dot',
+            'width': 1,
+            'color': '#00baff'
+        }
+    }
+
+    trace_pred = {
+        'x': df.index,
+        'y': df['prediction'].values,
+        'mode': 'lines',
+        'name': 'Prediction',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+    
+
+    data = [trace_test, trace_pred]
+
+
+    layout = {
+        'title': 'Unique {} from Agency {}'.format(column, ag),
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': column
+        },
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    figure = {'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = 'green'        
+        tendency_arrow = 'up'
+    else:
+        tendency_arrow = 'down'
+        tendency_color = 'red'        
+
+
+    value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
+    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+
+    return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+
+
+
+
 def itineraries_model_a1(date_range, current_date_time):
     return itineraries_model(date_range, current_date_time, ag='1')
 

@@ -16,8 +16,8 @@ metrics = [
 ]
 
 metrics2 = [
-    {'label': 'Agency 1 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a1'},
-    {'label': 'Agency 2 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a2'},
+    {'label': 'Agency 1 Daily Itineraries', 'selected': 'true', 'model': 'itineraries_model_a1'},
+    {'label': 'Agency 2 Daily Itineraries', 'selected': 'true', 'model': 'itineraries_model_a2'},
 ]
 
 metrics3 = [
@@ -26,6 +26,16 @@ metrics3 = [
     {'label': 'A2 daily Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2'},
     {'label': 'A2 daily Drivers ALO Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2_alo'},
 
+]
+
+metrics4 = [
+    {'label': 'A1 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a1'},
+    {'label': 'A2 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a2'},    
+]
+
+metrics5 = [
+    {'label': 'A1 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a1_alo'},
+    {'label': 'A2 hourly Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model_a2_alo'},    
 ]
 
 
@@ -47,6 +57,8 @@ main_layout = html.Div(
                 ),
                 html.Div(
                     [
+                        html.Div([analitycs(metrics4)],className=""),
+                        html.Div([analitycs(metrics5)],className=""),
                         html.Div([analitycs(metrics3)],className=""),
                         html.Div([analitycs(metrics)],className=""),
                         html.Div([analitycs(metrics2)],className=""),
