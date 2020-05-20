@@ -8,9 +8,22 @@ import plotly.graph_objects as go
 import practicum_utils as utils
 import ds4a.models.analytics_utils as au
 
-def user_model(date_range, current_date_time):
 
-    column = 'drivers' # drivers_alo, drivers_alo_10_days
+def drivers_model_a1(date_range, current_date_time):
+    return drivers_model(date_range, current_date_time, ag='1', column='drivers')
+
+def drivers_model_a1_alo(date_range, current_date_time):
+    return drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
+
+def drivers_model_a2(date_range, current_date_time):
+    return drivers_model(date_range, current_date_time, ag='2', column='drivers')
+
+def drivers_model_a2_alo(date_range, current_date_time):
+    return drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
+
+def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+
+    #column = 'drivers' # drivers_alo, drivers_alo_10_days
 
     print(date_range, current_date_time)
 
@@ -18,22 +31,15 @@ def user_model(date_range, current_date_time):
     from_1 = to_1 - timedelta(days=int(date_range))
     to_2 = from_1
     from_2 = to_2 - timedelta(days=int(date_range))
-    df1 = au.get_daily_drivers(au.agency['1'], from_1, to_1)
-    df2 = au.get_daily_drivers(au.agency['1'], from_2, to_2)
+    df1 = au.get_daily_drivers(au.agency[ag], from_1, to_1)
+    df2 = au.get_daily_drivers(au.agency[ag], from_2, to_2)
 
     value1 = df1[column].mean()
     value2 = df2[column].mean()
 
-    df2.set_index(df1.index, inplace=True)
-    df2.rename(columns = {col: f"prev_{col}" for col in df2.columns}, inplace=True)
-    df = df1.merge(df2, on='date')
-    #print(df.columns)
-    df = df[[column, 'prev_' + column]]
-    print(df.shape)
-
     trace1 = {
-        'x': df.index,
-        'y': df[column].values,
+        'x': df1.index,
+        'y': df1[column].values,
         'mode': 'lines',
         'name': 'This period',
         'line': {
@@ -43,25 +49,39 @@ def user_model(date_range, current_date_time):
         }
     }
 
-    trace2 = {
-        'x': df.index,
-        'y': df['prev_' + column].values,
-        'mode': 'lines',
-        'name': 'Previous period',
-        'line': {
-            'dash': 'dot',
-            'width': 2,
-            'color': '#00baff'
-        }
-    }
+    if df1.shape == df2.shape:
+        df2.set_index(df1.index, inplace=True)
+        df2.rename(columns = {col: f"prev_{col}" for col in df2.columns}, inplace=True)
+        df = df1.merge(df2, on='date')
+        #print(df.columns)
+        df = df[[column, 'prev_' + column]]
+        print(df.shape)
 
-    data = [trace1, trace2]
+
+        trace2 = {
+            'x': df.index,
+            'y': df['prev_' + column].values,
+            'mode': 'lines',
+            'name': 'Previous period',
+            'line': {
+                'dash': 'dot',
+                'width': 2,
+                'color': '#00baff'
+            }
+        }
+
+        data = [trace1, trace2]
+
+    else:
+        print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
+        data = [trace1]
+
 
     layout = {
-        'title': 'Unique {} from Agency 1'.format(column),
+        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
-            'nticks': len(df.index)
+            'nticks': len(df1.index)
         },
         'yaxis': {
             'autorange': True,
