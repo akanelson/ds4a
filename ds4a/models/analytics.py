@@ -118,8 +118,95 @@ def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
+
+def predict_daily_drivers_model_a1(date_range, current_date_time):
+    return predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers')
+
+def predict_daily_drivers_model_a2(date_range, current_date_time):
+    return predict_daily_drivers_model(date_range, current_date_time, ag='2', column='drivers')
+
+def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+
+    #column = 'drivers' # drivers_alo, drivers_alo_10_days
+    print(date_range, current_date_time)
+
+    df = au.predict_daily_unique_drivers(au.agency[ag], current_date_time[:10], column='drivers', days=int(date_range))
+
+    value1 = df['prediction'].mean()
+    value2 = df[column].mean()
+
+    trace_test = {
+        'x': df.index,
+        'y': df[column].values,
+        'mode': 'lines',
+        'name': 'Test Data',
+        'line': {
+            'dash': 'dot',
+            'width': 1,
+            'color': '#00baff'
+        }
+    }
+
+    trace_pred = {
+        'x': df.index,
+        'y': df['prediction'].values,
+        'mode': 'lines',
+        'name': 'Prediction',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+    
+
+    data = [trace_test, trace_pred]
+
+
+    layout = {
+        'title': 'Unique {} from Agency {}'.format(column, ag),
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': column
+        },
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    # if yesterday try to use another kind of figure
+    if int(date_range) == 1:
+        x = ['yesterday', 'previous day']
+        y = [value1, value2]
+        figure = go.Figure([go.Bar(x=x, y=y)])
+    else:
+        figure = {'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = 'green'        
+        tendency_arrow = 'up'
+    else:
+        tendency_arrow = 'down'
+        tendency_color = 'red'        
+
+
+    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+
+    return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+
 def user_model(date_range, current_date_time):
-    df = utils.careful_query('select date, drivers from unique_drivers_daily_oozma')    
+    #df = utils.careful_query('select date, drivers from unique_drivers_daily_oozma')    
     
     return analytics_visualization_model_xxx(date_range, current_date_time)
 

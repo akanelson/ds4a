@@ -18,7 +18,11 @@ metrics = [
 metrics2 = [
     {'label': 'Agency 1 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a1'},
     {'label': 'Agency 2 Itineraries', 'selected': 'true', 'model': 'itineraries_model_a2'},
-    {'label': 'Bounce Rate2', 'selected': 'false', 'model': 'bounce_rate2_model'},
+]
+
+metrics3 = [
+    {'label': 'Agency 1 Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a1'},
+    {'label': 'Agency 2 Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2'},    
 ]
 
 main_layout = html.Div(
@@ -39,21 +43,23 @@ main_layout = html.Div(
                 ),
                 html.Div(
                     [
+                        html.Div([analitycs(metrics3)],className=""),
                         html.Div([analitycs(metrics)],className=""),
                         html.Div([analitycs(metrics2)],className=""),
+
                     ],
                     className="col-lg-9 col-12" 
                 ),
             ],
             className="row"
         ),
-        html.Div(
-            html.Div(
-                tabs,
-                className="col-lg-9 col-12"
-            ),
-            className="row"
-        ),
+#        html.Div(
+#            html.Div(
+#                tabs,
+#                className="col-lg-9 col-12"
+#            ),
+#            className="row"
+#        ),
     ],
     className="container-fluid"
 )
