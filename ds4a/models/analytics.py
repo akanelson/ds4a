@@ -200,9 +200,10 @@ def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='d
         tendency_color = 'red'        
 
 
+    value = "Pred: {} / Test: {}".format(int(round(value1)), int(round(value2)))
     tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
 
-    return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+    return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 
 def user_model(date_range, current_date_time):
