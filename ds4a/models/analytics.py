@@ -125,12 +125,19 @@ def predict_daily_drivers_model_a1(date_range, current_date_time):
 def predict_daily_drivers_model_a2(date_range, current_date_time):
     return predict_daily_drivers_model(date_range, current_date_time, ag='2', column='drivers')
 
+def predict_daily_drivers_model_a1_alo(date_range, current_date_time):
+    return predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
+
+def predict_daily_drivers_model_a2_alo(date_range, current_date_time):
+    return predict_daily_drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
+
+
 def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     #column = 'drivers' # drivers_alo, drivers_alo_10_days
     print(date_range, current_date_time)
 
-    df = au.predict_daily_unique_drivers(au.agency[ag], current_date_time[:10], column='drivers', days=int(date_range))
+    df = au.predict_daily_unique_drivers(au.agency[ag], current_date_time[:10], column=column, days=int(date_range))
 
     value1 = df['prediction'].mean()
     value2 = df[column].mean()
@@ -200,7 +207,7 @@ def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='d
         tendency_color = 'red'        
 
 
-    value = "Pred: {} / Test: {}".format(int(round(value1)), int(round(value2)))
+    value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
     tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

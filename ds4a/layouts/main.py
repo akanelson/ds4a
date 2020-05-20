@@ -21,9 +21,13 @@ metrics2 = [
 ]
 
 metrics3 = [
-    {'label': 'Agency 1 Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a1'},
-    {'label': 'Agency 2 Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2'},    
+    {'label': 'A1 daily Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a1'},
+    {'label': 'A1 daily Drivers ALO Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a1_alo'},
+    {'label': 'A2 daily Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2'},
+    {'label': 'A2 daily Drivers ALO Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_a2_alo'},
+
 ]
+
 
 main_layout = html.Div(
     [
