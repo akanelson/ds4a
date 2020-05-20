@@ -98,9 +98,14 @@ def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         }
     }
 
-    figure = {'data': data, 'layout': layout}
+    # if yesterday try to use another kind of figure
+    if int(date_range) == 1:
+        x = ['yesterday', 'previous day']
+        y = [value1, value2]
+        figure = go.Figure([go.Bar(x=x, y=y)])
+    else:
+        figure = {'data': data, 'layout': layout}
 
-    
     if value1 >= value2:
         tendency_color = 'green'        
         tendency_arrow = 'up'
