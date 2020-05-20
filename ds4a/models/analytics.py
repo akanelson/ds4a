@@ -118,6 +118,10 @@ def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
+def user_model(date_range, current_date_time):
+    df = utils.careful_query('select date, drivers from unique_drivers_daily_oozma')    
+    
+    return analytics_visualization_model_xxx(date_range, current_date_time)
 
 def itineraries_model_a1(date_range, current_date_time):
     return itineraries_model(date_range, current_date_time, ag='1')
