@@ -8,10 +8,11 @@ from ds4a.layouts.inputs import layout_inputs
 
 
 metrics = [
-    {'label': 'Users', 'selected': 'true', 'model': 'user_model'},
-    {'label': 'Sessions', 'selected': 'false', 'model': 'sessions_model'},
-    {'label': 'Bounce Rate', 'selected': 'false', 'model': 'bounce_rate_model'},
-    {'label': 'Session Duration', 'selected': 'false', 'model': 'session_duration_model'},
+    {'label': 'Agency 1 Drivers', 'selected': 'true', 'model': 'drivers_model_a1'},
+    {'label': 'Agency 1 Drivers - ALO', 'selected': 'true', 'model': 'drivers_model_a1_alo'},
+    {'label': 'Agency 2 Drivers', 'selected': 'true', 'model': 'drivers_model_a2'},
+    {'label': 'Agency 2 Drivers - ALO', 'selected': 'true', 'model': 'drivers_model_a2_alo'},
+
 ]
 
 metrics2 = [
