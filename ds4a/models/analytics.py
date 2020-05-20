@@ -8,8 +8,8 @@ import plotly.graph_objects as go
 import practicum_utils as utils
 
 def user_model(date_range, current_date_time):
-    df = utils.careful_query('select count(1) from itinerary')
-    print(df)
+    df = utils.careful_query('select date, drivers from unique_drivers_daily_oozma')    
+    
     return analytics_visualization_model_xxx(date_range, current_date_time)
 
 def sessions_model(date_range, current_date_time):
