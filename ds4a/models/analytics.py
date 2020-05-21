@@ -114,7 +114,7 @@ def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         tendency_color = 'red'        
 
 
-    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -210,7 +210,7 @@ def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='d
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
     value = "{}".format(int(round(value1)))
 
-    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -303,7 +303,7 @@ def predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='
 
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
     value = "{}".format(int(round(value1)))
-    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -409,7 +409,7 @@ def itineraries_model(date_range, current_date_time, ag):
         tendency_color = 'red'        
 
 
-    tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -513,6 +513,6 @@ def analytics_visualization_model_xxx(date_range, current_date_time):
     else:
         tendency_color = 'green'
 
-    tendency_value = str(round(random.random()*100, 2))+'%'
+    tendency_value = str(abs(round(random.random()*100, 2)))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

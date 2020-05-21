@@ -180,6 +180,8 @@ def prepare_hourly_drivers_for_predictions(df, today_time, column = 'drivers'):
             df[condition].groupby(df[condition].index.hour)[column].mean().reset_index(drop=True)
         )
     #print(avg_per_dow_and_hour)
+
+    df['hour'] = df.index.hour
     
     df['historical_avg'] = 0
     for day in range(7):
