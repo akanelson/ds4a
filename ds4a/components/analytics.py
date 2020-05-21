@@ -86,12 +86,15 @@ def analitycs(metrics):
     analytics_button_callback(instance_id, len(metrics))
     analytics_range_selector_callback(instance_id)
 
-    markup =    html.Div(
+    markup = dcc.Loading(
+        [   
+            html.Div(
                     [
                         buttons,
                         visualizations,
                         range_selector,
                     ],
                     className="analytics-wrapper"
-                )
+            )
+        ], id='loading-'+instance_id)
     return markup
