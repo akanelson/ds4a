@@ -208,6 +208,8 @@ def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='d
 
 
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
+    value = "{}".format(int(round(value1)))
+
     tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
@@ -300,6 +302,7 @@ def predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='
 
 
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
+    value = "{}".format(int(round(value1)))
     tendency_value = str(round(((value1/(value2+0.001))-1)*100, 2))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
