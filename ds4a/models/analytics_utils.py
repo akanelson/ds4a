@@ -180,6 +180,8 @@ def prepare_hourly_drivers_for_predictions(df, today_time, column = 'drivers'):
             df[condition].groupby(df[condition].index.hour)[column].mean().reset_index(drop=True)
         )
     #print(avg_per_dow_and_hour)
+
+    df['hour'] = df.index.hour
     
     df['historical_avg'] = 0
     for day in range(7):
@@ -246,9 +248,9 @@ def get_hourly_drivers_model(agency_id, today_time, column='drivers'):
     dates_train = df[df.index < pd.to_datetime(today_time)].index.tolist()
     dates_test = df[df.index >= pd.to_datetime(today_time)].index.tolist()
     
-    formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
-    formula = formula.replace('prev_hour', 'np.sqrt(prev_hour)')
-    formula = formula.replace('historical_avg', 'np.sqrt(historical_avg)')
+    formula = 'np.power({}, 0.32) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
+    formula = formula.replace('prev_hour', 'np.power(prev_hour, 0.32)')
+    formula = formula.replace('historical_avg', 'np.power(historical_avg, 0.32)')
     print(formula)
     model = smf.ols(formula = formula, data = train).fit()
     #print(model.summary())    
@@ -306,7 +308,7 @@ def predict_hourly_unique_drivers(agency_id, today_time, column='drivers', hours
     for i in range(len(t)):
         #print(i, np.square(model.predict(t.iloc[i]).item()))
         print('.', end='')
-        p = np.square(model.predict(t.loc[t.index == t.index[i], :])).item()
+        p = np.power(model.predict(t.loc[t.index == t.index[i], :]), 1/0.32).item()
         t.loc[t.index == t.index[i], column] = p
         if i < len(t)-1:
             t.loc[t.index == t.index[i+1], 'prev_hour'] = p
