@@ -3,16 +3,15 @@ import dash_core_components as dcc
 from datetime import datetime as dt
 
 layout_inputs = html.Div([
-    html.H3("Inputs"),
-
+    html.H4("Current Date & Time", className='input-title'),
     html.Div(
         [
             dcc.DatePickerSingle(
                 id='input-current-date',
-                min_date_allowed=dt(2019, 8, 1),
-                max_date_allowed=dt(2020, 3, 31),
-                initial_visible_month=dt(2019, 8, 1),
-                date=str(dt(2019, 11, 12)),
+                min_date_allowed=dt(2019, 12, 1),
+                max_date_allowed=dt(2020, 2, 29),
+                initial_visible_month=dt(2020, 2, 10),
+                date=str(dt(2020, 2, 10)),
                 with_portal=False,
                 className='input-current-date'
             ),
@@ -52,17 +51,18 @@ layout_inputs = html.Div([
         ],
         className="row"
     ),
-    
+
+    html.H4("Agency", className='input-title'),
     html.Div(children=[
-        html.Div(children=[
-            html.Label("Mean"),
-            dcc.Input(id="input-mean", type="number", className="form-control", value="0")
-        ]),
+        dcc.RadioItems(options=[
+            {'label': 'Agency 1', 'value': '6e7dacf2149d053183fe901e3cfd8b82'},
+            {'label': 'Agency 2', 'value': '58cfe3b975dd7cbd1ac84d555640bfd9'},
+            {'label': 'All', 'value': ''}
+        ],
+        id='input-agency',
+        value='6e7dacf2149d053183fe901e3cfd8b82',
+        className='input-agency-selector'),
     ], className="row"),
-    html.Div(children=[
-        html.Div(children=[
-            html.Label("Standard Deviation"),
-            dcc.Input(id="input-stdv", type="number", className="form-control", value="1")
-        ]),
-    ], className="row"),
+
+    html.Button(['Refresh Dashboard', html.I('', className="fas fa-refresh", id='input-refresh')], className='input-refresh')
 ])

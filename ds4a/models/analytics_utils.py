@@ -217,7 +217,7 @@ def get_daily_drivers_model(agency_id, today, column='drivers'):
     
     formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_day', 'np.sqrt(prev_day)')
-    print(formula)
+    #print(formula)
     model = smf.ols(formula = formula, data = train).fit()
     #print(model.summary())    
 
@@ -251,7 +251,7 @@ def get_hourly_drivers_model(agency_id, today_time, column='drivers'):
     formula = 'np.power({}, 0.32) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_hour', 'np.power(prev_hour, 0.32)')
     formula = formula.replace('historical_avg', 'np.power(historical_avg, 0.32)')
-    print(formula)
+    #print(formula)
     model = smf.ols(formula = formula, data = train).fit()
     #print(model.summary())    
 
@@ -276,7 +276,7 @@ def predict_daily_unique_drivers(agency_id, today, column='drivers', days=7):
     
     for i in range(len(t)):
         #print(i, np.square(model.predict(t.iloc[i]).item()))
-        print('.', end='')
+        #print('.', end='')
         p = np.square(model.predict(t.loc[t.index == t.index[i], :])).item()
         t.loc[t.index == t.index[i], column] = p
         # np.square(model.predict(t.iloc[i]).item())
@@ -307,7 +307,7 @@ def predict_hourly_unique_drivers(agency_id, today_time, column='drivers', hours
     
     for i in range(len(t)):
         #print(i, np.square(model.predict(t.iloc[i]).item()))
-        print('.', end='')
+        #print('.', end='')
         p = np.power(model.predict(t.loc[t.index == t.index[i], :]), 1/0.32).item()
         t.loc[t.index == t.index[i], column] = p
         if i < len(t)-1:

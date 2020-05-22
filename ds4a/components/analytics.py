@@ -19,14 +19,14 @@ def analytics_button(model, metric, cols, button_id, instance_id):
             html.Div(
                 [
                     html.Div(metric['label'], className="analytics-metric-label"),
-                    html.Div(model['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}'}),
+                    html.Div(model['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}', 'generic-type': 'dynamic-button-value'}),
                     html.Div(
                         [
-                            html.I(' ', className=f"analytics-icon fas fa-long-arrow-alt-{model['tendency_arrow']}", id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-arrow-{instance_id}'}),
-                            html.Span(model['tendency_value'], id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-value-{instance_id}'})
+                            html.I(' ', className=f"analytics-icon fas {model['tendency_arrow']}", id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-arrow-{instance_id}', 'generic-type': 'dynamic-button-tendency-arrow'}),
+                            html.Span(model['tendency_value'], id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-value-{instance_id}', 'generic-type': 'dynamic-button-tendency-value'})
                         ],
                         className=f"analytics-metric-tendency analytics-metric-tendency-color-{model['tendency_color']}",
-                        id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-color-{instance_id}'}
+                        id={'index': f'{button_id}', 'type': f'dynamic-button-tendency-color-{instance_id}', 'generic-type': 'dynamic-button-tendency-color'}
                     ),
                 ],
                 className="analytics-metric-button"
@@ -34,7 +34,7 @@ def analytics_button(model, metric, cols, button_id, instance_id):
             className="analytics-button-container"
         ),
         className=f"analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-xs-{cols_mobile} analytics-button-selected-{metric['selected']}",
-        id={'index': f'{button_id}', 'type': f'dynamic-button-{instance_id}'}
+        id={'index': f'{button_id}', 'type': f'dynamic-button-{instance_id}', 'generic-type': 'dynamic-button'}
         
     )
 
@@ -42,41 +42,54 @@ def analytics_visualization(model, metric, visual_id, instance_id):
 
     return  html.Div(
                 [
-                    dcc.Graph(id={'index': f'{visual_id}', 'type': f'graph-{instance_id}'}, figure=model['figure']) 
+                    dcc.Graph(id={'index': f'{visual_id}', 'type': f'graph-{instance_id}', 'generic-type': 'dynamic-graph'}, figure=model['figure']) 
                 ],
                 style={'display': 'none'},
                 className="analytics-visualization-wrapper col",
-                id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}'},
+                id={'index': f'{visual_id}', 'type': f'dynamic-visualization-{instance_id}', 'generic-type': 'dynamic-visualization'},
                 **{'data-model': metric['model']}
     )
 
-def analytics_range_selector(instance_id):
+def analytics_range_selector(instance_id, range_selector):
+    
+    options = []
+    for key, value in range_selector.items():
+        options.append({'label': key, 'value': value})
+
     output = dcc.Dropdown(
-        id={'index': '', 'type': f'range-selector-{instance_id}'},
-        options = [
-            {'label': 'Yesterday', 'value': '1'},
-            {'label': 'Last Week', 'value': '7'},
-            {'label': 'Last 2 Weeks', 'value': '14'},
-            {'label': 'Last Month', 'value': '30'},
-        ],
-        value = '7',
+        id={'index': '', 'type': f'range-selector-{instance_id}', 'generic-type': 'range-selector'},
+        options = options,
+        value = options[0]['value'],
         clearable=False,
         className="analytics-range-selector-wrapper col",
 
     )
     return output
 
-def analitycs(metrics):
+def analitycs(widget):
     instance_id = randomString(2)
+
+    metrics, config = widget
+
+    #get the first value on the key, value pair to initialize the range selector
+    initial_range_selector_value = next(iter(config['range_selector'].items()))[1]
+
+    #print('\n----- begin range selector ----')
+    #print(config['range_selector'])
+    #print('first data '+str(       ))
+    #print('\n----- end range selector ----')    
 
     buttons = html.Div([], className="row analytics-button-row")
     visualizations = html.Div([], className="row analytics-visualization-row")
-    range_selector = html.Div(analytics_range_selector(instance_id), className="row analytics-range-selector-row")
+    if config['range_selector'] is not None:
+        range_selector = html.Div(analytics_range_selector(instance_id, config['range_selector']), className="row analytics-range-selector-row")
+    else:
+        range_selector = ''
 
     for metric in metrics:
         # First time initialization call
         function_model = getattr(ds4a.models.analytics, metric['model'])
-        this_model = function_model(7, '2019-11-12')
+        this_model = function_model(initial_range_selector_value, '2020-02-10')
         
         local_id = randomString(3)
         
@@ -90,11 +103,12 @@ def analitycs(metrics):
         [   
             html.Div(
                     [
+                        html.H1(config['title'], className='analytics-title'),
                         buttons,
                         visualizations,
                         range_selector,
                     ],
                     className="analytics-wrapper"
             )
-        ], id='loading-'+instance_id)
+        ], id='loading-'+instance_id, className='analytics-loading')
     return markup

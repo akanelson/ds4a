@@ -11,3 +11,30 @@
 .input-current-hour {
     width: 100px;
 }
+
+.input-agency-selector {
+    display: grid;
+    font-size: 12px;
+}
+
+.input-agency-selector input {
+    margin-right: 5px;
+    font-size: 16px;
+}
+.input-title {
+    margin-top: 20px;
+}
+
+.input-refresh {
+    margin-top: 20px;
+    font-size: 14px;
+    background-color: white;
+    color: #00baff;
+
+
+}
+
+.input-refresh:hover {
+    background-color: #00baff;
+    color: white;
+}

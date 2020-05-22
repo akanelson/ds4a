@@ -2,6 +2,16 @@
     margin-bottom: 25px;
     border: 1px solid lightgray;
     box-shadow: 2px 2px 4px #c4c4c4;
+    background-color: white;
+}
+
+.analytics-title {
+    background-color: white;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    font-size: 32px;
+    color: #00baff;
 }
 
 .analytics-button-wrapper {
@@ -80,3 +90,18 @@
     width: 150px;
 }
 
+.analytics-loading {
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 4px #c4c4c4;
+    background-color: white;
+    vertical-align: middle;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.dash-default {
+    margin-top: 50%;
+    vertical-align: middle;
+    text-align: center;    
+}
