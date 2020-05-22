@@ -4,21 +4,18 @@ from dash.dependencies import Input, Output, State, MATCH, ALL
 
 @app.callback(
     [
-        Output({'type': f'graph-{instance_id}', 'index': ALL}, 'figure'),
-        Output({'type': f'dynamic-button-value-{instance_id}', 'index': ALL}, 'children'),
-        Output({'type': f'dynamic-button-tendency-arrow-{instance_id}', 'index': ALL}, 'className'),
-        Output({'type': f'dynamic-button-tendency-value-{instance_id}', 'index': ALL}, 'children'),
-        Output({'type': f'dynamic-button-tendency-color-{instance_id}', 'index': ALL}, 'className')
-
+        Output({'generic-type': 'range-selector', 'type': ALL, 'index': ALL}, 'value'),
     ],
     [
         Input('input-refresh', 'n_clicks'),
     ],
     [
-        State({'type': f'dynamic-visualization-{instance_id}', 'index': ALL}, 'data-model'),
-        State('input-current-date', 'date'),
-        State('input-current-hour', 'value')
+        State({'index': ALL, 'type': ALL, 'generic-type': 'range-selector'}, 'value')
     ]
 )
-def update(date_range, models, current_date, current_hour):
-    return update_analytics_widget(date_range, models, current_date, current_hour)
+def update(n_clicks, range_selectors):
+    result_range = []
+    for range_selector in range_selectors:
+        # Force refreshing all range selectors with the current value, which will force refreshing all values and figures.
+        result_range.append(range_selector)
+    return [result_range]

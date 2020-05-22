@@ -9,19 +9,13 @@ import practicum_utils as utils
 import ds4a.models.analytics_utils as au
 
 
-def drivers_model_a1(date_range, current_date_time):
-    return drivers_model(date_range, current_date_time, ag='1', column='drivers')
+def drivers_model(date_range, current_date_time, current_agency='1'):
+    return base_drivers_model(date_range, current_date_time, current_agency, column='drivers')
 
-def drivers_model_a1_alo(date_range, current_date_time):
-    return drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
+def drivers_model_alo(date_range, current_date_time, current_agency='1'):
+    return base_drivers_model(date_range, current_date_time, current_agency, column='drivers_alo')
 
-def drivers_model_a2(date_range, current_date_time):
-    return drivers_model(date_range, current_date_time, ag='2', column='drivers')
-
-def drivers_model_a2_alo(date_range, current_date_time):
-    return drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
-
-def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     #column = 'drivers' # drivers_alo, drivers_alo_10_days
 
@@ -119,20 +113,13 @@ def drivers_model(date_range, current_date_time, ag='1', column='drivers'):
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 
-def predict_daily_drivers_model_a1(date_range, current_date_time):
-    return predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers')
+def predict_daily_drivers_model(date_range, current_date_time, current_agency=1):
+    return base_predict_daily_drivers_model(date_range, current_date_time, current_agency, column='drivers')
 
-def predict_daily_drivers_model_a2(date_range, current_date_time):
-    return predict_daily_drivers_model(date_range, current_date_time, ag='2', column='drivers')
+def predict_daily_drivers_model_alo(date_range, current_date_time, current_agency=1):
+    return base_predict_daily_drivers_model(date_range, current_date_time, current_agency, column='drivers_alo')
 
-def predict_daily_drivers_model_a1_alo(date_range, current_date_time):
-    return predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
-
-def predict_daily_drivers_model_a2_alo(date_range, current_date_time):
-    return predict_daily_drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
-
-
-def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     #column = 'drivers' # drivers_alo, drivers_alo_10_days
     #print(date_range, current_date_time)
@@ -215,24 +202,13 @@ def predict_daily_drivers_model(date_range, current_date_time, ag='1', column='d
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 
-def user_model(date_range, current_date_time):
-    #df = utils.careful_query('select date, drivers from unique_drivers_daily_oozma')    
-    
-    return analytics_visualization_model_xxx(date_range, current_date_time)
+def predict_hourly_drivers_model(date_range, current_date_time, current_agency='1'):
+    return base_predict_hourly_drivers_model(date_range, current_date_time, current_agency, column='drivers')
 
-def predict_hourly_drivers_model_a1(date_range, current_date_time):
-    return predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers')
+def predict_hourly_drivers_model_alo(date_range, current_date_time, current_agency='1'):
+    return base_predict_hourly_drivers_model(date_range, current_date_time, current_agency, column='drivers_alo')
 
-def predict_hourly_drivers_model_a2(date_range, current_date_time):
-    return predict_hourly_drivers_model(date_range, current_date_time, ag='2', column='drivers')    
-
-def predict_hourly_drivers_model_a1_alo(date_range, current_date_time):
-    return predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers_alo')
-
-def predict_hourly_drivers_model_a2_alo(date_range, current_date_time):
-    return predict_hourly_drivers_model(date_range, current_date_time, ag='2', column='drivers_alo')
-
-def predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     #column = 'drivers' # drivers_alo, drivers_alo_10_days
     #print(date_range, current_date_time)
@@ -311,11 +287,8 @@ def predict_hourly_drivers_model(date_range, current_date_time, ag='1', column='
 
 
 
-def itineraries_model_a1(date_range, current_date_time):
-    return itineraries_model(date_range, current_date_time, ag='1')
-
-def itineraries_model_a2(date_range, current_date_time):
-    return itineraries_model(date_range, current_date_time, ag='2')
+def itineraries_model(date_range, current_date_time, current_agency='1'):
+    return base_itineraries_model(date_range, current_date_time, current_agency)
 
 def itineraries_model(date_range, current_date_time, ag):
     #print(date_range, current_date_time)

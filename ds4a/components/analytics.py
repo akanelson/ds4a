@@ -57,7 +57,7 @@ def analytics_range_selector(instance_id, range_selector):
         options.append({'label': key, 'value': value})
 
     output = dcc.Dropdown(
-        id={'index': '', 'type': f'range-selector-{instance_id}', 'generic-type': 'range-selector'},
+        id={'index': '1', 'type': f'range-selector-{instance_id}', 'generic-type': 'range-selector'},
         options = options,
         value = options[0]['value'],
         clearable=False,
@@ -89,7 +89,7 @@ def analitycs(widget):
     for metric in metrics:
         # First time initialization call
         function_model = getattr(ds4a.models.analytics, metric['model'])
-        this_model = function_model(initial_range_selector_value, '2020-02-10')
+        this_model = function_model(initial_range_selector_value, '2020-02-03', '1')
         
         local_id = randomString(3)
         

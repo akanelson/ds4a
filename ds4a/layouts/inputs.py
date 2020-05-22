@@ -10,8 +10,8 @@ layout_inputs = html.Div([
                 id='input-current-date',
                 min_date_allowed=dt(2019, 12, 1),
                 max_date_allowed=dt(2020, 2, 29),
-                initial_visible_month=dt(2020, 2, 10),
-                date=str(dt(2020, 2, 10)),
+                initial_visible_month=dt(2020, 2, 3),
+                date=str(dt(2020, 2, 3)),
                 with_portal=False,
                 className='input-current-date'
             ),
@@ -55,14 +55,19 @@ layout_inputs = html.Div([
     html.H4("Agency", className='input-title'),
     html.Div(children=[
         dcc.RadioItems(options=[
-            {'label': 'Agency 1', 'value': '6e7dacf2149d053183fe901e3cfd8b82'},
-            {'label': 'Agency 2', 'value': '58cfe3b975dd7cbd1ac84d555640bfd9'},
-            {'label': 'All', 'value': ''}
+            {'label': 'Agency 1', 'value': '1'},
+            {'label': 'Agency 2', 'value': '2'},
         ],
         id='input-agency',
-        value='6e7dacf2149d053183fe901e3cfd8b82',
+        value='1',
         className='input-agency-selector'),
     ], className="row"),
 
-    html.Button(['Refresh Dashboard', html.I('', className="fas fa-refresh", id='input-refresh')], className='input-refresh')
+    html.Button(
+        ['Refresh Dashboard',
+        html.I('', className="fas fa-refresh")
+        ],
+        className='input-refresh',
+        id='input-refresh'
+    )
 ])

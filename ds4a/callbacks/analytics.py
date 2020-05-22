@@ -61,31 +61,30 @@ def analytics_range_selector_callback(instance_id):
         [
             State({'generic-type': 'dynamic-visualization', 'type': f'dynamic-visualization-{instance_id}', 'index': ALL}, 'data-model'),
             State('input-current-date', 'date'),
-            State('input-current-hour', 'value')
+            State('input-current-hour', 'value'),
+            State('input-agency', 'value')
         ]
     )
-    def update(date_range, models, current_date, current_hour):
-        return update_analytics_widget(date_range, models, current_date, current_hour)
+    def update(date_range, models, current_date, current_hour, current_agency):
+        current_date_time = current_date.split(' ')[0] + ' ' + current_hour
+        range_selected = dash.callback_context.triggered[0]['value']
+        if range_selected is None:
+            range_selected = str(date_range[0])
+        graphs = []
+        values = []
+        tendency_arrows = []
+        tendency_values = []
+        tendency_colors = []
+        for model in models:
+            function_model = getattr(ds4a.models.analytics, model)
+            this_model = function_model(int(range_selected), current_date_time, current_agency)
+            graphs.append(this_model['figure'])
+            values.append(this_model['value'])
+            tendency_arrows.append("analytics-icon fas "+this_model['tendency_arrow'])
+            tendency_values.append(this_model['tendency_value'])
+            tendency_colors.append("analytics-metric-tendency analytics-metric-tendency-color-"+this_model['tendency_color'])
+        
+        return [graphs, values, tendency_arrows, tendency_values, tendency_colors]
 
 
 
-def update_analytics_widget(date_range, models, current_date, current_hour):
-    current_date_time = current_date.split(' ')[0] + ' ' + current_hour
-    range_selected = dash.callback_context.triggered[0]['value']
-    if range_selected is None:
-        range_selected = str(date_range[0])
-    graphs = []
-    values = []
-    tendency_arrows = []
-    tendency_values = []
-    tendency_colors = []
-    for model in models:
-        function_model = getattr(ds4a.models.analytics, model)
-        this_model = function_model(int(range_selected), current_date_time)
-        graphs.append(this_model['figure'])
-        values.append(this_model['value'])
-        tendency_arrows.append("analytics-icon fas "+this_model['tendency_arrow'])
-        tendency_values.append(this_model['tendency_value'])
-        tendency_colors.append("analytics-metric-tendency analytics-metric-tendency-color-"+this_model['tendency_color'])
-    
-    return [graphs, values, tendency_arrows, tendency_values, tendency_colors]
