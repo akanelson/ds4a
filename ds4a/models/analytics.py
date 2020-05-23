@@ -113,6 +113,103 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 
+def hourly_drivers_model(date_range, current_date_time, current_agency='1'):
+    return base_hourly_drivers_model(date_range, current_date_time, current_agency, column='drivers')
+
+def hourly_drivers_model_alo(date_range, current_date_time, current_agency='1'):
+    return base_hourly_drivers_model(date_range, current_date_time, current_agency, column='drivers_alo')    
+
+def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
+
+    #column = 'drivers' # drivers_alo, drivers_alo_10_days
+
+    #print(date_range, current_date_time)
+
+    to_1 = datetime.strptime(current_date_time[:10], '%Y-%m-%d')
+    from_1 = to_1 - timedelta(hours=int(date_range))
+    to_2 = from_1
+    from_2 = to_2 - timedelta(hours=int(date_range))
+    df1 = au.get_hourly_drivers(au.agency[ag], from_1, to_1)
+    df2 = au.get_hourly_drivers(au.agency[ag], from_2, to_2)
+
+    value1 = df1[column].mean()
+    value2 = df2[column].mean()
+
+    trace1 = {
+        'x': df1.index,
+        'y': df1[column].values,
+        'mode': 'lines',
+        'name': 'This period',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    if df1.shape == df2.shape:
+        df2.set_index(df1.index, inplace=True)
+        df2.rename(columns = {col: f"prev_{col}" for col in df2.columns}, inplace=True)
+        df = df1.merge(df2, on='date')
+        #print(df.columns)
+        df = df[[column, 'prev_' + column]]
+        #print(df.shape)
+
+
+        trace2 = {
+            'x': df.index,
+            'y': df['prev_' + column].values,
+            'mode': 'lines',
+            'name': 'Previous period',
+            'line': {
+                'dash': 'dot',
+                'width': 2,
+                'color': '#00baff'
+            }
+        }
+
+        data = [trace1, trace2]
+
+    else:
+        print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
+        data = [trace1]
+
+
+    layout = {
+        'title': 'Unique {} from Agency {}'.format(column, ag),
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df1.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': column
+        },
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    figure = {'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = 'green'        
+        tendency_arrow = 'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = 'fa-long-arrow-alt-down'
+        tendency_color = 'red'        
+
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+
+    return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+
 def predict_daily_drivers_model(date_range, current_date_time, current_agency=1):
     return base_predict_daily_drivers_model(date_range, current_date_time, current_agency, column='drivers')
 
@@ -285,8 +382,6 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 
 
 
-
-
 def itineraries_model(date_range, current_date_time, current_agency='1'):
     return base_itineraries_model(date_range, current_date_time, current_agency)
 
@@ -385,3 +480,170 @@ def base_itineraries_model(date_range, current_date_time, ag):
     tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+
+def hourly_itineraries_model(date_range, current_date_time, ag):
+    return base_hourly_itineraries_model(date_range, current_date_time, ag)
+
+def base_hourly_itineraries_model(date_range, current_date_time, ag):
+    #print(date_range, current_date_time)
+
+    column = 'itineraries'
+
+    to_1 = datetime.strptime(current_date_time[:10], '%Y-%m-%d')
+    from_1 = to_1 - timedelta(hours=int(date_range))
+    to_2 = from_1
+    from_2 = to_2 - timedelta(hours=int(date_range))
+    df1 = au.get_hourly_itineraries(au.agency[ag], from_1, to_1)
+    df2 = au.get_hourly_itineraries(au.agency[ag], from_2, to_2)
+
+    value1 = df1[column].mean()
+    value2 = df2[column].mean()
+
+    trace1 = {
+        'x': df1.index,
+        'y': df1[column].values,
+        'mode': 'lines',
+        'name': 'This period',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    if df1.shape == df2.shape:
+        df2.set_index(df1.index, inplace=True)
+        df2.rename(columns = {col: f"prev_{col}" for col in df2.columns}, inplace=True)
+        df = df1.merge(df2, on='date')
+        #print(df.columns)
+        df = df[[column, 'prev_' + column]]
+        #print(df.shape)
+
+
+        trace2 = {
+            'x': df.index,
+            'y': df['prev_' + column].values,
+            'mode': 'lines',
+            'name': 'Previous period',
+            'line': {
+                'dash': 'dot',
+                'width': 2,
+                'color': '#00baff'
+            }
+        }
+
+        data = [trace1, trace2]
+
+    else:
+        print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
+        data = [trace1]
+
+
+    layout = {
+        'title': 'Unique {} from Agency {}'.format(column, ag),
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df1.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': column
+        },
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    # if yesterday try to use another kind of figure
+    if int(date_range) == 1:
+        x = ['yesterday', 'previous day']
+        y = [value1, value2]
+        figure = go.Figure([go.Bar(x=x, y=y)])
+    else:
+        figure = {'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = 'green'        
+        tendency_arrow = 'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = 'fa-long-arrow-alt-down'
+        tendency_color = 'red'        
+
+
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+
+    return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+
+def realtime_itineraries_model(date_range, current_date_time, ag):
+    #print(date_range, current_date_time)
+
+    if date_range == None:
+        print('IS NONE')
+        date_range =   7
+
+    column = 'itineraries'
+
+    print('current_date_time', current_date_time)
+
+    df1 = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
+    df1 = df1[['itineraries_cumsum','finished_cumsum','pending','pending_acceptance']]
+    df1 = df1.fillna(0)
+    data = []
+    colors = ['ff00ff', 'ffff00', '00ffff', 'f0f0f0']
+    for i, col in enumerate(df1.columns):
+        data.append({
+            'x': df1.index,
+            'y': df1[col].values,
+            'mode': 'lines',
+            'name': col,
+            'line': {
+                'dash': 'solid',
+                'width': 2,
+                'color': colors[i]
+            }
+        })
+
+
+    layout = {
+        'title': 'Snapshot Agency {}'.format(ag),
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df1.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': 'units'
+        },
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    figure = {'data': data, 'layout': layout}
+
+    value1 = df1['itineraries_cumsum'].mean()
+    if value1 >= 0:
+        tendency_color = 'green'        
+        tendency_arrow = 'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = 'fa-long-arrow-alt-down'
+        tendency_color = 'red'        
+
+
+    tendency_value = '%'
+
+    return {'figure': figure, 'value': value1, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

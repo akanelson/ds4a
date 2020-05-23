@@ -54,6 +54,29 @@ def get_daily_itineraries(agency_id, from_='2019-10-01', to_='2020-03-31'):
 # ------------------------------------------------------------------------------
 # [APP]: Useful to obtain the itineraries situation hour by hour for a given day
 # ------------------------------------------------------------------------------
+def get_hourly_itineraries(agency_id, from_, to_):
+        
+    df = careful_query("""
+        select date_trunc('hour', created_time) as date, count(distinct(itinerary_id)) as itineraries
+        from itinerary
+        where created_time >= '{1}'
+          and created_time < '{2}'
+          and distribution_center = '{0}'
+        group by date_trunc('hour', created_time)
+        order by date asc 
+        """.format(agency_id, from_, to_))
+    
+    date = pd.date_range(start=from_, end=to_, freq='H')
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    df = pd.concat([df, pd.DataFrame(index=date)], axis=1).fillna(0)
+    df = df.reset_index().rename(columns={'index':'date'}).set_index('date', drop=True)
+    return df
+
+
+# ------------------------------------------------------------------------------
+# [APP]: Useful to obtain the itineraries situation hour by hour for a given day
+# ------------------------------------------------------------------------------
 def get_hourly_day_itineraries(agency_id, today_time):
     
     today = today_time[:10]
