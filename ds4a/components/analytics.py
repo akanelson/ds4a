@@ -115,9 +115,9 @@ def analitycs(widget):
 
     markup = dcc.Loading(
         [   
+            html.Div(config['title'], className='analytics-title'),
             html.Div(
                     [
-                        html.H1(config['title'], className='analytics-title'),
                         buttons,
                         visualizations,
                         range_selector,

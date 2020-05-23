@@ -1,8 +1,12 @@
+#realtime-cartas {
+  padding-left: 0;
+  padding-right: 0;
+}
 
 .wx_carta {
     font-family: 'Roboto';
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding-top: 12px;
     padding-bottom: 12px;
     display: inline-block;

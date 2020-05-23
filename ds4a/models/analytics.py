@@ -72,7 +72,6 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -176,7 +175,6 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -255,7 +253,6 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df.index)
@@ -344,7 +341,6 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df.index)
@@ -441,7 +437,6 @@ def base_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -541,7 +536,6 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
-        'title': 'Unique {} from Agency {}'.format(column, ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -616,7 +610,6 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
-        'title': 'Agency {} Itineraries Snapshot'.format(ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)

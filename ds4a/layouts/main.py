@@ -15,37 +15,38 @@ range_hourly_past = {'Last 2 days': 24, 'Last week': 24*7, 'Last 2 weeks': 24*14
 range_daily_future = {'Next week': 7, 'Next 2 weeks': 14, 'Next 4 weeks': 28}
 range_hourly_future = {'Next 6 hours': 6, 'Next 12 hours': 12, 'Next 24 hours': 24, 'Next 48 hours': 48}
 
-config = {'title': 'Daily Metrics', 'range_selector': range_daily_past, 'wrapper_type': 'historical'}
+config = {'title': 'The daily volume of drivers and itineraries', 'range_selector': range_daily_past, 'wrapper_type': 'historical'}
 metrics = [
-    {'label': 'All Drivers', 'selected': 'true', 'model': 'drivers_model', 'help': 'All Drivers of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
+    {'label': 'Drivers', 'selected': 'true', 'model': 'drivers_model', 'help': 'All Drivers of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
     {'label': 'Effective Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model'},
     {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model'}
 ]
 widget_history_daily = [metrics, config]
 
-config2 = {'title': 'Hourly Metrics', 'range_selector': range_hourly_past, 'wrapper_type': 'historical'}
+config2 = {'title': 'The hourly volume of drivers and itineraries', 'range_selector': range_hourly_past, 'wrapper_type': 'historical'}
 metrics2 = [
-    {'label': 'All Drivers', 'selected': 'true', 'model': 'hourly_drivers_model'},
+    {'label': 'Drivers', 'selected': 'true', 'model': 'hourly_drivers_model'},
     {'label': 'Effective Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo'},
     {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model'}
 ]
 widget_history_hourly = [metrics2, config2]
 
-config3 = {'title': 'Daily Drivers', 'range_selector': range_daily_future, 'wrapper_type': 'prediction'}
+config3 = {'title': 'Prediction of the daily volume of drivers', 'range_selector': range_daily_future, 'wrapper_type': 'prediction'}
 metrics3 = [
-    {'label': 'All Drivers Forecast', 'selected': 'true', 'model': 'predict_daily_drivers_model'},
-    {'label': 'Effective Drivers Forecast', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
+    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model'},
+    {'label': 'Effective Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
 ]
 widget_prediction_daily = [metrics3, config3]
 
-config4 = {'title': 'Hourly Drivers Forecast', 'range_selector': range_hourly_future, 'wrapper_type': 'prediction'}
+config4 = {'title': 'Prediction of the hourly volume of drivers', 'range_selector': range_hourly_future, 'wrapper_type': 'prediction'}
 metrics4 = [
-    {'label': 'All Drivers Forecast', 'selected': 'true', 'model': 'predict_hourly_drivers_model'},
-    {'label': 'Effective Drivers Forecast', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
+    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_hourly_drivers_model'},
+    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
 ]
 widget_prediction_hourly = [metrics4, config4]
 
-config5 = {'title': 'Real Time', 'range_selector': {'Today': 24}, 'wrapper_type': 'real_time'}
+config5 = {'title': 'Snapshot with the delivery status', 'range_selector': {'Today': 24}, 'wrapper_type': 'real_time'}
 metrics5 = [{'label': 'Agency Snapshot', 'selected': 'true', 'model': 'realtime_itineraries_model'}]
 widget_realtime = [metrics5, config5]
 
@@ -67,7 +68,6 @@ main_layout = html.Div(
                         ),                        
                         html.Div(
                             [
-                                html.H1("Controls", className='title'),
                                 layout_inputs
                             ],
                             className='controls',
@@ -75,7 +75,7 @@ main_layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.Div([html.Img(src="/assets/images/ar-flag-icon.png", className='flag-icon'), "BA - Team 7"], className='title'),
+                                html.Div("Powered by BA Team 7", className='powered-by'),
                             ],
                             className='controls',
                             id='team',

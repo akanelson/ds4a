@@ -51,7 +51,6 @@ layout_inputs = html.Div([
         className=""
     ),
 
-    html.H4("Agency", className='input-title'),
     html.Div(children=[
         dcc.RadioItems(options=[
             {'label': 'Agency 1', 'value': '1'},
@@ -60,7 +59,7 @@ layout_inputs = html.Div([
         id='input-agency',
         value='1',
         className='input-agency-selector'),
-    ], className=""),
+    ]),
 
     html.Button(
         [

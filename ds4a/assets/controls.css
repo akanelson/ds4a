@@ -26,6 +26,7 @@
 .input-agency-selector {
     display: grid;
     font-size: 14px;
+    margin-top: 30px;
 }
 
 .input-agency-selector input {
@@ -34,11 +35,13 @@
 }
 .input-title {
     margin-top: 20px;
+    margin-bottom: 15px;
     font-size: 18px;
 }
 
 .input-refresh {
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
     background-color: white;
@@ -96,8 +99,9 @@ a.menu-item {
     position: absolute;
     bottom: 20px;
     width: 240px;
-    font-size: 10px;
+    font-size: 9px;
     padding: 5px;
+    color: #c4c4c4;
 }
 
 .flag-icon {
