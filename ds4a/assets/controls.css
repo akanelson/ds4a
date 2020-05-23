@@ -4,12 +4,16 @@
     padding: 15px;
 }
 
-.controls .title {
+.controls {
     text-align: center;
 }
 
 .input-current-hour {
     width: 100px;
+    margin: 0;
+    display: -moz-inline-grid;
+    display: -ms-inline-grid;
+    display: inline-grid;
 }
 
 .input-agency-selector {
@@ -27,14 +31,46 @@
 
 .input-refresh {
     margin-top: 20px;
+    padding: 5px 10px 5px 10px;
     font-size: 14px;
     background-color: white;
     color: #00baff;
-
-
 }
 
 .input-refresh:hover {
     background-color: #00baff;
     color: white;
+}
+
+i.fas.fa-sync-alt {
+    padding: 5px;
+}
+
+.SingleDatePickerInput__withBorder {
+    border: 0;
+}
+
+.DateInput {
+    width: 100px;
+}
+
+.menu-item {
+    font-size: 24px;
+}
+
+.menu-item.active {
+    background-color: #00baff !important;
+    color: white !important;
+}
+
+a.menu-item {
+    color: #00baff !important;
+}
+
+.nav {
+    margin-top: 20px;
+}
+
+.menu-item .fas {
+    padding-right: 20px;
 }

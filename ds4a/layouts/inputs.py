@@ -15,7 +15,6 @@ layout_inputs = html.Div([
                 with_portal=False,
                 className='input-current-date'
             ),
-
             dcc.Dropdown(
                 id='input-current-hour',
                 options=[
@@ -49,7 +48,7 @@ layout_inputs = html.Div([
                 className="input-current-hour"
             ),
         ],
-        className="row"
+        className=""
     ),
 
     html.H4("Agency", className='input-title'),
@@ -61,13 +60,14 @@ layout_inputs = html.Div([
         id='input-agency',
         value='1',
         className='input-agency-selector'),
-    ], className="row"),
+    ], className=""),
 
     html.Button(
-        ['Refresh Dashboard',
-        html.I('', className="fas fa-refresh")
+        [
+            html.I('', className="fas fa-sync-alt"),
+            'Refresh'
         ],
         className='input-refresh',
         id='input-refresh'
-    )
+    ),
 ])

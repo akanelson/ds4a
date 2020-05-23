@@ -589,23 +589,26 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
         print('IS NONE')
         date_range =   7
 
-    column = 'itineraries'
+    #column = 'itineraries'
 
     print('current_date_time', current_date_time)
 
     df1 = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
     df1 = df1[['itineraries_cumsum','finished_cumsum','pending','pending_acceptance']]
     df1 = df1.fillna(0)
+    column_legend = ['Created', 'Finished', 'Delivering', ' Acceptancy Pending']
+    #'dash', 'dot', and 'dashdot'
+    line_type = ['solid', 'dash', 'dot', 'dashdot']
     data = []
-    colors = ['ff00ff', 'ffff00', '00ffff', 'f0f0f0']
+    colors = ['#00baff', '#00baff', '#00baff', '#00baff']
     for i, col in enumerate(df1.columns):
         data.append({
             'x': df1.index,
             'y': df1[col].values,
             'mode': 'lines',
-            'name': col,
+            'name': column_legend[i],
             'line': {
-                'dash': 'solid',
+                'dash': line_type[i],
                 'width': 2,
                 'color': colors[i]
             }
@@ -613,19 +616,19 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
-        'title': 'Snapshot Agency {}'.format(ag),
+        'title': 'Agency {} Itineraries Snapshot'.format(ag),
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
         },
         'yaxis': {
             'autorange': True,
-            'title': 'units'
+            'title': 'Itineraries'
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
-            'y': -.3,
+            'y': -.6,
             'x': 0.5,
             'font': {
             'size': 14
@@ -638,12 +641,12 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
     value1 = df1['itineraries_cumsum'].mean()
     if value1 >= 0:
         tendency_color = 'green'        
-        tendency_arrow = 'fa-long-arrow-alt-up'
+        tendency_arrow = 'fa-long-arrow-alt-up-change-or-remove'
     else:
-        tendency_arrow = 'fa-long-arrow-alt-down'
+        tendency_arrow = 'fa-long-arrow-alt-down-change-or-remove'
         tendency_color = 'red'        
 
 
-    tendency_value = '%'
+    tendency_value = ''
 
     return {'figure': figure, 'value': value1, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

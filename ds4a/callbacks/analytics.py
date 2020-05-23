@@ -42,7 +42,6 @@ def analytics_button_callback(instance_id, total_metrics):
                     result_visual.append({'display': 'none'})
                     result_button.append(f'{classes} analytics-button-selected-false')
         
-
         return [result_visual, result_button]
 
 
