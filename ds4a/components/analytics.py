@@ -123,7 +123,6 @@ def analitycs(widget):
                         range_selector,
                     ],
                     className="analytics-wrapper " + config['wrapper_type'],
-                    id={'instance': instance_id, 'wrapper_type': config['wrapper_type']}
             )
         ], id='loading-'+instance_id, className='analytics-loading')
     return markup

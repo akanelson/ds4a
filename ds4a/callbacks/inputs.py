@@ -27,18 +27,17 @@ def update(n_clicks, range_selectors):
         Output('historical', 'active'),
         Output('real_time', 'active'),
         Output('prediction', 'active'),
-        Output({'wrapper_type': ALL, 'instance': ALL}, 'style')
+        Output('wrapper-historical', 'style'),
+        Output('wrapper-realtime', 'style'),
+        Output('wrapper-forecast', 'style'),
     ],
     [
         Input('historical', 'n_clicks'),
         Input('real_time', 'n_clicks'),
         Input('prediction', 'n_clicks'),
     ],
-    [
-        State({'wrapper_type': ALL, 'instance': ALL}, 'id')
-    ]
 )
-def update(menu_historical, menu_real_time, menu_prediction, wrappers):
+def update(menu_historical, menu_realtime, menu_forecast):
     result_wrappers = []
     
     if dash.callback_context.triggered[0]['prop_id'].split('.')[0] == '':
@@ -46,18 +45,13 @@ def update(menu_historical, menu_real_time, menu_prediction, wrappers):
     else:
         menu_clicked = dash.callback_context.triggered[0]['prop_id'].split('.')[0]
 
-    for wrapper in wrappers:
-        if menu_clicked == wrapper['wrapper_type']:
-            result_wrappers.append({'display': 'block'})
-        else:
-            result_wrappers.append({'display': 'none'})
     if menu_clicked == 'historical':
-        return [True, False, False, result_wrappers]
+        return [True, False, False, {'display': 'flex'}, {'display': 'none'}, {'display': 'none'}]
     elif menu_clicked == 'real_time':
-        return [False, True, False, result_wrappers]
+        return [False, True, False, {'display': 'none'}, {'display': 'flex'}, {'display': 'none'}]
     elif menu_clicked == 'prediction':
-        return [False, False, True, result_wrappers]
+        return [False, False, True, {'display': 'none'}, {'display': 'none'}, {'display': 'flex'}]
     else:
-        return [False, True, False, result_wrappers]
+        return [False, True, False, {'display': 'none'}, {'display': 'flex'}, {'display': 'none'}]
 
     
