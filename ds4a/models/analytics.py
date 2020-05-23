@@ -72,6 +72,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -175,6 +176,8 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
 
 
     layout = {
+        'margin': {'b':10, 't':10},
+
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -253,6 +256,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df.index)
@@ -341,6 +345,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df.index)
@@ -437,6 +442,7 @@ def base_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -536,6 +542,7 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
@@ -610,6 +617,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
+        'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df1.index)
