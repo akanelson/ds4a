@@ -1,6 +1,6 @@
 
 .wx_carta {
-    font-family: 'Open Sans';
+    font-family: 'Roboto';
     width: 100%;
     margin: 10px;
     padding-top: 12px;
@@ -40,10 +40,10 @@
   
   /* Tooltip text */
   .tooltip-wrapper .tooltip-text {
-    font-family: 'Open Sans';
+    font-family: 'Roboto';
     border: 0px solid #00baff;
-    box-shadow: 3px 3px 6px #c4c4c4;
-    font-size: 10px;
+    box-shadow: 2px 2px 4px #c4c4c4;
+    font-size: 11px;
     visibility: hidden;
     background-color: #00baff;
     color: #fff;
@@ -54,7 +54,7 @@
     /* Positioning */
     top: 8px;
     right: 16px;
-    width: 150px;
+    width: 170px;
 
     opacity: 0;
     transition: opacity 1s;

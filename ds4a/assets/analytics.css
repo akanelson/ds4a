@@ -7,7 +7,7 @@
 
 .analytics-title {
     background-color: white;
-    padding: 20px;
+    padding: 25px;
     margin: 0;
     text-align: center;
     font-size: 32px;
@@ -104,4 +104,8 @@
     margin-top: 50%;
     vertical-align: middle;
     text-align: center;    
+}
+
+.analytics-metric-button .tooltip-wrapper {
+    margin-right: -15px;
 }

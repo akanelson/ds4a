@@ -94,7 +94,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
 
     # if yesterday try to use another kind of figure
     if int(date_range) == 1:
-        x = ['yesterday', 'previous day']
+        x = ['Yesterday', 'Before yesterday']
         y = [value1, value2]
         figure = go.Figure([go.Bar(x=x, y=y)])
     else:
@@ -180,7 +180,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
 
     # if yesterday try to use another kind of figure
     if int(date_range) == 1:
-        x = ['yesterday', 'previous day']
+        x = ['Yesterday', 'Before yesterday']
         y = [value1, value2]
         figure = go.Figure([go.Bar(x=x, y=y)])
     else:
@@ -290,7 +290,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 def itineraries_model(date_range, current_date_time, current_agency='1'):
     return base_itineraries_model(date_range, current_date_time, current_agency)
 
-def itineraries_model(date_range, current_date_time, ag):
+def base_itineraries_model(date_range, current_date_time, ag):
     #print(date_range, current_date_time)
 
     column = 'itineraries'
@@ -368,7 +368,7 @@ def itineraries_model(date_range, current_date_time, ag):
 
     # if yesterday try to use another kind of figure
     if int(date_range) == 1:
-        x = ['yesterday', 'previous day']
+        x = ['Yesterday', 'Before yesterday']
         y = [value1, value2]
         figure = go.Figure([go.Bar(x=x, y=y)])
     else:

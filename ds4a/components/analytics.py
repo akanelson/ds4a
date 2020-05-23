@@ -14,10 +14,24 @@ def randomString(stringLength=8):
 def analytics_button(model, metric, cols, button_id, instance_id):
     cols_desktop = floor(12/cols)
     cols_mobile = floor(12/(cols/2))
+
+    if 'help' in metric:
+        help = metric['help']
+    else:
+        help = 'No description provided'
+        
     return  html.Div(
         html.Div(
             html.Div(
                 [
+                    
+                    html.Div(
+                        [
+                            html.I(className="fas fa-question-circle fa-lg"),
+                            html.Span(help, className='tooltip-text'),
+                        ],
+                        className='tooltip-wrapper'
+                    ),
                     html.Div(metric['label'], className="analytics-metric-label"),
                     html.Div(model['value'], className="analytics-metric-value", id={'index': f'{button_id}', 'type': f'dynamic-button-value-{instance_id}', 'generic-type': 'dynamic-button-value'}),
                     html.Div(

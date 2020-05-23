@@ -14,11 +14,11 @@ range_hourly_future = {'Next 6 hours': 6, 'Next 12 hours': 12, 'Next 24 hours': 
 
 config = {'title': 'History - Daily Agency Metrics', 'range_selector': range_daily_past}
 metrics = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'drivers_model'},
-    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'drivers_model_alo'},
+    {'label': 'Drivers', 'selected': 'true', 'model': 'drivers_model', 'help': 'All Drivers of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
+    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
     {'label': 'Daily Itineraries', 'selected': 'false', 'model': 'itineraries_model'}
 ]
-widget = [metrics, config]
+widget_history_daily = [metrics, config]
 
 config2 = {'title': 'History - Hourly Agency Metrics', 'range_selector': range_hourly_past}
 metrics2 = [
@@ -26,21 +26,21 @@ metrics2 = [
     {'label': 'Effective Drivers TBD', 'selected': 'false', 'model': 'drivers_model_alo'},
     {'label': 'Daily Itineraries TBD', 'selected': 'false', 'model': 'itineraries_model'}
 ]
-widget2 = [metrics2, config2]
+widget_history_hourly = [metrics2, config2]
 
 config3 = {'title': 'Prediction - Daily Drivers per Agency', 'range_selector':range_daily_future}
 metrics3 = [
     {'label': 'Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model'},
     {'label': 'Effective Drivers Prediction', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
 ]
-widget3 = [metrics3, config3]
+widget_prediction_daily = [metrics3, config3]
 
 config4 = {'title': 'Prediction - Hourly Drivers per Agency', 'range_selector':range_hourly_future}
 metrics4 = [
     {'label': 'Drivers Prediction', 'selected': 'true', 'model': 'predict_hourly_drivers_model'},
     {'label': 'Effective Drivers Prediction', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
 ]
-widget4 = [metrics4, config4]
+widget_prediction_hourly = [metrics4, config4]
 
 
 main_layout = html.Div(
@@ -61,10 +61,10 @@ main_layout = html.Div(
                 ),
                 html.Div(
                     [
-                        html.Div([analitycs(widget4)],className=""),
-                        html.Div([analitycs(widget3)],className=""),
-                        html.Div([analitycs(widget)],className=""),
-                        html.Div([analitycs(widget2)],className=""),
+                        html.Div([analitycs(widget_history_daily)],className=""),
+                        html.Div([analitycs(widget_history_hourly)],className=""),
+                        html.Div([analitycs(widget_prediction_daily)],className=""),
+                        html.Div([analitycs(widget_prediction_hourly)],className=""),
 
                     ],
                     className="col-lg-9 col-12" 
