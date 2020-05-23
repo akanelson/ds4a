@@ -56,3 +56,26 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
     	],
 	)
 
+def realtime_cartas(current_date=None, current_time=None, current_agency=None):
+    cartas = html.Div([
+        
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km', help='Quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        ),
+        html.Div(
+            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds', help='Lorem ipsum dolor.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+    ], className='row')
+    
+    return cartas
+    

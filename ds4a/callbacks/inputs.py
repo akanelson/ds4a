@@ -1,24 +1,31 @@
 import dash
 from ds4a.server import app
 from dash.dependencies import Input, Output, State, MATCH, ALL
+from ds4a.components.carta import realtime_cartas
+
 
 @app.callback(
     [
         Output({'generic-type': 'range-selector', 'type': ALL, 'index': ALL}, 'value'),
+        Output('realtime-cartas', 'children')
     ],
     [
         Input('input-refresh', 'n_clicks'),
     ],
     [
-        State({'index': ALL, 'type': ALL, 'generic-type': 'range-selector'}, 'value')
+        State({'index': ALL, 'type': ALL, 'generic-type': 'range-selector'}, 'value'),
+        State('input-current-date', 'date'),
+        State('input-current-hour', 'value'),
+        State('input-agency', 'value'),
     ]
 )
-def update(n_clicks, range_selectors):
+def update(n_clicks, range_selectors, current_date, current_hour, current_agency):
+    cartas = realtime_cartas(current_date, current_hour, current_agency)
     result_range = []
     for range_selector in range_selectors:
         # Force refreshing all range selectors with the current value, which will force refreshing all values and figures.
         result_range.append(range_selector)
-    return [result_range]
+    return [result_range, cartas]
 
 
 

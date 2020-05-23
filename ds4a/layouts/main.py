@@ -1,11 +1,13 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+import numpy as np
 
 from ds4a.layouts.header import header
 from ds4a.components.analytics import analitycs
 from ds4a.layouts.tabs import tabs
 from ds4a.layouts.inputs import layout_inputs
+from ds4a.components.carta import *
 
 
 range_daily_past = {'Yesterday': 1, 'Last week': 7, 'Last 2 weeks': 14, 'Last 4 weeks': 28}
@@ -71,6 +73,13 @@ main_layout = html.Div(
                             className='controls',
                             id='controls'
                         ),
+                        html.Div(
+                            [
+                                html.Div([html.Img(src="/assets/images/ar-flag-icon.png", className='flag-icon'), "BA - Team 7"], className='title'),
+                            ],
+                            className='controls',
+                            id='team',
+                        ),                        
                     ],
                     className="col-lg-2 col-12 wrapper-controls"
                 ),
@@ -86,6 +95,13 @@ main_layout = html.Div(
                         ),
                         html.Div(
                             [
+                                html.Div(children=
+                                    [
+                                        realtime_cartas()
+                                    ],
+                                    className='col-lg-12',
+                                    id='realtime-cartas',
+                                ),
                                 html.Div([analitycs(widget_realtime)],className="col-lg-6 col-12"),
                                 html.Div([analitycs(widget_realtime)],className="col-lg-6 col-12"),
                             ],

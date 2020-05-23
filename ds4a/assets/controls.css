@@ -5,9 +5,9 @@
 }
 .controls {
     background-color: white;
-    border: 1px solid #d6d6d6;
+    border: 0px solid lightgray;
     padding: 15px;
-    margin-top: 20px;
+    margin-top: 30px;
     border-radius: 4px;
 }
 
@@ -25,28 +25,33 @@
 
 .input-agency-selector {
     display: grid;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .input-agency-selector input {
-    margin-right: 5px;
+    margin-right: 10px;
     font-size: 16px;
 }
 .input-title {
     margin-top: 20px;
+    font-size: 18px;
 }
 
 .input-refresh {
     margin-top: 20px;
-    padding: 5px 10px 5px 10px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 16px;
     background-color: white;
     color: #00baff;
+    height: auto;
+    border-radius: 3px;
+    border: 1px solid #00baff;
 }
 
 .input-refresh:hover {
     background-color: #00baff;
     color: white;
+    border: 1px solid lightgray;
 }
 
 i.fas.fa-sync-alt {
@@ -85,4 +90,17 @@ a.menu-item {
 
 .menu-item .fas {
     padding-right: 20px;
+}
+
+#team {
+    position: absolute;
+    bottom: 20px;
+    width: 240px;
+    font-size: 10px;
+    padding: 5px;
+}
+
+.flag-icon {
+    width: 20px;
+    margin-right: 10px;
 }
