@@ -6,7 +6,6 @@ from ds4a.layouts.tabs import tabs
 from ds4a.layouts.inputs import layout_inputs
 
 
-
 range_daily_past = {'Yesterday': 1, 'Last week': 7, 'Last 2 weeks': 14, 'Last 4 weeks': 28}
 range_hourly_past = {'Last 2 days': 24, 'Last week': 24*7, 'Last 2 weeks': 24*14, 'Last month': 24*28}
 range_daily_future = {'Next week': 7, 'Next 2 weeks': 14, 'Next 4 weeks': 28}
@@ -22,9 +21,9 @@ widget = [metrics, config]
 
 config2 = {'title': 'History - Hourly Agency Metrics', 'range_selector': range_hourly_past}
 metrics2 = [
-    {'label': 'Drivers TBD', 'selected': 'true', 'model': 'drivers_model'},
-    {'label': 'Effective Drivers TBD', 'selected': 'false', 'model': 'drivers_model_alo'},
-    {'label': 'Daily Itineraries TBD', 'selected': 'false', 'model': 'itineraries_model'}
+    {'label': 'Drivers', 'selected': 'true', 'model': 'hourly_drivers_model'},
+    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo'},
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model'}
 ]
 widget2 = [metrics2, config2]
 
