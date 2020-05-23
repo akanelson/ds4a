@@ -41,6 +41,10 @@ metrics4 = [
 ]
 widget4 = [metrics4, config4]
 
+widget_realtime = [
+    [{'label': 'Agency Snapshot', 'selected': 'true', 'model': 'realtime_itineraries_model'}],
+    {'title': 'Agency - Realtime', 'range_selector': {'fix': 24}}
+]
 
 main_layout = html.Div(
     [
@@ -60,6 +64,7 @@ main_layout = html.Div(
                 ),
                 html.Div(
                     [
+                        html.Div([analitycs(widget_realtime)],className=""),
                         html.Div([analitycs(widget4)],className=""),
                         html.Div([analitycs(widget3)],className=""),
                         html.Div([analitycs(widget)],className=""),
