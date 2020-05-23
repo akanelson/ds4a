@@ -590,7 +590,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
     df = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
     df1 = df[['itineraries_cumsum','finished_cumsum','pending','pending_acceptance']]
     df1 = df1.fillna(0)
-    column_legend = ['Created', 'Finished', 'Delivering', ' Acceptancy Pending']
+    column_legend = ['Created', 'Finished', 'In-progress', ' Pending acceptance']
     #'dash', 'dot', and 'dashdot'
     line_type = ['solid', 'dash', 'dot', 'dashdot']
     data = []
@@ -621,7 +621,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
-            'y': -.6,
+            'y': -.3,
             'x': 0.5,
             'font': {
             'size': 14

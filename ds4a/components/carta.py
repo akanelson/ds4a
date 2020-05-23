@@ -87,9 +87,15 @@ def realtime_cartas(current_date=None, current_time=None, current_agency=None):
         now = current_date[:10] + ' ' + current_time
         carta_1, carta_2, carta_3, carta_4 = cartas_realtime_itineraries(now, ag=current_agency)
     
-    cartas = html.Div([carta_1, carta_2, carta_3, carta_4], className='row')
+    markup = dcc.Loading(
+        [   
+            html.Div([carta_1, carta_2, carta_3, carta_4], className='row')
+        ],
+        id='loading-cartas',
+        className='analytics-loading'
+    )
     
-    return cartas
+    return markup
     
 
 def cartas_realtime_itineraries(current_date_time, ag):
@@ -109,7 +115,7 @@ def cartas_realtime_itineraries(current_date_time, ag):
     #print(len(arr_1), len(arr_2))
 
     c1 = html.Div(
-            create_div_carta(arr = arr_1, label='Finish Avg Time', fmt='time', help='Average time to finish a delivery'),
+            create_div_carta(arr = arr_1, label='Itinerary completion time', fmt='time', help='Average time to finish a delivery'),
             className='col-lg-3 col-md-4 col-sm-6 col-6'
         )
         #c2 = html.Div(
@@ -118,17 +124,17 @@ def cartas_realtime_itineraries(current_date_time, ag):
     #    )
 
     c3 = html.Div(
-            create_div_carta(arr = arr_3, label='Deliveries Done', fmt='{} units', help='Number of Deliveries Done'),
+            create_div_carta(arr = arr_3, label='Itineraries finished', fmt='{} units', help='Number of Deliveries Done'),
             className='col-lg-3 col-md-4 col-sm-6 col-6'
         )
 
     c4 = html.Div(
-            create_div_carta(arr = arr_4, label='Pending of Acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now'),
+            create_div_carta(arr = arr_4, label='Itineraries pending acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now'),
             className='col-lg-3 col-md-4 col-sm-6 col-6'
         )
 
     c5 = html.Div(
-            create_div_carta(arr = arr_5, label='Deliveries on their way', fmt='{} units', help='Number of active deliveries'),
+            create_div_carta(arr = arr_5, label='Itineraries in-progress', fmt='{} units', help='Number of active deliveries'),
             className='col-lg-3 col-md-4 col-sm-6 col-6'
         )
 

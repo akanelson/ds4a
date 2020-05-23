@@ -8,6 +8,7 @@ from ds4a.components.analytics import analitycs
 from ds4a.layouts.tabs import tabs
 from ds4a.layouts.inputs import layout_inputs
 from ds4a.components.carta import *
+from ds4a.components.realtime import *
 
 
 range_daily_past = {'Yesterday': 1, 'Last week': 7, 'Last 2 weeks': 14, 'Last 4 weeks': 28}
@@ -47,7 +48,7 @@ metrics4 = [
 widget_prediction_hourly = [metrics4, config4]
 
 config5 = {'title': 'Snapshot with the delivery status', 'range_selector': {'Today': 24}, 'wrapper_type': 'real_time'}
-metrics5 = [{'label': 'Agency Snapshot', 'selected': 'true', 'model': 'realtime_itineraries_model'}]
+metrics5 = [{'label': 'Itineraries created', 'selected': 'true', 'model': 'realtime_itineraries_model'}]
 widget_realtime = [metrics5, config5]
 
 main_layout = html.Div(
@@ -103,7 +104,7 @@ main_layout = html.Div(
                                     id='realtime-cartas',
                                 ),
                                 html.Div([analitycs(widget_realtime)],className="col-lg-6 col-12"),
-                                html.Div([analitycs(widget_realtime)],className="col-lg-6 col-12"),
+                                html.Div(realtime_map(), className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-realtime'
