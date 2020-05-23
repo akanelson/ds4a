@@ -5,6 +5,11 @@ import dash_core_components as dcc
 import plotly.graph_objs as go
 import random
 import time
+# Now we can import our modulue
+import practicum_utils as utils
+import ds4a.models.analytics_utils as au
+from datetime import datetime, timedelta
+
 
 def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
     """Create a carta component (DIV) using the last value of the array"""
@@ -57,25 +62,76 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
 	)
 
 def realtime_cartas(current_date=None, current_time=None, current_agency=None):
-    cartas = html.Div([
-        
-        html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='Elapsed time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        ),
-        html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total time', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        ),
-        html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='Total distance', fmt='{:.2f} km', help='Quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        ),
-        html.Div(
-            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='Avg. time', fmt='{:.2f} seconds', help='Lorem ipsum dolor.'),
+
+    
+    carta_1 = html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='---', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
             className='col-lg-3 col-md-4 col-sm-6 col-6'
         )
-    ], className='row')
+
+    carta_2 = html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='---', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+
+    carta_3 = html.Div(
+            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='---', fmt='{:.2f}', help='Quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+    carta_4 = html.Div(
+            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='---', fmt='{:.2f}', help='Lorem ipsum dolor.'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+
+    if current_date != None:
+        now = current_date[:10] + ' ' + current_time
+        carta_1, carta_2, carta_3, carta_4 = cartas_realtime_itineraries(now, ag=current_agency)
+    
+    cartas = html.Div([carta_1, carta_2, carta_3, carta_4], className='row')
     
     return cartas
     
+
+def cartas_realtime_itineraries(current_date_time, ag):
+
+    print('current_date_time', current_date_time)
+
+    df = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
+
+    df = df.fillna(0)
+    #arr = df['finished_avg_time'].apply(lambda x: str(timedelta(seconds=int(x)))).values
+    arr_1 = df['finished_avg_time'].astype('int').values
+    #arr_2 = df['created_to_accept_avg_time'].astype('int').values
+    arr_3 = df['finished_cumsum'].astype('int').values
+    arr_4 = df['pending_acceptance'].astype('int').values
+    arr_5 = (df['pending'] - df['pending_acceptance']).astype('int').values
+
+    #print(len(arr_1), len(arr_2))
+
+    c1 = html.Div(
+            create_div_carta(arr = arr_1, label='Finish Avg Time', fmt='time', help='Average time to finish a delivery'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+        #c2 = html.Div(
+    #        create_div_carta(arr = arr_2, label='Avg Time to be Accepted', fmt='time', help='Average time of an itinerary to be accepted'),
+    #        className='col-lg-3 col-md-4 col-sm-6 col-6'
+    #    )
+
+    c3 = html.Div(
+            create_div_carta(arr = arr_3, label='Deliveries Done', fmt='{} units', help='Number of Deliveries Done'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+
+    c4 = html.Div(
+            create_div_carta(arr = arr_4, label='Pending of Acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+
+    c5 = html.Div(
+            create_div_carta(arr = arr_5, label='Deliveries on their way', fmt='{} units', help='Number of active deliveries'),
+            className='col-lg-3 col-md-4 col-sm-6 col-6'
+        )
+
+
+
+    return c1, c3, c4, c5

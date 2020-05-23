@@ -585,10 +585,10 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
     #column = 'itineraries'
 
-    print('current_date_time', current_date_time)
+    #print('current_date_time', current_date_time)
 
-    df1 = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
-    df1 = df1[['itineraries_cumsum','finished_cumsum','pending','pending_acceptance']]
+    df = au.get_hourly_day_itineraries(au.agency[ag], current_date_time)
+    df1 = df[['itineraries_cumsum','finished_cumsum','pending','pending_acceptance']]
     df1 = df1.fillna(0)
     column_legend = ['Created', 'Finished', 'Delivering', ' Acceptancy Pending']
     #'dash', 'dot', and 'dashdot'
@@ -631,8 +631,14 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
     figure = {'data': data, 'layout': layout}
 
-    value1 = df1['itineraries_cumsum'].mean()
-    if value1 >= 0:
+    if len(df1) > 0:
+        value1 = '{}'.format(
+            df1.loc[df1.index[-1], 'itineraries_cumsum']
+            )
+    else:
+        value1 = ''
+
+    if len(value1) > 0:
         tendency_color = 'green'        
         tendency_arrow = 'fa-long-arrow-alt-up-change-or-remove'
     else:
