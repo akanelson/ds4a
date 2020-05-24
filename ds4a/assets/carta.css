@@ -18,23 +18,34 @@
 .wx_carta .value {
     margin-top: 5px;
     margin-bottom: 5px;
-    margin-left: 5px;
-    font-size: 24px;
+    margin-left: 10px;
+    font-size: 20px;
 }
+
+/* Desktop*/
+@media (min-width: 991px) {
+  .wx_carta .value {
+    font-size: 24px;
+  }
+  .wx_carta .label {
+    font-size: 12px;
+  }
+}
+
 
 .wx_carta .label {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 0;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 
 /* https://www.w3schools.com/css/css_tooltip.asp */
 .tooltip-wrapper {
     float: right;
-    margin-right: 5px;
+    margin-right: 10px;
     color: #00baff;
     position: relative;
     display: inline-block;

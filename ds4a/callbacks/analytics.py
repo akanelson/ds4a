@@ -18,8 +18,17 @@ def analytics_button_callback(instance_id, total_metrics):
     )
     def update(n_clicks, buttons):
         cols_desktop = floor(12/total_metrics)
-        cols_mobile = floor(12/(total_metrics/2))
-        classes = f'analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-xs-{cols_mobile}'
+        # If elementa are odd, then use container full width on mobile
+        if (total_metrics % 2) == 0:
+            # If only 2 elements, avoid folling into container full with on mobile
+            if total_metrics == 2:
+                cols_mobile = cols_desktop
+            else:
+                cols_mobile = floor(12/(total_metrics/2))
+        else:
+            cols_mobile = 12
+
+        classes = f'analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-{cols_mobile}'
         result_visual = []
         result_button = []
         if dash.callback_context.triggered[0]['prop_id'].split('.')[0] == '':

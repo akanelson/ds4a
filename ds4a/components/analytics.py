@@ -13,7 +13,14 @@ def randomString(stringLength=8):
 
 def analytics_button(model, metric, cols, button_id, instance_id):
     cols_desktop = floor(12/cols)
-    cols_mobile = floor(12/(cols/2))
+    # If elementa are odd, the use container full width
+    if (cols % 2) == 0:
+        if cols == 2:
+            cols_mobile = cols_desktop
+        else:
+            cols_mobile = floor(12/(cols/2))
+    else:
+        cols_mobile = 12
 
     if 'help' in metric:
         help = metric['help']
@@ -47,7 +54,7 @@ def analytics_button(model, metric, cols, button_id, instance_id):
             ),
             className="analytics-button-container"
         ),
-        className=f"analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-xs-{cols_mobile} analytics-button-selected-{metric['selected']}",
+        className=f"analytics-button-wrapper col-lg-{cols_desktop} col-md-{cols_desktop} col-sm-{cols_mobile} col-{cols_mobile} analytics-button-selected-{metric['selected']}",
         id={'index': f'{button_id}', 'type': f'dynamic-button-{instance_id}', 'generic-type': 'dynamic-button'}
         
     )
