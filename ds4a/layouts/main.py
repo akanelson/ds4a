@@ -12,7 +12,7 @@ from ds4a.components.realtime import *
 
 
 range_daily_past = {'Yesterday': 1, 'Last week': 7, 'Last 2 weeks': 14, 'Last 4 weeks': 28}
-range_hourly_past = {'Last 2 days': 24, 'Last week': 24*7, 'Last 2 weeks': 24*14, 'Last month': 24*28}
+range_hourly_past = {'Last 2 days': 24*2, 'Last week': 24*7, 'Last 2 weeks': 24*14, 'Last month': 24*28}
 range_daily_future = {'Next week': 7, 'Next 2 weeks': 14, 'Next 4 weeks': 28}
 range_hourly_future = {'Next 6 hours': 6, 'Next 12 hours': 12, 'Next 24 hours': 24, 'Next 48 hours': 48}
 
@@ -20,8 +20,8 @@ config = {'title': 'The daily volume of drivers and itineraries', 'range_selecto
 metrics = [
     {'label': 'Drivers', 'selected': 'true', 'model': 'drivers_model', 'help': 'All Drivers of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
     {'label': 'Effective Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
-    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model'},
-    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model'}
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model', 'help': 'Number of itineraries of the agency on a given period.'},
+    {'label': 'Tension!', 'selected': 'false', 'model': 'drivers_and_itineraries_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'}
 ]
 widget_history_daily = [metrics, config]
 
