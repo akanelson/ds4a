@@ -27,7 +27,7 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
         df = au.get_hourly_drivers(agency[current_agency], current_date, now)
         #print('drivers', df.shape)
 
-        carta_1 = create_div_carta(arr = df['drivers'].values, label="Drivers in agency {} area".format(current_agency),
+        carta_1 = create_div_carta(arr = df['drivers'].values, label="Drivers in area",
             fmt='{:.0f} drivers',
             help='Number of unique drivers found in agency area in last hour.')
 
@@ -35,15 +35,15 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
             fmt='{:.0f} effective drivers',
             help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.')
 
-    carta_drivers = html.Div(carta_1, className='col-lg-6 carta-drivers') # col-md-4 col-sm-6 col-6
-    carta_effective_drivers = html.Div(carta_2, className='col-lg-6 carta-effective-drivers')
+    carta_drivers = html.Div(carta_1, className='col-lg-6 col-md-6 col-sm-6 col-6 carta-drivers')
+    carta_effective_drivers = html.Div(carta_2, className='col-lg-6 col-md-6 col-sm-6 col-6 carta-effective-drivers')
 
     markup = dcc.Loading(
     [   
         html.Div(
                 [
-                    html.Div('Snapshot geographical distribution of drivers', className='analytics-title'),
                     html.Div([carta_drivers, carta_effective_drivers], className='row'),
+                    html.Div('Snapshot of drivers location', className='analytics-title'),
                     html.Div(get_map(current_date, current_time, current_agency), className='map-wrapper')
                 ],
                 id='realtime-map',

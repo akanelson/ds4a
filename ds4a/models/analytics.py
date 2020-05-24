@@ -174,13 +174,17 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
+    if len(df1.index) > 48:
+        nticks = len(df1.index) / 24
+    else:
+        nticks = len(df1.index)
 
     layout = {
         'margin': {'b':10, 't':10},
 
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks
         },
         'yaxis': {
             'autorange': True,
@@ -343,12 +347,16 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 
     data = [trace_test, trace_pred]
 
+    if len(df.index) > 24:
+        nticks = len(df.index) / 2
+    else:
+        nticks = len(df.index)
 
     layout = {
         'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df.index)
+            'nticks': nticks
         },
         'yaxis': {
             'autorange': True,
@@ -439,7 +447,6 @@ def base_itineraries_model(date_range, current_date_time, ag):
     else:
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
-
 
     layout = {
         'margin': {'b':10, 't':10},    
@@ -540,12 +547,16 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
+    if len(df1.index) > 48:
+        nticks = len(df1.index) / 24
+    else:
+        nticks = len(df1.index)
 
     layout = {
         'margin': {'b':10, 't':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks
         },
         'yaxis': {
             'autorange': True,

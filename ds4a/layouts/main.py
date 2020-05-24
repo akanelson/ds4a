@@ -78,7 +78,7 @@ main_layout = html.Div(
                             [
                                 html.Div("Powered by BA Team 7", className='powered-by'),
                             ],
-                            className='controls',
+                            className='team',
                             id='team',
                         ),                        
                     ],
