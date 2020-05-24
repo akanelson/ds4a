@@ -679,8 +679,8 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'mode': 'lines',
         'name': column,
         'line': {
-            'dash': 'solid',
-            'width': 2,
+            'dash': 'dot',
+            'width': 1,
             'color': '#00baff'
         }
     }
@@ -690,20 +690,36 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
     #df = df1.merge(df2, on='date')
     #df = df[[column, column_drivers]]
 
-
     trace2 = {
         'x': df2.index,
         'y': df2[column_drivers].values,
         'mode': 'lines',
         'name': 'Effective Drivers',
         'line': {
-            'dash': 'dot',
-            'width': 2,
+            'dash': 'dashdot',
+            'width': 1,
             'color': '#00baff'
         }
     }
 
-    fig.add_trace(trace2, secondary_y=True)
+    fig.add_trace(trace2, secondary_y=False)
+
+    ratio = df1[column] / df2[column_drivers]
+
+    trace3 = {
+        'x': ratio.index,
+        'y': ratio.values,
+        'mode': 'lines',
+        'name': 'Occupancy',
+        'line': {
+            'dash': 'solid',
+            'width': 3,
+            'color': '#00baff'
+        }
+    }
+
+    fig.add_trace(trace3, secondary_y=True)
+
 
     #data = [trace1, trace2]
 
@@ -715,11 +731,11 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         },
         'yaxis': {
             'autorange': True,
-            'title': 'itineraries'
+            'title': 'Quantity'
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'effective drivers'
+            'title': 'Occupancy (I/D)'
         },
 
         'legend': {
