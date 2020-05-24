@@ -43,7 +43,8 @@ def get_daily_itineraries(agency_id, from_='2019-10-01', to_='2020-03-31'):
         order by date asc 
         """.format(agency_id, from_, to_))
     
-    date = pd.date_range(start=from_, end=to_) 
+    date = pd.date_range(start=from_, end=to_)
+    date = date[:-1]
     df['date'] = pd.to_datetime(df['date'])
     df.set_index('date', inplace=True)
     df = pd.concat([df, pd.DataFrame(index=date)], axis=1).fillna(0)
