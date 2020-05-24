@@ -7,6 +7,7 @@ from practicum_utils import get_loggi_files, global_connect, run_query, explaine
 import numpy as np
 from ds4a.components.carta import *
 import ds4a.models.analytics_utils as au
+import plotly.colors as colors
 
 
 
@@ -84,7 +85,8 @@ def get_map(current_date, current_time, current_agency):
 
     if 1==1:
         fig = go.Figure()
-        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10))
+        # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
+        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.PuBu_r))
     else:
         fig = go.Figure(go.Scattermapbox(
                 lat=lat,
@@ -98,7 +100,7 @@ def get_map(current_date, current_time, current_agency):
     fig.update_geos(fitbounds="locations")
     
     fig.update_layout(
-        margin ={'l':0,'t':0,'b':0,'r':0},
+        margin = {'l':0,'t':0,'b':0,'r':0},
         mapbox = {
         #'accesstoken': 'TOKEN',
         'center': {'lat': lat.mean(), 'lon': lng.mean()},
