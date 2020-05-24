@@ -5,6 +5,10 @@ from datetime import datetime
 from datetime import timedelta
 from practicum_utils import get_loggi_files, global_connect, run_query, explained_time, careful_query
 import numpy as np
+from ds4a.components.carta import *
+import ds4a.models.analytics_utils as au
+
+
 
 # ----------------------
 # hard coded agencies ID
@@ -13,11 +17,33 @@ agency = {'1': '6e7dacf2149d053183fe901e3cfd8b82', '2': '58cfe3b975dd7cbd1ac84d5
 
 
 def realtime_map(current_date=None, current_time=None, current_agency=None):
+
+    
+    carta_1 = create_div_carta(arr = [0], label="---")
+    carta_2 = create_div_carta(arr = [0], label="---")
+
+    if current_date != None:
+        now = current_date[:10] + ' ' + current_time
+        df = au.get_hourly_drivers(agency[current_agency], current_date, now)
+        #print('drivers', df.shape)
+
+        carta_1 = create_div_carta(arr = df['drivers'].values, label="Drivers in agency {} area".format(current_agency),
+            fmt='{:.0f} drivers',
+            help='Number of unique drivers found in agency area in last hour.')
+
+        carta_2 = create_div_carta(arr = df['drivers_alo'].values, label="Effective drivers",
+            fmt='{:.0f} effective drivers',
+            help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.')
+
+    carta_drivers = html.Div(carta_1, className='col-lg-6') # col-md-4 col-sm-6 col-6
+    carta_effective_drivers = html.Div(carta_2, className='col-lg-6')
+
     markup = dcc.Loading(
     [   
         html.Div(
                 [
-                    html.Div('Snapshot geographical distribution', className='analytics-title'),
+                    html.Div('Snapshot geographical distribution of drivers', className='analytics-title'),
+                    html.Div([carta_drivers, carta_effective_drivers], className='row'),
                     get_map(current_date, current_time, current_agency)
                 ],
                 id='realtime-map',
