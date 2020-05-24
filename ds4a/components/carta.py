@@ -87,7 +87,7 @@ def realtime_cartas(current_date=None, current_time=None, current_agency=None):
         now = current_date[:10] + ' ' + current_time
         carta_1, carta_2, carta_3, carta_4 = cartas_realtime_itineraries(now, ag=current_agency)
     
-    markup = dcc.Loading(
+    markup = dcc.Loading(children=
         [   
             html.Div([carta_1, carta_2, carta_3, carta_4], className='row')
         ],

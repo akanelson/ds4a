@@ -29,7 +29,7 @@
 }
 
 .analytics-button-container {
-    padding: 20px 20px 0 20px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -77,7 +77,11 @@
 }
 
 .analytics-visualization-wrapper .svg-container {
-    height: 480px !important;
+    height: 400px !important;
+}
+
+.real-time .analytics-visualization-wrapper .svg-container {
+    height: 400px !important;
 }
 
 .analytics-range-selector-row {

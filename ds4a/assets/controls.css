@@ -96,15 +96,19 @@ a.menu-item {
 }
 
 #team {
-    position: absolute;
     bottom: 20px;
-    width: 240px;
     font-size: 9px;
     padding: 5px;
     color: #c4c4c4;
+    margin-bottom: 20px;
 }
 
 .flag-icon {
     width: 20px;
     margin-right: 10px;
+}
+
+/* Desktop*/
+@media (min-width: 991px) {
+    
 }

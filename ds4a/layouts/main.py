@@ -60,9 +60,9 @@ main_layout = html.Div(
                     [
                         dbc.Nav(
                             [
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-history"), 'Historical'], href="#", className='menu-item', id='historical')),
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-clock"), 'Real Time'], href="#", active=True, className='menu-item', id='real_time')),
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-brain"), 'Forecast'], href="#", className='menu-item', id='prediction')),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-history"), 'Historical'], href="#", className='menu-item', id='historical'), className='col-lg-12 col-md-4 col-sm-4 col-xs-4'),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-clock"), 'Real Time'], href="#", active=True, className='menu-item', id='real_time'), className='col-lg-12 col-md-4 col-sm-4 col-xs-4'),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-brain"), 'Forecast'], href="#", className='menu-item', id='prediction'), className='col-lg-12 col-md-4 col-sm-4 col-xs-4'),
                             ],
                             vertical="md",
                             pills=True
@@ -82,7 +82,7 @@ main_layout = html.Div(
                             id='team',
                         ),                        
                     ],
-                    className="col-lg-2 col-12 wrapper-controls"
+                    className="col-lg-2 col-md-12 col-sm-12 col-xs-12 col-12 wrapper-controls"
                 ),
                 html.Div(
                     [
@@ -118,7 +118,7 @@ main_layout = html.Div(
                             id='wrapper-forecast'
                         ),
                     ],
-                    className="col-lg-10 col-12" 
+                    className="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-12" 
                 ),
             ],
             className="row"
