@@ -24,7 +24,7 @@
 }
 
 .input-current-hour {
-    width: 100px;
+    width: 75px;
     margin: 0;
     display: -moz-inline-grid;
     display: -ms-inline-grid;
@@ -34,21 +34,58 @@
 .input-agency-selector {
     display: grid;
     font-size: 14px;
-    margin-top: 30px;
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Desktop*/
+@media (min-width: 991px) {
+    .input-agency-selector {
+        display: grid;
+        margin-top: 30px;
+        position: relative;
+        top: 0;
+        transform: unset;
+    }
 }
 
 .input-agency-selector input {
     margin-right: 10px;
     font-size: 16px;
 }
+
 .input-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-size: 18px;
+    display: none;
+}
+
+/* Desktop*/
+@media (min-width: 991px) {
+    .input-title {
+        display: inherit;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+}
+
+.wrapper-input-refresh {
+    margin-top: 0;
+}
+
+/* Desktop*/
+@media (min-width: 991px) {
+    .wrapper-input-refresh {
+        margin-top: 30px;
+    } 
 }
 
 .input-refresh {
-    margin-top: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
@@ -57,6 +94,16 @@
     height: auto;
     border-radius: 3px;
     border: 1px solid #00baff;
+}
+
+/* Desktop*/
+@media (min-width: 991px) {
+    .input-refresh {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: unset;
+    } 
 }
 
 .input-refresh:hover {
@@ -74,11 +121,25 @@ i.fas.fa-sync-alt {
 }
 
 .DateInput {
-    width: 100px;
+    width: 75px;
 }
 
-.menu-item {
-    font-size: 24px;
+a.menu-item {
+    font-size: 14px;
+}
+
+/* Tablet*/
+@media (min-width: 991px) {
+    a.menu-item {
+        font-size: 18px;
+    }   
+}
+
+/* Desktop*/
+@media (min-width: 1499px) {
+    a.menu-item {
+        font-size: 24px;
+    }   
 }
 
 .menu-item.active {
@@ -99,9 +160,23 @@ a.menu-item {
     margin-top: 20px;
 }
 
-.menu-item .fas {
-    padding-right: 20px;
+.nav-item {
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
 }
+/* Tablet*/
+@media (min-width: 991px) {
+    .nav-item {
+        padding-left: 0;
+        padding-right: 0;
+    } 
+}
+
+.menu-item .fas {
+    padding-right: 10px;
+}
+
 
 .team {
     bottom: 0; 
@@ -118,7 +193,3 @@ a.menu-item {
     margin-right: 10px;
 }
 
-/* Desktop*/
-@media (min-width: 991px) {
-    
-}
