@@ -3,6 +3,13 @@
     border: 1px solid lightgray;
     box-shadow: 2px 2px 4px #c4c4c4;
 }
+/* Desktop*/
+@media (min-width: 991px) {
+    .wrapper-controls {
+        height: 90vh;
+    }
+}
+
 .controls {
     background-color: white;
     border: 0px solid lightgray;
@@ -96,11 +103,13 @@ a.menu-item {
 }
 
 #team {
-    bottom: 20px;
+    bottom: 0;
     font-size: 9px;
     padding: 5px;
-    color: #c4c4c4;
+    color: lightgray;
     margin-bottom: 20px;
+    position: relative;
+    text-align: center;
 }
 
 .flag-icon {
