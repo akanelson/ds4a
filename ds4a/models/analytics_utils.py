@@ -86,14 +86,13 @@ def get_hourly_day_itineraries(agency_id, today_time):
     
     df = careful_query("""
         select * from pending_oozma
-        where date_time >= '{1}'
-          and date_time <  '{2}'
+        where date_time > '{1}'
+          and date_time <=  '{2}'
           and distribution_center = '{0}'
         --group by distribution_center, date_time
         order by date_time asc
         """.format(agency_id, today, today_time))
     
-
     df.set_index('date_time', drop=True, inplace=True)
     
     return df
@@ -195,7 +194,7 @@ def prepare_hourly_drivers_for_predictions(df, today_time, column = 'drivers'):
     for i in range(7):
         condition = (df.index.dayofweek == i)
         if len(today_time) > 0:
-            condition = condition & (df.index < today_time[:13])
+            condition = condition & (df.index <= today_time[:13])
         
         if len(df[condition]) == 0:
             raise 'There is not enough data to build the hourly prediction model'
@@ -231,12 +230,12 @@ def get_daily_drivers_model(agency_id, today, column='drivers'):
     # prepare
     df = prepare_daily_drivers_for_predictions(df, column)
     
-    train = df[df.index < pd.to_datetime(today)]
-    test = df[df.index >= pd.to_datetime(today)]
+    train = df[df.index <= pd.to_datetime(today)]
+    test = df[df.index > pd.to_datetime(today)]
     
     dates = df.index.tolist()
-    dates_train = df[df.index < pd.to_datetime(today)].index.tolist()
-    dates_test = df[df.index >= pd.to_datetime(today)].index.tolist()
+    dates_train = df[df.index <= pd.to_datetime(today)].index.tolist()
+    dates_test = df[df.index > pd.to_datetime(today)].index.tolist()
     
     formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_day', 'np.sqrt(prev_day)')
@@ -264,12 +263,12 @@ def get_hourly_drivers_model(agency_id, today_time, column='drivers'):
     # prepare
     df = prepare_hourly_drivers_for_predictions(df, today_time, column)
     
-    train = df[df.index < pd.to_datetime(today_time)]
-    test = df[df.index >= pd.to_datetime(today_time)]
+    train = df[df.index <= pd.to_datetime(today_time)]
+    test = df[df.index > pd.to_datetime(today_time)]
     
     dates = df.index.tolist()
-    dates_train = df[df.index < pd.to_datetime(today_time)].index.tolist()
-    dates_test = df[df.index >= pd.to_datetime(today_time)].index.tolist()
+    dates_train = df[df.index <= pd.to_datetime(today_time)].index.tolist()
+    dates_test = df[df.index > pd.to_datetime(today_time)].index.tolist()
     
     formula = 'np.power({}, 0.32) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_hour', 'np.power(prev_hour, 0.32)')
