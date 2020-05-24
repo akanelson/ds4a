@@ -35,8 +35,8 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
             fmt='{:.0f} effective drivers',
             help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.')
 
-    carta_drivers = html.Div(carta_1, className='col-lg-6') # col-md-4 col-sm-6 col-6
-    carta_effective_drivers = html.Div(carta_2, className='col-lg-6')
+    carta_drivers = html.Div(carta_1, className='col-lg-6 carta-drivers') # col-md-4 col-sm-6 col-6
+    carta_effective_drivers = html.Div(carta_2, className='col-lg-6 carta-effective-drivers')
 
     markup = dcc.Loading(
     [   
@@ -44,10 +44,10 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
                 [
                     html.Div('Snapshot geographical distribution of drivers', className='analytics-title'),
                     html.Div([carta_drivers, carta_effective_drivers], className='row'),
-                    get_map(current_date, current_time, current_agency)
+                    html.Div(get_map(current_date, current_time, current_agency), className='map-wrapper')
                 ],
                 id='realtime-map',
-                className="map-wrapper",
+                className="geo-wrapper",
         )
     ], id='loading-map', className='analytics-loading')
     return markup
