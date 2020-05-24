@@ -7,6 +7,7 @@ from practicum_utils import get_loggi_files, global_connect, run_query, explaine
 import numpy as np
 from ds4a.components.carta import *
 import ds4a.models.analytics_utils as au
+import plotly.colors as colors
 
 
 
@@ -27,7 +28,7 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
         df = au.get_hourly_drivers(agency[current_agency], current_date, now)
         #print('drivers', df.shape)
 
-        carta_1 = create_div_carta(arr = df['drivers'].values, label="Drivers in agency {} area".format(current_agency),
+        carta_1 = create_div_carta(arr = df['drivers'].values, label="Drivers in area",
             fmt='{:.0f} drivers',
             help='Number of unique drivers found in agency area in last hour.')
 
@@ -84,7 +85,8 @@ def get_map(current_date, current_time, current_agency):
 
     if 1==1:
         fig = go.Figure()
-        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10))
+        # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
+        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.PuBu_r))
     else:
         fig = go.Figure(go.Scattermapbox(
                 lat=lat,
@@ -98,7 +100,7 @@ def get_map(current_date, current_time, current_agency):
     fig.update_geos(fitbounds="locations")
     
     fig.update_layout(
-        margin ={'l':0,'t':0,'b':0,'r':0},
+        margin = {'l':0,'t':0,'b':0,'r':0},
         mapbox = {
         #'accesstoken': 'TOKEN',
         'center': {'lat': lat.mean(), 'lon': lng.mean()},
