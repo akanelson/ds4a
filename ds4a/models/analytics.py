@@ -234,7 +234,8 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
             'dash': 'dot',
             'width': 1,
             'color': '#00baff'
-        }
+        },
+        'visible':'legendonly'        
     }
 
     trace_pred = {
@@ -323,7 +324,8 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
             'dash': 'dot',
             'width': 1,
             'color': '#00baff'
-        }
+        },
+        'visible':'legendonly'
     }
 
     trace_pred = {
