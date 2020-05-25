@@ -23,7 +23,7 @@ def realtime_map(current_date=None, current_time=None, current_agency=None):
     [   
         html.Div(
                 [
-                    html.Div('Snapshot of drivers location', className='analytics-title'),
+                    html.Div("What's the location of the drivers?", className='analytics-title'),
                     html.Div(get_map(current_date, current_time, current_agency), className='map-wrapper')
                 ],
                 id='realtime-map',
@@ -60,7 +60,7 @@ def get_map(current_date, current_time, current_agency):
     if 1==1:
         fig = go.Figure()
         # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
-        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.PuBu_r))
+        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.Peach))
     else:
         fig = go.Figure(go.Scattermapbox(
                 lat=lat,
@@ -74,12 +74,13 @@ def get_map(current_date, current_time, current_agency):
     fig.update_geos(fitbounds="locations")
     
     fig.update_layout(
+        hovermode = False,
         margin = {'l':0,'t':0,'b':0,'r':0},
         mapbox = {
         #'accesstoken': 'TOKEN',
         'center': {'lat': lat.mean(), 'lon': lng.mean()},
         'style': 'carto-positron', #'open-street-map',
-        'zoom': 11})
+        'zoom': 11,})
 
 
 

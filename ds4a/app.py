@@ -19,6 +19,7 @@ from ds4a.layouts.main import main_layout
 app.config['suppress_callback_exceptions']=True
 
 # Include layout
+app.title = 'Planify App'
 app.layout = main_layout
 
 # Include callbacks (Needs to be assigned after setting layout up)
@@ -29,5 +30,4 @@ server = app
 
 # Initializing app
 if __name__ == '__main__':
-    app.title = 'Planify App'
     app.run_server(debug=True, host='0.0.0.0', port='8050')

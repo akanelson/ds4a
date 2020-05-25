@@ -59,9 +59,9 @@ main_layout = html.Div(
                     [
                         dbc.Nav(
                             [
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-history"), 'Historical'], href="#", className='menu-item', id='historical'), className='col-lg-12 col-md-4 col-sm-4 col-4'),
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-clock"), 'Real Time'], href="#", active=True, className='menu-item', id='real_time'), className='col-lg-12 col-md-4 col-sm-4 col-4'),
-                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-brain"), 'Forecast'], href="#", className='menu-item', id='prediction'), className='col-lg-12 col-md-4 col-sm-4 col-4'),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-history"), 'Historical'], href="#", className='menu-item', id='historical'), className='col-lg-12 col-12'),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-clock"), 'Real-Time'], href="#", active=True, className='menu-item', id='real_time'), className='col-lg-12 col-12'),
+                                dbc.NavItem(dbc.NavLink([html.I('', className="fas fa-brain"), 'Forecast'], href="#", className='menu-item', id='prediction'), className='col-lg-12 col-12'),
                             ],
                             vertical="md",
                             pills=True

@@ -80,20 +80,20 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         'margin': {'t':10},
         'xaxis': {
             'autorange': True,
-            'nticks': nticks
+            'nticks': nticks,
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -0.2,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         },
         'color': '#E06974',
     }
@@ -123,7 +123,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         tendency_color = 'red'        
 
 
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -182,8 +182,10 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
-    if len(df1.index) > 48:
-        nticks = len(df1.index) / 24
+    if len(df1.index) <= 49:
+        nticks = 24
+    elif len(df1.index) > 49:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
@@ -192,20 +194,20 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
 
         'xaxis': {
             'autorange': True,
-            'nticks': nticks
+            'nticks': nticks,
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -218,7 +220,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         tendency_arrow = 'fa-long-arrow-alt-down'
         tendency_color = 'red'        
 
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -272,20 +274,20 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
         'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df.index)
+            'nticks': len(df.index),
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -308,7 +310,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
     value = "{}".format(int(round(value1)))
 
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -358,7 +360,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
     data = [trace_test, trace_pred]
 
     if len(df.index) > 24:
-        nticks = len(df.index) / 2
+        nticks = round(len(df.index) / 2)
     else:
         nticks = len(df.index)
 
@@ -366,20 +368,20 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': nticks
+            'nticks': nticks,
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -395,7 +397,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
 
     value = "P: {} / T: {}".format(int(round(value1)), int(round(value2)))
     value = "{}".format(int(round(value1)))
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': value, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -467,20 +469,20 @@ def base_itineraries_model(date_range, current_date_time, ag):
         'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': nticks
+            'nticks': nticks,
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Itineraries'
+            'title': 'Itineraries',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -509,7 +511,7 @@ def base_itineraries_model(date_range, current_date_time, ag):
         tendency_color = 'red'        
 
 
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -571,29 +573,31 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
-    if len(df1.index) > 48:
-        nticks = len(df1.index) / 24
+    if len(df1.index) <= 49:
+        nticks = 24
+    elif len(df1.index) > 49:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': nticks
+            'nticks': nticks,
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Itineraries'
+            'title': 'Itineraries',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -613,7 +617,7 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
         tendency_color = 'red'        
 
 
-    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': round(value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -643,23 +647,23 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': len(df1.index),
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Itineraries'
+            'title': 'Itineraries',
+            'tickfont': {'size': 14},
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -731,28 +735,35 @@ def versus_model(date_range, current_date_time, ag):
 
     if int(date_range) == 1:
         nticks = 2
+    elif len(df1.index) > 48:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
     layout = {
         'plot_bgcolor': '#ffffff',
         'paper_bgcolor' :'#ffffff',
-        'margin': {'t':10},    
+        'margin': {'t':10},
+        'hovermode': 'x',
         'xaxis': {
             'autorange': True,
             'nticks': nticks,
             'showgrid': True,
-            'gridcolor': '#eee',            
+            'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
             'title': 'Itineraries',
             'showgrid': True,
-            'gridcolor': '#eee',            
+            'zeroline': True,
+            'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'tickfont': {'size': 14},
         },
 
         'legend': {
@@ -760,9 +771,7 @@ def versus_model(date_range, current_date_time, ag):
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -792,7 +801,7 @@ def versus_model(date_range, current_date_time, ag):
         tendency_color = ''#'red'        
 
 
-    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': '{:.0f}'.format(value2-value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -863,28 +872,35 @@ def occupancy_model(date_range, current_date_time, ag):
 
     if int(date_range) == 1:
         nticks = 2
+    elif len(df1.index) > 48:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
     layout = {
         'plot_bgcolor': '#ffffff',
         'paper_bgcolor' :'#ffffff',
-        'margin': {'t':10},    
+        'margin': {'t':10},
+        'hovermode': 'x',
         'xaxis': {
             'autorange': True,
             'nticks': nticks,
             'showgrid': True,
             'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
             'title': 'Quantity',
             'showgrid': True,
+            'zeroline': True,
             'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'Occupancy (I/D)'
+            'title': 'Occupancy (I/D)',
+            'tickfont': {'size': 14},
         },
 
         'legend': {
@@ -892,9 +908,7 @@ def occupancy_model(date_range, current_date_time, ag):
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
     fig.update_layout(layout)    
@@ -923,9 +937,9 @@ def occupancy_model(date_range, current_date_time, ag):
         tendency_color = ''#'red'        
 
 
-    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
-    return {'figure': figure, 'value': '{:.02f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+    return {'figure': figure, 'value': '{:.01f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 def versus_hourly_model(date_range, current_date_time, ag):
 
@@ -974,28 +988,38 @@ def versus_hourly_model(date_range, current_date_time, ag):
 
     if int(date_range) == 1:
         nticks = 2
+    elif len(df1.index) <= 49:
+        nticks = 24
+    elif len(df1.index) > 49:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
     layout = {
         'plot_bgcolor': '#ffffff',
         'paper_bgcolor' :'#ffffff',
+        'hovermode': 'x',
         'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
             'nticks': nticks,
             'showgrid': True,
-            'gridcolor': '#eee',            
+            'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
             'title': 'Itineraries',
             'showgrid': True,
-            'gridcolor': '#eee',            
+            'zeroline': True,
+            'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'Drivers'
+            'title': 'Drivers',
+            'zeroline': True,
+            'tickfont': {'size': 14},
         },
 
         'legend': {
@@ -1003,9 +1027,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
             'xanchor': 'center',
             'y': -.3,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
 
@@ -1035,7 +1057,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
         tendency_color = ''#'red'        
 
 
-    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
     return {'figure': figure, 'value': '{:.0f}'.format(value2-value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
@@ -1103,38 +1125,46 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
 
     if int(date_range) == 1:
         nticks = 2
+    elif len(df1.index) <= 49:
+        nticks = 24
+    elif len(df1.index) > 49:
+        nticks = round(len(df1.index) / 24)
     else:
         nticks = len(df1.index)
 
     layout = {
         'plot_bgcolor': '#ffffff',
         'paper_bgcolor' :'#ffffff',
-        'margin': {'t':10},    
+        'margin': {'t':10},
+        'hovermode': 'x',
         'xaxis': {
             'autorange': True,
             'nticks': nticks,
             'showgrid': True,
             'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis': {
             'autorange': True,
             'title': 'Quantity',
             'showgrid': True,
+            'zeroline': True,
             'gridcolor': '#eee',
+            'tickfont': {'size': 14},
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'Occupancy (I/D)'
+            'title': 'Occupancy (I/D)',
+            'zeroline': True,
+            'tickfont': {'size': 14},
         },
 
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
-            'y': -.3,
+            'y': -.4,
             'x': 0.5,
-            'font': {
-            'size': 14
-            }
+            'font': {'size': 13},
         }
     }
     fig.update_layout(layout)    
@@ -1163,6 +1193,6 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
         tendency_color = ''#'red'        
 
 
-    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 1)))+'%'
 
-    return {'figure': figure, 'value': '{:.02f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+    return {'figure': figure, 'value': '{:.01f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }

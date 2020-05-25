@@ -24,7 +24,9 @@
 }
 
 .input-current-hour {
-    width: 75px;
+    width: 110px;
+    font-size: 16px;
+    font-weight: 300;;
     margin: 0;
     display: -moz-inline-grid;
     display: -ms-inline-grid;
@@ -121,18 +123,12 @@ i.fas.fa-sync-alt {
 }
 
 .DateInput {
-    width: 75px;
+    width: 110px;
+    font-size: 16px;
 }
 
 a.menu-item {
-    font-size: 14px;
-}
-
-/* Tablet*/
-@media (min-width: 991px) {
-    a.menu-item {
-        font-size: 18px;
-    }   
+    font-size: 18px;
 }
 
 /* Desktop*/

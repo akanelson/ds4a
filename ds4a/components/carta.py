@@ -11,7 +11,7 @@ import ds4a.models.analytics_utils as au
 from datetime import datetime, timedelta
 
 
-def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
+def create_div_carta(arr, label='', fmt='{:.2f}', help='No info', color='#00baff'):
     """Create a carta component (DIV) using the last value of the array"""
     """(arr[-1]) and creating a line with the array values at arr"""
 
@@ -23,7 +23,7 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=np.linspace(0, 1, n), y=arr,
         mode='lines+markers' if USE_MARKERS else 'lines',
-        line=dict(color='#00baff', width=2),
+        line=dict(color=color, width=2),
         fill='tozeroy',
         hoverinfo='none',
         ))
@@ -40,7 +40,7 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
 
     # Build value and apply format
     if fmt == 'time':
-        value = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
+        value = time.strftime('%-Hh %-Mm %-Ss', time.gmtime(int(arr[-1])))
     else:
         value = fmt.format(arr[-1])
 
@@ -106,17 +106,17 @@ def cartas_realtime_itineraries(current_date_time, ag):
     #    )
 
     c3 = html.Div(
-            create_div_carta(arr = arr_3, label='Itineraries finished', fmt='{} units', help='Number of Deliveries Done'),
+            create_div_carta(arr = arr_3, label='Itineraries finished', fmt='{} units', help='Number of Deliveries Done', color='#27b12d'),
             className='col-lg-2 col-md-4 col-sm-6 col-6'
         )
 
     c4 = html.Div(
-            create_div_carta(arr = arr_4, label='Itineraries pending acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now'),
+            create_div_carta(arr = arr_4, label='Itineraries pending acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now', color='#e91e1e'),
             className='col-lg-2 col-md-4 col-sm-6 col-6'
         )
 
     c5 = html.Div(
-            create_div_carta(arr = arr_5, label='Itineraries in-progress', fmt='{} units', help='Number of active deliveries'),
+            create_div_carta(arr = arr_5, label='Itineraries in-progress', fmt='{} units', help='Number of active deliveries', color='#ffc107'),
             className='col-lg-2 col-md-4 col-sm-6 col-6'
         )
 
@@ -135,6 +135,7 @@ def carta_realtime_drivers(current_date_time, ag):
 
     carta_2 = create_div_carta(arr = df['drivers_alo'].values, label="Drivers",
         fmt='{:.0f} drivers',
-        help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.')
+        help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.',
+        color='#E06974')
 
     return carta_2
