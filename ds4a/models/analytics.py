@@ -40,7 +40,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
 
@@ -61,7 +61,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#00baff'
+                'color': '#E06974'
             }
         }
 
@@ -71,33 +71,47 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Drivers'
         },
         'legend': {
             'orientation': 'h',
             'xanchor': 'center',
-            'y': -.3,
+            'y': -0.2,
             'x': 0.5,
             'font': {
             'size': 14
             }
-        }
+        },
+        'color': '#E06974',
     }
 
     # if yesterday try to use another kind of figure
     if int(date_range) == 1:
         x = ['Yesterday', 'Before yesterday']
         y = [value1, value2]
-        figure = go.Figure([go.Bar(x=x, y=y)])
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': '#E06974'},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
     else:
         figure = {'data': data, 'layout': layout}
 
@@ -140,7 +154,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
 
@@ -158,7 +172,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#00baff'
+                'color': '#E06974'
             }
         }
 
@@ -174,7 +188,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         nticks = len(df1.index)
 
     layout = {
-        'margin': {'b':10, 't':10},
+        'margin': {'t':10},
 
         'xaxis': {
             'autorange': True,
@@ -182,7 +196,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Drivers'
         },
         'legend': {
             'orientation': 'h',
@@ -232,8 +246,8 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
         'name': 'Test Data',
         'line': {
             'dash': 'dot',
-            'width': 1,
-            'color': '#00baff'
+            'width': 2,
+            'color': '#c6c6c6'
         },
         'visible':'legendonly'        
     }
@@ -246,7 +260,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
     
@@ -255,14 +269,14 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
 
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
             'nticks': len(df.index)
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Drivers'
         },
         'legend': {
             'orientation': 'h',
@@ -322,8 +336,8 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         'name': 'Test Data',
         'line': {
             'dash': 'dot',
-            'width': 1,
-            'color': '#00baff'
+            'width': 2,
+            'color': '#c6c6c6'
         },
         'visible':'legendonly'
     }
@@ -336,7 +350,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
     
@@ -349,14 +363,14 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         nticks = len(df.index)
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
             'nticks': nticks
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Drivers'
         },
         'legend': {
             'orientation': 'h',
@@ -444,15 +458,20 @@ def base_itineraries_model(date_range, current_date_time, ag):
         print('Warning: current vs previous sizes are different! Probably not enought data. Use another date range.')
         data = [trace1]
 
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
+
     layout = {
-        'margin': {'b':10, 't':10},    
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Itineraries'
         },
         'legend': {
             'orientation': 'h',
@@ -469,7 +488,16 @@ def base_itineraries_model(date_range, current_date_time, ag):
     if int(date_range) == 1:
         x = ['Yesterday', 'Before yesterday']
         y = [value1, value2]
-        figure = go.Figure([go.Bar(x=x, y=y)])
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': '#00baff'},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
     else:
         figure = {'data': data, 'layout': layout}
 
@@ -556,7 +584,7 @@ def base_hourly_itineraries_model(date_range, current_date_time, ag):
         },
         'yaxis': {
             'autorange': True,
-            'title': column
+            'title': 'Itineraries'
         },
         'legend': {
             'orientation': 'h',
@@ -597,9 +625,9 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
     df1 = df1.fillna(0)
     column_legend = ['Created', 'Finished', 'In-progress', ' Pending acceptance']
     #'dash', 'dot', and 'dashdot'
-    line_type = ['solid', 'dash', 'dot', 'dashdot']
+    line_type = ['solid', 'dash', 'dash', 'dash']
     data = []
-    colors = ['#00baff', '#00baff', '#00baff', '#00baff']
+    colors = ['#00baff', '#27b12d', '#ffc107', '#e91e1e']
     for i, col in enumerate(df1.columns):
         data.append({
             'x': df1.index,
@@ -677,10 +705,10 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'x': df1.index,
         'y': df1[column].values,
         'mode': 'lines',
-        'name': column,
+        'name': 'Itineraries',
         'line': {
-            'dash': 'dot',
-            'width': 1,
+            'dash': 'solid',
+            'width': 2,
             'color': '#00baff'
         }
     }
@@ -694,11 +722,11 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'x': df2.index,
         'y': df2[column_drivers].values,
         'mode': 'lines',
-        'name': 'Effective Drivers',
+        'name': 'Drivers',
         'line': {
-            'dash': 'dashdot',
-            'width': 1,
-            'color': '#00baff'
+            'dash': 'solid',
+            'width': 2,
+            'color': '#E06974'
         }
     }
 
@@ -712,26 +740,35 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'mode': 'lines',
         'name': 'Occupancy',
         'line': {
-            'dash': 'solid',
+            'dash': 'dash',
             'width': 3,
-            'color': '#00baff'
+            'color': '#c6c6c6'
         }
     }
 
     fig.add_trace(trace3, secondary_y=True)
 
 
-    #data = [trace1, trace2]
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'plot_bgcolor': '#ffffff',
+        'paper_bgcolor' :'#ffffff',
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks,
+            'showgrid': True,
+            'gridcolor': '#eee',
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Quantity'
+            'title': 'Quantity',
+            'showgrid': True,
+            'gridcolor': '#eee',
         },
         'yaxis2': {
             'autorange': True,
@@ -751,9 +788,18 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
     fig.update_layout(layout)    
 
     if int(date_range) == 1:
-        x = [column, column_drivers]
+        x = ['Itineraries', 'Drivers']
         y = [value1, value2]
-        figure = go.Figure([go.Bar(x=x, y=y)])
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': ['#00baff', '#E06974']},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
     else:
         figure = fig #{'data': data, 'layout': layout}
 

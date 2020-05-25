@@ -1,6 +1,9 @@
 .map-wrapper {
     border: 1px solid lightgray;
     box-shadow: 2px 2px 4px #c4c4c4;
+}
+
+.map-wrapper .dash-graph {
     height: 325px;
 }
 

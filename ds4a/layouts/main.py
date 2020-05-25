@@ -12,38 +12,35 @@ from ds4a.components.realtime import *
 
 
 range_daily_past = {'Yesterday': 1, 'Last week': 7, 'Last 2 weeks': 14, 'Last 4 weeks': 28}
-range_hourly_past = {'Last 2 days': 24*2, 'Last week': 24*7, 'Last 2 weeks': 24*14, 'Last month': 24*28}
+range_hourly_past = {'Yesterday': 24, 'Last 2 days': 24*2, 'Last week': 24*7, 'Last 2 weeks': 24*14, 'Last month': 24*28}
 range_daily_future = {'Next week': 7, 'Next 2 weeks': 14, 'Next 4 weeks': 28}
 range_hourly_future = {'Next 6 hours': 6, 'Next 12 hours': 12, 'Next 24 hours': 24, 'Next 48 hours': 48}
 
 config = {'title': 'The daily volume of drivers and itineraries', 'range_selector': range_daily_past, 'wrapper_type': 'historical'}
 metrics = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'drivers_model', 'help': 'All Drivers of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
-    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
+    {'label': 'Occupancy', 'selected': 'True', 'model': 'drivers_and_itineraries_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'},
     {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model', 'help': 'Number of itineraries of the agency on a given period.'},
-    {'label': 'Occupancy', 'selected': 'false', 'model': 'drivers_and_itineraries_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'}
+    {'label': 'Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
 ]
 widget_history_daily = [metrics, config]
 
 config2 = {'title': 'The hourly volume of drivers and itineraries', 'range_selector': range_hourly_past, 'wrapper_type': 'historical'}
 metrics2 = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'hourly_drivers_model'},
-    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo'},
-    {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model'}
+    {'label': 'Occupancy (TBD)', 'selected': 'true', 'model': 'hourly_itineraries_model'},
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model'},
+    {'label': 'Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo'},
 ]
 widget_history_hourly = [metrics2, config2]
 
 config3 = {'title': 'Prediction of the daily volume of drivers', 'range_selector': range_daily_future, 'wrapper_type': 'prediction'}
 metrics3 = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model'},
-    {'label': 'Effective Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
+    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
 ]
 widget_prediction_daily = [metrics3, config3]
 
 config4 = {'title': 'Prediction of the hourly volume of drivers', 'range_selector': range_hourly_future, 'wrapper_type': 'prediction'}
 metrics4 = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_hourly_drivers_model'},
-    {'label': 'Effective Drivers', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
+    {'label': 'Drivers', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
 ]
 widget_prediction_hourly = [metrics4, config4]
 
