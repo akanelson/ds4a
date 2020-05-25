@@ -63,33 +63,15 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info'):
 
 def realtime_cartas(current_date=None, current_time=None, current_agency=None):
 
-    
-    carta_1 = html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*3600)+5612, label='---', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit, quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        )
+    if current_date is None:
+        return ''
 
-    carta_2 = html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='---', fmt='time', help='Lorem ipsum dolor sit amet consectetur adipiscing elit.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        )
-
-    carta_3 = html.Div(
-            create_div_carta(arr = np.random.randn(14)*(np.random.randn(1)*5)+12, label='---', fmt='{:.2f}', help='Quam blandit ante nulla vel risus, feugiat sodales fringilla eget natoque faucibus.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        )
-    carta_4 = html.Div(
-            create_div_carta(arr = np.random.randn(30)*(np.random.randn(1)*5)+12, label='---', fmt='{:.2f}', help='Lorem ipsum dolor.'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
-        )
-
-    if current_date != None:
-        now = current_date[:10] + ' ' + current_time
-        carta_1, carta_2, carta_3, carta_4 = cartas_realtime_itineraries(now, ag=current_agency)
+    now = current_date[:10] + ' ' + current_time
+    carta_1, carta_2, carta_3, carta_4, carta_5 = cartas_realtime_itineraries(now, ag=current_agency)
     
     markup = dcc.Loading(children=
         [   
-            html.Div([carta_1, carta_2, carta_3, carta_4], className='row')
+            html.Div([carta_1, carta_2, carta_3, carta_4, carta_5], className='row')
         ],
         id='loading-cartas',
         className='analytics-loading'
@@ -116,7 +98,7 @@ def cartas_realtime_itineraries(current_date_time, ag):
 
     c1 = html.Div(
             create_div_carta(arr = arr_1, label='Itinerary completion time', fmt='time', help='Average time to finish a delivery'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
+            className='col-lg-3 col-md-6 col-sm-6 col-6'
         )
         #c2 = html.Div(
     #        create_div_carta(arr = arr_2, label='Avg Time to be Accepted', fmt='time', help='Average time of an itinerary to be accepted'),
@@ -125,19 +107,34 @@ def cartas_realtime_itineraries(current_date_time, ag):
 
     c3 = html.Div(
             create_div_carta(arr = arr_3, label='Itineraries finished', fmt='{} units', help='Number of Deliveries Done'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
+            className='col-lg-2 col-md-4 col-sm-6 col-6'
         )
 
     c4 = html.Div(
             create_div_carta(arr = arr_4, label='Itineraries pending acceptance', fmt='{} units', help='Number of itineraries pending to be accepted right now'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
+            className='col-lg-2 col-md-4 col-sm-6 col-6'
         )
 
     c5 = html.Div(
             create_div_carta(arr = arr_5, label='Itineraries in-progress', fmt='{} units', help='Number of active deliveries'),
-            className='col-lg-3 col-md-4 col-sm-6 col-6'
+            className='col-lg-2 col-md-4 col-sm-6 col-6'
+        )
+
+    c6 = html.Div(
+            carta_realtime_drivers(current_date_time, ag),
+            className='col-lg-3 col-md-6 col-sm-12 col-12'
         )
 
 
+    return c3, c5, c4, c1, c6
 
-    return c1, c3, c4, c5
+
+def carta_realtime_drivers(current_date_time, ag):
+
+    df = au.get_hourly_drivers(au.agency[ag], current_date_time[:10], current_date_time)
+
+    carta_2 = create_div_carta(arr = df['drivers_alo'].values, label="Drivers",
+        fmt='{:.0f} drivers',
+        help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.')
+
+    return carta_2

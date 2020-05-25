@@ -18,7 +18,7 @@ range_hourly_future = {'Next 6 hours': 6, 'Next 12 hours': 12, 'Next 24 hours': 
 
 config = {'title': 'The daily volume of drivers and itineraries', 'range_selector': range_daily_past, 'wrapper_type': 'historical'}
 metrics = [
-    {'label': 'Occupancy', 'selected': 'false', 'model': 'occupancy_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'}
+    {'label': 'Occupancy', 'selected': 'false', 'model': 'occupancy_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'},
     {'label': 'Versus: I+D', 'selected': 'false', 'model': 'drivers_and_itineraries_model', 'help': 'Versus comparison of effective drivers and itinerarios on a given period.'},
     {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model', 'help': 'Number of itineraries of the agency on a given period.'},
     {'label': 'Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
@@ -86,8 +86,8 @@ main_layout = html.Div(
                     [
                         html.Div(
                             [
-                                html.Div([analitycs(widget_history_daily)],className="col-lg-12 col-12"),
-                                html.Div([analitycs(widget_history_hourly)],className="col-lg-12 col-12"),
+                                html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
+                                html.Div([analitycs(widget_history_hourly)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-historical'

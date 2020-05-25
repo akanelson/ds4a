@@ -709,7 +709,7 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
 
@@ -719,9 +719,9 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'x': df2.index,
         'y': df2[column_drivers].values,
         'mode': 'lines',
-        'name': 'Effective Drivers',
+        'name': 'Drivers',
         'line': {
-            'dash': 'dashdot',
+            'dash': 'solid',
             'width': 2,
             'color': '#00baff'
         }
@@ -729,20 +729,30 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
 
     fig.add_trace(trace2, secondary_y=True)
 
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
 
     layout = {
-        'margin': {'b':10, 't':10},    
+        'plot_bgcolor': '#ffffff',
+        'paper_bgcolor' :'#ffffff',
+        'margin': {'t':10},    
         'xaxis': {
             'autorange': True,
-            'nticks': len(df1.index)
+            'nticks': nticks,
+            'showgrid': True,
+            'gridcolor': '#eee',            
         },
         'yaxis': {
             'autorange': True,
-            'title': 'Itineraries'
+            'title': 'Itineraries',
+            'showgrid': True,
+            'gridcolor': '#eee',            
         },
         'yaxis2': {
             'autorange': True,
-            'title': 'Effective drivers'
+            'title': 'Drivers'
         },
 
         'legend': {
@@ -759,9 +769,18 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
     fig.update_layout(layout)    
 
     if int(date_range) == 1:
-        x = [column, column_drivers]
+        x = ['Itineraries', 'Drivers']
         y = [value1, value2]
-        figure = go.Figure([go.Bar(x=x, y=y)])
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': ['#00baff', 'E06974']},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
     else:
         figure = fig #{'data': data, 'layout': layout}
 
@@ -798,10 +817,10 @@ def occupancy_model(date_range, current_date_time, ag):
         'x': df1.index,
         'y': df1[column].values,
         'mode': 'lines',
-        'name': column,
+        'name': 'Itineraries',
         'line': {
-            'dash': 'dot',
-            'width': 1,
+            'dash': 'solid',
+            'width': 2,
             'color': '#00baff'
         }
     }
