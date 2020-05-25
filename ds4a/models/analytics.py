@@ -709,7 +709,7 @@ def versus_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#00baff'
         }
     }
 
@@ -723,7 +723,7 @@ def versus_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
 
@@ -952,7 +952,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#00baff'
         }
     }
 
@@ -966,7 +966,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#00baff'
+            'color': '#E06974'
         }
     }
 
