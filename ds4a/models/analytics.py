@@ -684,7 +684,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
 
     return {'figure': figure, 'value': value1, 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
-def drivers_and_itineraries_model(date_range, current_date_time, ag):
+def versus_model(date_range, current_date_time, ag):
 
     column = 'itineraries'
     column_drivers = 'drivers_alo'
@@ -794,7 +794,7 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
 
     tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
 
-    return {'figure': figure, 'value': '{:.02f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+    return {'figure': figure, 'value': '{:.0f}'.format(value2-value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
 
 def occupancy_model(date_range, current_date_time, ag):
 
@@ -829,6 +829,246 @@ def occupancy_model(date_range, current_date_time, ag):
     #df2.set_index(df1.index, inplace=True)
     #df = df1.merge(df2, on='date')
     #df = df[[column, column_drivers]]
+
+    trace2 = {
+        'x': df2.index,
+        'y': df2[column_drivers].values,
+        'mode': 'lines',
+        'name': 'Drivers',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#E06974'
+        }
+    }
+
+    fig.add_trace(trace2, secondary_y=False)
+
+    ratio = df1[column] / df2[column_drivers]
+
+    trace3 = {
+        'x': ratio.index,
+        'y': ratio.values,
+        'mode': 'lines',
+        'name': 'Occupancy',
+        'line': {
+            'dash': 'dash',
+            'width': 3,
+            'color': '#c6c6c6'
+        }
+    }
+
+    fig.add_trace(trace3, secondary_y=True)
+
+
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
+
+    layout = {
+        'plot_bgcolor': '#ffffff',
+        'paper_bgcolor' :'#ffffff',
+        'margin': {'t':10},    
+        'xaxis': {
+            'autorange': True,
+            'nticks': nticks,
+            'showgrid': True,
+            'gridcolor': '#eee',
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': 'Quantity',
+            'showgrid': True,
+            'gridcolor': '#eee',
+        },
+        'yaxis2': {
+            'autorange': True,
+            'title': 'Occupancy (I/D)'
+        },
+
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+    fig.update_layout(layout)    
+
+    if int(date_range) == 1:
+        x = ['Itineraries', 'Drivers']
+        y = [value1, value2]
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': ['#00baff', '#E06974']},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
+    else:
+        figure = fig #{'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = ''#'green'        
+        tendency_arrow = ''#'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = ''#'fa-long-arrow-alt-down'
+        tendency_color = ''#'red'        
+
+
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+
+    return {'figure': figure, 'value': '{:.02f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+def versus_hourly_model(date_range, current_date_time, ag):
+
+    column = 'itineraries'
+    column_drivers = 'drivers_alo'
+
+    to_1 = datetime.strptime(current_date_time[:10], '%Y-%m-%d')
+    from_1 = to_1 - timedelta(hours=int(date_range))
+    
+    df1 = au.get_hourly_itineraries(au.agency[ag], from_1, to_1)
+    df2 = au.get_hourly_drivers(au.agency[ag], from_1, to_1)
+
+    value1 = df1[column].mean()
+    value2 = df2[column_drivers].mean()
+
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    trace1 = {
+        'x': df1.index,
+        'y': df1[column].values,
+        'mode': 'lines',
+        'name': 'Itineraries',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#E06974'
+        }
+    }
+
+    fig.add_trace(trace1, secondary_y=False)
+
+    trace2 = {
+        'x': df2.index,
+        'y': df2[column_drivers].values,
+        'mode': 'lines',
+        'name': 'Drivers',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    fig.add_trace(trace2, secondary_y=True)
+
+    if int(date_range) == 1:
+        nticks = 2
+    else:
+        nticks = len(df1.index)
+
+    layout = {
+        'plot_bgcolor': '#ffffff',
+        'paper_bgcolor' :'#ffffff',
+        'margin': {'t':10},    
+        'xaxis': {
+            'autorange': True,
+            'nticks': nticks,
+            'showgrid': True,
+            'gridcolor': '#eee',            
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': 'Itineraries',
+            'showgrid': True,
+            'gridcolor': '#eee',            
+        },
+        'yaxis2': {
+            'autorange': True,
+            'title': 'Drivers'
+        },
+
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    fig.update_layout(layout)    
+
+    if int(date_range) == 1:
+        x = ['Itineraries', 'Drivers']
+        y = [value1, value2]
+        figure = {
+            "data": [{
+                    "type": "bar",
+                    "x": x,
+                    "y": y,
+                    'marker': {'color': ['#00baff', 'E06974']},
+                    'label': x
+                    },],
+            "layout": layout,
+        }
+    else:
+        figure = fig #{'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = ''#'green'        
+        tendency_arrow = ''#'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = ''#'fa-long-arrow-alt-down'
+        tendency_color = ''#'red'        
+
+
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+
+    return {'figure': figure, 'value': '{:.0f}'.format(value2-value1), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+def occupancy_hourly_model(date_range, current_date_time, ag):
+
+    column = 'itineraries'
+    column_drivers = 'drivers_alo'
+
+    to_1 = datetime.strptime(current_date_time[:10], '%Y-%m-%d')
+    from_1 = to_1 - timedelta(hours=int(date_range))
+    
+    df1 = au.get_hourly_itineraries(au.agency[ag], from_1, to_1)
+    df2 = au.get_hourly_drivers(au.agency[ag], from_1, to_1)
+
+    value1 = df1[column].mean()
+    value2 = df2[column_drivers].mean()
+
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    trace1 = {
+        'x': df1.index,
+        'y': df1[column].values,
+        'mode': 'lines',
+        'name': 'Itineraries',
+        'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    fig.add_trace(trace1, secondary_y=False)
 
     trace2 = {
         'x': df2.index,
