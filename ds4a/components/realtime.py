@@ -50,8 +50,9 @@ def get_map(current_date, current_time, current_agency):
             --and sent_f <= '{1}'
             and distribution_center = '{0}'
             group by driver_id
-        """.format(agency[current_agency], str(now), str(from_)))
+        """.format(agency[current_agency], str(now), str(from_)), 1000000)
 
+        print(df.shape)
         df = df[['lat', 'lng']]
         lat = df['lat']
         lng = df['lng']
