@@ -679,6 +679,99 @@ def drivers_and_itineraries_model(date_range, current_date_time, ag):
         'mode': 'lines',
         'name': column,
         'line': {
+            'dash': 'solid',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    fig.add_trace(trace1, secondary_y=False)
+
+    trace2 = {
+        'x': df2.index,
+        'y': df2[column_drivers].values,
+        'mode': 'lines',
+        'name': 'Effective Drivers',
+        'line': {
+            'dash': 'dashdot',
+            'width': 2,
+            'color': '#00baff'
+        }
+    }
+
+    fig.add_trace(trace2, secondary_y=True)
+
+
+    layout = {
+        'margin': {'b':10, 't':10},    
+        'xaxis': {
+            'autorange': True,
+            'nticks': len(df1.index)
+        },
+        'yaxis': {
+            'autorange': True,
+            'title': 'Itineraries'
+        },
+        'yaxis2': {
+            'autorange': True,
+            'title': 'Effective drivers'
+        },
+
+        'legend': {
+            'orientation': 'h',
+            'xanchor': 'center',
+            'y': -.3,
+            'x': 0.5,
+            'font': {
+            'size': 14
+            }
+        }
+    }
+
+    fig.update_layout(layout)    
+
+    if int(date_range) == 1:
+        x = [column, column_drivers]
+        y = [value1, value2]
+        figure = go.Figure([go.Bar(x=x, y=y)])
+    else:
+        figure = fig #{'data': data, 'layout': layout}
+
+    if value1 >= value2:
+        tendency_color = ''#'green'        
+        tendency_arrow = ''#'fa-long-arrow-alt-up'
+    else:
+        tendency_arrow = ''#'fa-long-arrow-alt-down'
+        tendency_color = ''#'red'        
+
+
+    tendency_value = ''#str(abs(round(((value1/(value2+0.001))-1)*100, 2)))+'%'
+
+    return {'figure': figure, 'value': '{:.02f}%'.format(100*(value1/value2)), 'tendency_arrow': tendency_arrow, 'tendency_value': tendency_value, 'tendency_color': tendency_color }
+
+def occupancy_model(date_range, current_date_time, ag):
+
+    column = 'itineraries'
+    column_drivers = 'drivers_alo'
+
+    to_1 = datetime.strptime(current_date_time[:10], '%Y-%m-%d')
+    from_1 = to_1 - timedelta(days=int(date_range))
+    
+    df1 = au.get_daily_itineraries(au.agency[ag], from_1, to_1)
+    df2 = au.get_daily_drivers(au.agency[ag], from_1, to_1)
+
+    value1 = df1[column].mean()
+    value2 = df2[column_drivers].mean()
+
+    # Create figure with secondary y-axis
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    trace1 = {
+        'x': df1.index,
+        'y': df1[column].values,
+        'mode': 'lines',
+        'name': column,
+        'line': {
             'dash': 'dot',
             'width': 1,
             'color': '#00baff'
