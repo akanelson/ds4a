@@ -97,7 +97,13 @@ main_layout = html.Div(
                             [
                                 html.Div(children=
                                     [
-                                        realtime_cartas()
+                                        dcc.Loading(children=
+                                            [   
+                                                realtime_cartas()
+                                            ],
+                                            id='loading-cartas',
+                                            className='analytics-loading'
+                                        )
                                     ],
                                     className='col-lg-12',
                                     id='realtime-cartas',

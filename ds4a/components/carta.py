@@ -40,7 +40,7 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info', color='#00baff
 
     # Build value and apply format
     if fmt == 'time':
-        value = time.strftime('%-Hh %-Mm %-Ss', time.gmtime(int(arr[-1])))
+        value = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
     else:
         value = fmt.format(arr[-1])
 
@@ -69,14 +69,14 @@ def realtime_cartas(current_date=None, current_time=None, current_agency=None):
     now = current_date[:10] + ' ' + current_time
     carta_1, carta_2, carta_3, carta_4, carta_5 = cartas_realtime_itineraries(now, ag=current_agency)
     
-    markup = dcc.Loading(children=
-        [   
-            html.Div([carta_1, carta_2, carta_3, carta_4, carta_5], className='row')
-        ],
-        id='loading-cartas',
-        className='analytics-loading'
-    )
-    
+#    markup = dcc.Loading(children=
+#        [   
+#    markup = html.Div([carta_1, carta_2, carta_3, carta_4, carta_5], className='row')
+#       ],
+#      id='loading-cartas',
+#        className='analytics-loading'
+#  )
+    markup = html.Div([carta_1, carta_2, carta_3, carta_4, carta_5], className='row')
     return markup
     
 

@@ -7,7 +7,7 @@ from ds4a.components.realtime import realtime_map
 @app.callback(
     [
         Output({'generic-type': 'range-selector', 'type': ALL, 'index': ALL}, 'value'),
-        Output('realtime-cartas', 'children'),
+        Output('loading-cartas', 'children'),
         Output('realtime-map', 'children')
 
     ],
