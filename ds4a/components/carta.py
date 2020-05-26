@@ -98,7 +98,7 @@ def cartas_realtime_itineraries(current_date_time, ag):
     #print(len(arr_1), len(arr_2))
 
     c1 = html.Div(
-            create_div_carta(arr = arr_1, label='Itinerary completion time', fmt='time', help='Average time to finish a delivery'),
+            create_div_carta(arr = arr_1, label='Completion time', fmt='time', help="Today's average itinerary completion time"),
             className='col-lg-3 col-md-6 col-sm-6 col-6'
         )
         #c2 = html.Div(

@@ -20,34 +20,34 @@ config = {'title': 'The daily volume of drivers and itineraries', 'range_selecto
 metrics = [
     {'label': 'Versus', 'selected': 'true', 'model': 'versus_model', 'help': 'Versus comparison of effective drivers and itinerarios on a given period.'},
     {'label': 'Occupancy', 'selected': 'false', 'model': 'occupancy_model', 'help': 'Average number of itineraries over the average number of unique drivers on a given period.'},
-    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model', 'help': 'Number of itineraries of the agency on a given period.'},
-    {'label': 'Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Drivers who worked at leats once for the current agency of the selected period vs the previous period. Mean Drivers for the selected period. Tendency between mean`s current period and previous period.'},
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'itineraries_model', 'help': 'Evolution of the volume of itineraries for the selected period'},
+    {'label': 'Drivers', 'selected': 'false', 'model': 'drivers_model_alo', 'help': 'Evolution of the volume of drivers for the selected period. Drivers only include those who worked for the agency at least once in the past.'},
 ]
 widget_history_daily = [metrics, config]
 
 config2 = {'title': 'The hourly volume of drivers and itineraries', 'range_selector': range_hourly_past, 'wrapper_type': 'historical'}
 metrics2 = [
     {'label': 'Versus', 'selected': 'true', 'model': 'versus_hourly_model', 'help': 'Versus comparison of effective drivers and itinerarios on a given period.'},
-    {'label': 'Occupancy', 'selected': 'false', 'model': 'occupancy_hourly_model'},
-    {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model'},
-    {'label': 'Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo'},
+    {'label': 'Occupancy', 'selected': 'false', 'model': 'occupancy_hourly_model', 'help': 'Average percentage of drivers over itineraries for the selected period.'},
+    {'label': 'Itineraries', 'selected': 'false', 'model': 'hourly_itineraries_model', 'help':'Evolution of the volume of itineraries for the selected period'},
+    {'label': 'Drivers', 'selected': 'false', 'model': 'hourly_drivers_model_alo', 'help':'Evolution of the volume of drivers for the selected period. Drivers only include those who worked for the agency at least once in the past.'},
 ]
 widget_history_hourly = [metrics2, config2]
 
 config3 = {'title': 'Prediction of the daily volume of drivers', 'range_selector': range_daily_future, 'wrapper_type': 'prediction'}
 metrics3 = [
-    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo'}
+    {'label': 'Drivers', 'selected': 'true', 'model': 'predict_daily_drivers_model_alo', 'help':'Prediction of the volume of drivers for the selected period. Drivers only include those who worked for the agency at least once in the past.'}
 ]
 widget_prediction_daily = [metrics3, config3]
 
 config4 = {'title': 'Prediction of the hourly volume of drivers', 'range_selector': range_hourly_future, 'wrapper_type': 'prediction'}
 metrics4 = [
-    {'label': 'Drivers', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo'},
+    {'label': 'Drivers', 'selected': 'false', 'model': 'predict_hourly_drivers_model_alo', 'help':'Prediction of the volume of drivers for the selected period. Drivers only include those who worked for the agency at least once in the past.'},
 ]
 widget_prediction_hourly = [metrics4, config4]
 
 config5 = {'title': 'Snapshot with the delivery status', 'range_selector': {'Today': 24}, 'wrapper_type': 'real_time'}
-metrics5 = [{'label': 'Itineraries created', 'selected': 'true', 'model': 'realtime_itineraries_model'}]
+metrics5 = [{'label': 'Itineraries created', 'selected': 'true', 'model': 'realtime_itineraries_model', }]
 widget_realtime = [metrics5, config5]
 
 main_layout = html.Div(
