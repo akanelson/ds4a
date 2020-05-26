@@ -47,7 +47,7 @@ metrics4 = [
 widget_prediction_hourly = [metrics4, config4]
 
 config5 = {'title': 'Snapshot with the delivery status', 'range_selector': {'Today': 24}, 'wrapper_type': 'real_time'}
-metrics5 = [{'label': 'Itineraries created', 'selected': 'true', 'model': 'realtime_itineraries_model', }]
+metrics5 = [{'label': 'Itineraries created', 'selected': 'true', 'model': 'realtime_itineraries_model', 'help': 'How are things evolving today at the agency?'}]
 widget_realtime = [metrics5, config5]
 
 main_layout = html.Div(
@@ -87,8 +87,8 @@ main_layout = html.Div(
                     [
                         html.Div(
                             [
-                                html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
                                 html.Div([analitycs(widget_history_hourly)],className="col-lg-6 col-12"),
+                                html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-historical'
@@ -116,8 +116,8 @@ main_layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.Div([analitycs(widget_prediction_daily)],className="col-lg-6 col-12"),
                                 html.Div([analitycs(widget_prediction_hourly)],className="col-lg-6 col-12"),
+                                html.Div([analitycs(widget_prediction_daily)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-forecast'
