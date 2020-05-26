@@ -40,7 +40,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -61,7 +61,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#91357d'
+                'color': '#9f82ce'
             }
         }
 
@@ -95,7 +95,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
             'x': 0.5,
             'font': {'size': 13},
         },
-        'color': '#91357d',
+        'color': '#9f82ce',
     }
 
     # if yesterday try to use another kind of figure
@@ -107,7 +107,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': '#91357d'},
+                    'marker': {'color': '#9f82ce'},
                     'label': x
                     },],
             "layout": layout,
@@ -154,7 +154,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -172,7 +172,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#91357d'
+                'color': '#9f82ce'
             }
         }
 
@@ -262,7 +262,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
     
@@ -352,7 +352,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
     
@@ -629,7 +629,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
     df1 = df1.fillna(0)
     column_legend = ['Created', 'Finished', 'In-progress', ' Pending acceptance']
     #'dash', 'dot', and 'dashdot'
-    line_type = ['solid', 'dash', 'dash', 'dash']
+    line_type = ['solid', 'solid', 'solid', 'solid']
     data = []
     colors = ['#00baff', '#27b12d', '#ffc107', '#e91e1e']
     for i, col in enumerate(df1.columns):
@@ -727,7 +727,7 @@ def versus_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -785,7 +785,7 @@ def versus_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', '#91357d']},
+                    'marker': {'color': ['#00baff', '#9f82ce']},
                     'label': x
                     },],
             "layout": layout,
@@ -847,7 +847,7 @@ def occupancy_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -921,7 +921,7 @@ def occupancy_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', '#91357d']},
+                    'marker': {'color': ['#00baff', '#9f82ce']},
                     'label': x
                     },],
             "layout": layout,
@@ -980,7 +980,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -1100,7 +1100,7 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#91357d'
+            'color': '#9f82ce'
         }
     }
 
@@ -1177,7 +1177,7 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', '#91357d']},
+                    'marker': {'color': ['#00baff', '#9f82ce']},
                     'label': x
                     },],
             "layout": layout,
