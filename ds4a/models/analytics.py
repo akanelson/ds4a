@@ -629,7 +629,7 @@ def realtime_itineraries_model(date_range, current_date_time, ag):
     df1 = df1.fillna(0)
     column_legend = ['Created', 'Finished', 'In-progress', ' Pending acceptance']
     #'dash', 'dot', and 'dashdot'
-    line_type = ['solid', 'dash', 'dash', 'dash']
+    line_type = ['solid', 'solid', 'solid', 'solid']
     data = []
     colors = ['#00baff', '#27b12d', '#ffc107', '#e91e1e']
     for i, col in enumerate(df1.columns):

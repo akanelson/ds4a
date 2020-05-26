@@ -52,7 +52,7 @@ def get_map(current_date, current_time, current_agency):
             group by driver_id
         """.format(agency[current_agency], str(now), str(from_)), 1000000)
 
-        print(df.shape)
+        #print(df.shape)
         df = df[['lat', 'lng']]
         lat = df['lat']
         lng = df['lng']
@@ -60,7 +60,20 @@ def get_map(current_date, current_time, current_agency):
     if 1==1:
         fig = go.Figure()
         # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
-        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.Purp))
+        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, hoverinfo='none', colorscale=colors.sequential.Purp))
+        fig.add_trace(go.Scattermapbox(
+            lat=['-23.467844699999997', '-23.5620181'],
+            lon=['-46.512235499999996', '-46.669458500000005'],
+            mode='markers',
+            marker=go.scattermapbox.Marker(
+                size=12,
+                color='#00baff'
+            ),
+            text=['Agency 1', 'Agency 2'],
+            hoverinfo = 'text'),
+        )
+
+
     else:
         fig = go.Figure(go.Scattermapbox(
                 lat=lat,
@@ -74,7 +87,7 @@ def get_map(current_date, current_time, current_agency):
     fig.update_geos(fitbounds="locations")
     
     fig.update_layout(
-        hovermode = False,
+        #hovermode = False,
         margin = {'l':0,'t':0,'b':0,'r':0},
         mapbox = {
         #'accesstoken': 'TOKEN',
