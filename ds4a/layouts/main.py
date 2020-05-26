@@ -90,7 +90,6 @@ main_layout = html.Div(
                                 html.Div('This "Historical" tab monitors driver and itinerary data over time.', className='section-title col-12'),
                                 html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
                                 html.Div([analitycs(widget_history_hourly)],className="col-lg-6 col-12"),
-                                html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-historical'
@@ -122,7 +121,6 @@ main_layout = html.Div(
                                 html.Div('This “Forecast” tab predicts the daily and hourly volume of drivers.', className='section-title col-12'),
                                 html.Div([analitycs(widget_prediction_daily)],className="col-lg-6 col-12"),
                                 html.Div([analitycs(widget_prediction_hourly)],className="col-lg-6 col-12"),
-                                html.Div([analitycs(widget_prediction_daily)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-forecast'
