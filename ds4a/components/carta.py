@@ -136,6 +136,6 @@ def carta_realtime_drivers(current_date_time, ag):
     carta_2 = create_div_carta(arr = df['drivers_alo'].values, label="Drivers",
         fmt='{:.0f} drivers',
         help='Number of effective drivers found in agency area in last hour. By effective driver we mean a driver who has worked at least once in the past for the agency.',
-        color='#E06974')
+        color='#91357d')
 
     return carta_2

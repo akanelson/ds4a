@@ -60,7 +60,7 @@ def get_map(current_date, current_time, current_agency):
     if 1==1:
         fig = go.Figure()
         # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
-        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.Peach))
+        fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, colorscale=colors.sequential.Magenta))
     else:
         fig = go.Figure(go.Scattermapbox(
                 lat=lat,

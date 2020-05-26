@@ -40,7 +40,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -61,7 +61,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#E06974'
+                'color': '#91357d'
             }
         }
 
@@ -95,7 +95,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
             'x': 0.5,
             'font': {'size': 13},
         },
-        'color': '#E06974',
+        'color': '#91357d',
     }
 
     # if yesterday try to use another kind of figure
@@ -107,7 +107,7 @@ def base_drivers_model(date_range, current_date_time, ag='1', column='drivers'):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': '#E06974'},
+                    'marker': {'color': '#91357d'},
                     'label': x
                     },],
             "layout": layout,
@@ -154,7 +154,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -172,7 +172,7 @@ def base_hourly_drivers_model(date_range, current_date_time, ag='1', column='dri
             'line': {
                 'dash': 'dot',
                 'width': 2,
-                'color': '#E06974'
+                'color': '#91357d'
             }
         }
 
@@ -262,7 +262,7 @@ def base_predict_daily_drivers_model(date_range, current_date_time, ag='1', colu
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
     
@@ -352,7 +352,7 @@ def base_predict_hourly_drivers_model(date_range, current_date_time, ag='1', col
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
     
@@ -727,7 +727,7 @@ def versus_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -785,7 +785,7 @@ def versus_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', 'E06974']},
+                    'marker': {'color': ['#00baff', '#91357d']},
                     'label': x
                     },],
             "layout": layout,
@@ -847,7 +847,7 @@ def occupancy_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -921,7 +921,7 @@ def occupancy_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', '#E06974']},
+                    'marker': {'color': ['#00baff', '#91357d']},
                     'label': x
                     },],
             "layout": layout,
@@ -980,7 +980,7 @@ def versus_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -1100,7 +1100,7 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
         'line': {
             'dash': 'solid',
             'width': 2,
-            'color': '#E06974'
+            'color': '#91357d'
         }
     }
 
@@ -1177,7 +1177,7 @@ def occupancy_hourly_model(date_range, current_date_time, ag):
                     "type": "bar",
                     "x": x,
                     "y": y,
-                    'marker': {'color': ['#00baff', '#E06974']},
+                    'marker': {'color': ['#00baff', '#91357d']},
                     'label': x
                     },],
             "layout": layout,
