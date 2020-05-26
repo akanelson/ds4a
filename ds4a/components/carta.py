@@ -40,7 +40,8 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info', color='#00baff
 
     # Build value and apply format
     if fmt == 'time':
-        value = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
+        # Ariel: look my solution to windows problem! I was born for this :D
+        value = time.strftime(' %Hh %Mm %Ss', time.gmtime(int(arr[-1]))).replace(' 0', ' ').strip()
     else:
         value = fmt.format(arr[-1])
 
@@ -97,7 +98,7 @@ def cartas_realtime_itineraries(current_date_time, ag):
     #print(len(arr_1), len(arr_2))
 
     c1 = html.Div(
-            create_div_carta(arr = arr_1, label='Itinerary completion time', fmt='time', help='Average time to finish a delivery'),
+            create_div_carta(arr = arr_1, label='Completion time', fmt='time', help="Today's average itinerary completion time"),
             className='col-lg-3 col-md-6 col-sm-6 col-6'
         )
         #c2 = html.Div(
