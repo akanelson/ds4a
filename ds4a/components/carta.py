@@ -40,7 +40,8 @@ def create_div_carta(arr, label='', fmt='{:.2f}', help='No info', color='#00baff
 
     # Build value and apply format
     if fmt == 'time':
-        value = time.strftime('%H:%M:%S', time.gmtime(int(arr[-1])))
+        # Ariel: look my solution to windows problem! I was born for this :D
+        value = time.strftime(' %Hh %Mm %Ss', time.gmtime(int(arr[-1]))).replace(' 0', ' ').strip()
     else:
         value = fmt.format(arr[-1])
 
