@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import statsmodels.formula.api as smf
+import json
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 # Add directory where we have our configuration
@@ -39,7 +40,7 @@ holidays = [
 # [APP]: Useful to obtain history of unique number of drivers per day
 # -------------------------------------------------------------------
 def get_daily_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
-    
+   
     df = careful_query("""
         select *
         from unique_drivers_daily_oozma
@@ -150,7 +151,7 @@ def predict_daily_unique_drivers(agency_id, today, column='drivers', days=7):
        
     test['prediction'] = np.round(pd.DataFrame({column: t[column].values}, index=dates_test)[column])
     
-    return test[[column, 'prediction']]
+    return test['prediction']
 
 
 # START FLASK
@@ -175,7 +176,7 @@ class DailyDriversFor(Resource):
         print(agency_id, date, steps)
         if agency_id not in agencies: return {'error': 'invalid agency_id'}
         df = predict_daily_unique_drivers(agency_id, date, column='drivers', days=min(int(steps), 30))
-        return df.to_json()
+        return [(a, b) for (a, b) in zip(df.index.map(lambda x: str(x)[:10]).tolist(), df.values.tolist())]
 
 api.add_resource(Planify, '/')
 api.add_resource(HelloWorld, '/hello')
