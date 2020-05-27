@@ -93,7 +93,7 @@ def prepare_daily_drivers_for_predictions(df, column = 'drivers'):
     return df
 
 # build and train a model
-def get_daily_drivers_model(agency_id, today, column='drivers'):
+def get_daily_drivers_model(agency_id, column='drivers'):
 
     predictables = ['drivers', 'drivers_alo', 'drivers_alo_10_days']
     if column not in predictables:
@@ -108,50 +108,41 @@ def get_daily_drivers_model(agency_id, today, column='drivers'):
     
     # prepare
     df = prepare_daily_drivers_for_predictions(df, column)
-    
-    train = df[df.index < pd.to_datetime(today)]
-    test = df[df.index >= pd.to_datetime(today)]
-    
-    dates = df.index.tolist()
-    dates_train = df[df.index < pd.to_datetime(today)].index.tolist()
-    dates_test = df[df.index >= pd.to_datetime(today)].index.tolist()
-    
+       
     formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_day', 'np.sqrt(prev_day)')
     #print(formula)
-    model = smf.ols(formula = formula, data = train).fit()
+    model = smf.ols(formula = formula, data = df).fit()
     #print(model.summary())    
 
-    return model, train, test, dates_train, dates_test
+    return model, df
 
 # ---------------------------------------------------------------
 # [APP]: Usable to predict number of daily unique drivers per day
 # ---------------------------------------------------------------
 def predict_daily_unique_drivers(agency_id, today, column='drivers', days=7):
-    model, train, test, dates_train, dates_test = get_daily_drivers_model(agency_id, today, column)
-    
-    test = test.head(days)
-    dates_test = dates_test[:days]
-    
-    t = test.copy()
-    del t['distribution_center']
+    model, train = get_daily_drivers_model(agency_id, column)
+        
+    t = train.tail(days)[[column]].copy()
+    dates = pd.date_range(start=today, periods=days)
+    t['date'] = dates
+    t.set_index('date', inplace=True, drop=True)
+    t = prepare_daily_drivers_for_predictions(t, column)
     t = t.reset_index()
     t[column] = 0
     t['prev_day'] = 0
-    t.loc[t.index[0], 'prev_day'] = train[train.index == train.index[-1]][column].item()
-    
+    #
+    # TODO: set prev day by url param
+    #
     for i in range(len(t)):
-        #print(i, np.square(model.predict(t.iloc[i]).item()))
-        #print('.', end='')
         p = np.square(model.predict(t.loc[t.index == t.index[i], :])).item()
         t.loc[t.index == t.index[i], column] = p
-        # np.square(model.predict(t.iloc[i]).item())
         if i < len(t)-1:
             t.loc[t.index == t.index[i+1], 'prev_day'] = p
-       
-    test['prediction'] = np.round(pd.DataFrame({column: t[column].values}, index=dates_test)[column])
     
-    return test['prediction']
+    pred = np.round(pd.DataFrame({column: t[column].values}, index=dates)[column])
+    
+    return pred
 
 
 # START FLASK
