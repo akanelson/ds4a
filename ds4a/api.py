@@ -45,7 +45,7 @@ def get_daily_drivers(agency_id, from_='2019-10-01', to_='2020-03-31'):
         select *
         from unique_drivers_daily_oozma
         where date >= '{1}'
-          and date < '{2}'
+          and date <= '{2}'
           and distribution_center = '{0}'
         order by date asc 
         """.format(agency_id, from_, to_))
@@ -109,12 +109,12 @@ def get_daily_drivers_model(agency_id, today, column='drivers'):
     # prepare
     df = prepare_daily_drivers_for_predictions(df, column)
     
-    train = df[df.index <= pd.to_datetime(today)]
-    test = df[df.index > pd.to_datetime(today)]
+    train = df[df.index < pd.to_datetime(today)]
+    test = df[df.index >= pd.to_datetime(today)]
     
     dates = df.index.tolist()
-    dates_train = df[df.index <= pd.to_datetime(today)].index.tolist()
-    dates_test = df[df.index > pd.to_datetime(today)].index.tolist()
+    dates_train = df[df.index < pd.to_datetime(today)].index.tolist()
+    dates_test = df[df.index >= pd.to_datetime(today)].index.tolist()
     
     formula = 'np.sqrt({}) ~ '.format(column) + ' + '.join([col for col in df if col not in ['distribution_center', column]])
     formula = formula.replace('prev_day', 'np.sqrt(prev_day)')
@@ -176,7 +176,7 @@ class DailyDriversFor(Resource):
         print(agency_id, date, steps)
         if agency_id not in agencies: return {'error': 'invalid agency_id'}
         df = predict_daily_unique_drivers(agency_id, date, column='drivers', days=min(int(steps), 30))
-        return [(a, b) for (a, b) in zip(df.index.map(lambda x: str(x)[:10]).tolist(), df.values.tolist())]
+        return {a: b for (a, b) in zip(df.index.map(lambda x: str(x)[:10]).tolist(), df.values.tolist())}
 
 api.add_resource(Planify, '/')
 api.add_resource(HelloWorld, '/hello')
