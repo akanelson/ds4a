@@ -87,14 +87,16 @@ main_layout = html.Div(
                     [
                         html.Div(
                             [
-                                html.Div([analitycs(widget_history_hourly)],className="col-lg-6 col-12"),
+                                html.Div('This "Historical" tab monitors driver and itinerary data over time.', className='section-title col-12'),
                                 html.Div([analitycs(widget_history_daily)],className="col-lg-6 col-12"),
+                                html.Div([analitycs(widget_history_hourly)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-historical'
                         ),
                         html.Div(
                             [
+                                html.Div('This "real-time" tab monitors data for a given day interval from 12am - 12pm and resets daily.', className='section-title col-12'),
                                 html.Div(children=
                                     [
                                         dcc.Loading(children=
@@ -116,8 +118,9 @@ main_layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.Div([analitycs(widget_prediction_hourly)],className="col-lg-6 col-12"),
+                                html.Div('This “Forecast” tab predicts the daily and hourly volume of drivers.', className='section-title col-12'),
                                 html.Div([analitycs(widget_prediction_daily)],className="col-lg-6 col-12"),
+                                html.Div([analitycs(widget_prediction_hourly)],className="col-lg-6 col-12"),
                             ],
                             className='row',
                             id='wrapper-forecast'
