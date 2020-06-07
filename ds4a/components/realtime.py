@@ -37,6 +37,19 @@ def get_map(current_date, current_time, current_agency):
 
     lat, lng = np.array([0]), np.array([0])
 
+    san_pablo_lat=-23.467844699999997
+    san_pablo_lng=-46.512235499999996
+
+    buenos_aires_lat=-34.6353269
+    buenos_aires_lng=-58.4751244
+
+    diff_lat=buenos_aires_lat-san_pablo_lat
+    diff_lng=buenos_aires_lng-san_pablo_lng
+    
+    san_pablo_agencies_lat=[-23.467844699999997 + diff_lat, -23.5620181 + diff_lat] 
+    san_pablo_agencies_lng=[-46.512235499999996 + diff_lng, -46.669458500000005 + diff_lng]
+    #print(str(san_pablo_agencies_lat) + ', ' + str(san_pablo_agencies_lng))    
+
     if current_date != None:
         today = current_date[:10] + ' ' + current_time
         now = datetime.strptime(today, '%Y-%m-%d %H:%M:%S')
@@ -52,18 +65,19 @@ def get_map(current_date, current_time, current_agency):
             group by driver_id
         """.format(agency[current_agency], str(now), str(from_)), 1000000)
 
-        #print(df.shape)
+
+
         df = df[['lat', 'lng']]
-        lat = df['lat']
-        lng = df['lng']
+        lat = df['lat'] + diff_lat
+        lng = df['lng'] + diff_lng
 
     if 1==1:
         fig = go.Figure()
         # Reference for colorscales: https://plotly.com/python/builtin-colorscales/
         fig.add_trace(go.Densitymapbox(lat=lat, lon=lng, radius=10, hoverinfo='none', colorscale=colors.sequential.Purp))
         fig.add_trace(go.Scattermapbox(
-            lat=['-23.467844699999997', '-23.5620181'],
-            lon=['-46.512235499999996', '-46.669458500000005'],
+            lat=san_pablo_agencies_lat,
+            lon=san_pablo_agencies_lng,
             mode='markers',
             marker=go.scattermapbox.Marker(
                 size=12,

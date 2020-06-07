@@ -75,7 +75,9 @@ main_layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.Div("Powered by BA Team 7", className='powered-by'),
+                                html.Div("Powered by:", className='powered-by'),
+                                html.Div("Ariel Kanelson, Ezequiel Bidart, Lucas Ansaldo, Pablo Schpilman", className='powered-by'),
+                                html.Div("- Data has been anonymized -", className='powered-by'),
                             ],
                             className='team',
                             id='team',
